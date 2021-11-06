@@ -1,0 +1,26 @@
+{
+  "name": "nextapiforum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "gun": "^0.2020.1235",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.12",
+    "next": "^12.0.2",
+    "next-auth": "^4.0.0-beta.26",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "uuid": "^8.3.2"
+  }
+}
