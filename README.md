@@ -25,7 +25,7 @@
 
 
 # TO DO LIST:
-- Need to design serverless database peer to peer forum
+- Need to design serverless database peer to peer forum (not build)
 - auth (simple login user and password)
 - access/permission (not build)
 - post (work in progress)

@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
 
 import NavBarHeader from "../components/layout/header";
+import PermissionSection from "../components/forum/permission/permissionsection";
 
 function Page() {
 
@@ -32,7 +33,7 @@ function Page() {
   if (status === "authenticated") {
     return (<>
       <NavBarHeader></NavBarHeader>
-
+      <PermissionSection></PermissionSection>
 
     </>)
   }

@@ -50,33 +50,44 @@ export default async (req, res)=>{
     return res.json({error:"FAIL"});
   }
 
-  const Board = db.model('Board');
+  const Forum = db.model('Forum');
   //console.log(Post);
 
   // config default and other setting later...
   if(req.method == 'GET'){
-    let boards = await Board.find({parenttype:'board'}).exec();
+    let forums = await Forum.find({parenttype:'forum'}).exec();
     //console.log(boards);
-    return res.json({message:"board",boards:boards});
+    return res.json({message:"forums",forums:forums});
   }
 
   //need to config build later for other setting
   if(req.method == 'POST'){
 
-    var boardData = JSON.parse(req.body);
+    var forumData = JSON.parse(req.body);
     //console.log(boardData);
-    let board = new Board({
+    let forum = new Forum({
       userid:userid
       , username: username
-      , subject: boardData.subject
-      , content: boardData.content
+      , subject: forumData.subject
+      , content: forumData.content
     });
-    board.save(function (err) {
+    try {
+      let saveForum = await forum.save();
+
+      return res.json({message:"pass"});
+    } catch (err) {
+      console.log('err' + err);
+      return res.json({error:"FAIL"});
+    }
+
+    /*
+    community.save(function (err) {
       if (err) return handleError(err);
       // saved!
-      console.log("save board");
+      console.log("save community");
       return res.json({message:"pass"});
     });
+    */
   }
 
   //return res.json({error:"NOTFOUND"});
