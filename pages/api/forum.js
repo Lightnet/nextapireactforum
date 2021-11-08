@@ -1,6 +1,6 @@
 /*
-
-
+  LICENSE: MIT
+  Created by: Lightnet
 */
 
 //import { getCsrfToken, getProviders } from "next-auth/react";

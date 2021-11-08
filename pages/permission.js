@@ -1,10 +1,7 @@
-
-
-// https://reactjs.org/docs/hooks-effect.html
-// https://next-auth.js.org/getting-started/client
-// 
-// 
-// 
+/*
+  LICENSE: MIT
+  Created by: Lightnet
+*/
 
 import SignArea from "../components/system/signarea";
 import { useSession } from "next-auth/react"
@@ -34,7 +31,6 @@ function Page() {
     return (<>
       <NavBarHeader></NavBarHeader>
       <PermissionSection></PermissionSection>
-
     </>)
   }
   return (<>

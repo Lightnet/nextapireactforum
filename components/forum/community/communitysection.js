@@ -1,5 +1,7 @@
-// https://www.youtube.com/watch?v=Hixx31BX5kY
-
+/*
+  LICENSE: MIT
+  Created by: Lightnet
+*/
 
 import { useState, useEffect } from 'react';
 import NewCommunity from  "./newcommunity";

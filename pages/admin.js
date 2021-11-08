@@ -1,15 +1,14 @@
-
-
-// https://reactjs.org/docs/hooks-effect.html
-// https://next-auth.js.org/getting-started/client
-// 
-// 
-// 
+/*
+  LICENSE: MIT
+  Created by: Lightnet
+*/
 
 import SignArea from "../components/system/signarea";
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
+
 import NavBarHeader from "../components/layout/header";
+import AdminSection from "../components/system/adminsection";
 
 function Page() {
 
@@ -26,6 +25,7 @@ function Page() {
   if (status === "authenticated") {
     return (<>
       <NavBarHeader></NavBarHeader>
+      <AdminSection></AdminSection>
     </>)
   }
   return (<>

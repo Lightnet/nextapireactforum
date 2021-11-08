@@ -1,9 +1,11 @@
-
+/*
+  LICENSE: MIT
+  Created by: Lightnet
+*/
 
 // https://reactjs.org/docs/hooks-effect.html
 // https://next-auth.js.org/getting-started/client
 // 
-
 
 import SignArea from "../components/system/signarea";
 import BtnSign from "../components/system/btnsign";

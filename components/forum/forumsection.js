@@ -1,18 +1,28 @@
+/*
+  LICENSE: MIT
+  Created by: Lightnet
+*/
+
 // https://www.youtube.com/watch?v=Hixx31BX5kY
 // https://newbedev.com/warning-use-the-defaultvalue-or-value-props-on-select-instead-of-setting-selected-on-option
 
 import { useState, useEffect } from 'react';
 
 import BoardSection from "./board/boardsection";
-import CommunitySection from "./community/communitysection";
+//import CommunitySection from "./community/communitysection";
 import NewForum from "./newforum";
 
 export default function component(){
+  //forum
   const [isNewForum, setIsNewForum] = useState(false);
-  const [boards, setBoards] = useState([]);
-  const [forums, setFourms] = useState([]);
+  const [forums, setFourms] = useState([]); //use
+  const [forumID, setFourmID] = useState('DEFAULT'); // use
 
-  const [forumID, setFourmID] = useState('DEFAULT');
+  //board
+  const [boards, setBoards] = useState([]); // not use
+  const [isBoard, setIsBoard] = useState(false);
+
+  //post ? 
 
   useEffect(()=>{
     //setBoards([]);
@@ -20,30 +30,28 @@ export default function component(){
     getForums();
   },[]);
 
-  useEffect(()=>{
-    //setBoards([]);
-    console.log("changes forumID...");
-    console.log("forumID:",forumID);
-  },[forumID]);
-
-
   async function getForums(){
     let res = await fetch('api/forum',{
       method:'GET'
     });
     let data = await res.json();
     console.log(data);
-    setFourms(data.forums);
+    if(data.error){
+      console.log("ERROR GET FORUM ");
+      return;
+    }
+    if(data.message){
+      setFourms(data.forums);
+    }
   }
 
   async function getBoards(){
-    let _boards = await fetch('api/board',{
-      method:'GET'
-      //, body: JSON.stringify({id:'index'})
-    
+    let res = await fetch('api/board',{
+      method:'POST'
+      , body: JSON.stringify({forumid:forumID})
     });
 
-    let _baorddata = await _boards.json();
+    let _baorddata = await res.json();
     console.log(_baorddata);
     setBoards(_baorddata.boards);
   }
@@ -57,8 +65,14 @@ export default function component(){
     //console.log("forumID");
     setFourmID(e.target.value);
     console.log(forumID);
+  }
 
-
+  function checkForumBoard(){
+    if(isBoard){
+      return( <BoardSection boards={boards} forumid={forumID} />);
+    }else{
+      return( <label> Board Empty! </label> );
+    }
   }
 
   return(<>
@@ -78,15 +92,15 @@ export default function component(){
         })}
       </select>
 
+      {checkForumBoard()}
 
-      <BoardSection
-        boards={boards}
-        />      
+
+      
     </div>
   </>)
 }
 /*
-<CommunitySection />
-
-
+<BoardSection
+        boards={boards}
+        />
 */

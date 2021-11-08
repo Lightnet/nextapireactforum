@@ -1,5 +1,7 @@
-// https://www.youtube.com/watch?v=Hixx31BX5kY
-
+/*
+  LICENSE: MIT
+  Created by: Lightnet
+*/
 
 import { useState, useEffect } from 'react';
 import NewBoard from "./newboard";
@@ -19,18 +21,19 @@ function divBoard(item){
   )
 }
 
-export default function component({boards}){
+export default function component({boards,forumid}){
 
   const [currentBaords, setBaords] = useState([])
   const [isOpenBoard, setIsOpenBoard] = useState(false)
 
   useEffect(()=>{
-    console.log("UPDATE BOARD...]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
-    //setPosts(posts);
-    if(boards){
-      setBaords(boards);
-    }
-  },[boards]);
+    console.log("[[[=== UPDATE BOARD ===]]]");
+    getBoards();
+  },[forumid]);
+
+  function getBoards(){
+    console.log("UPDATE API BOARD???");
+  }
 
   function renderBoards(){
     if(currentBaords){
@@ -43,11 +46,7 @@ export default function component({boards}){
   }
 
   function btnCreateBoard(){
-    if(isOpenBoard){
-      setIsOpenBoard(false);
-    }else{
-      setIsOpenBoard(true);
-    }
+    setIsOpenBoard(!isOpenBoard);
   }
 
   function btnDeleteBoard(){
@@ -59,7 +58,7 @@ export default function component({boards}){
       <label>Boards</label>
       <button onClick={btnCreateBoard}> Create Baord </button>  
       <button onClick={btnDeleteBoard}> Create Baord </button>  
-      {isOpenBoard && <NewBoard></NewBoard>}
+      {isOpenBoard && <NewBoard forumid={forumid}></NewBoard>}
       {renderBoards()}
     </div>
   </>)

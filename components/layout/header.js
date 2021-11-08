@@ -1,10 +1,7 @@
-
-
-// https://reactjs.org/docs/hooks-effect.html
-// https://next-auth.js.org/getting-started/client
-// 
-// 
-// 
+/*
+  LICENSE: MIT
+  Created by: Lightnet
+*/
 
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';

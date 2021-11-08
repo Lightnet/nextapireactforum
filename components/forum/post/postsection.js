@@ -1,5 +1,7 @@
-// https://www.youtube.com/watch?v=Hixx31BX5kY
-
+/*
+  LICENSE: MIT
+  Created by: Lightnet
+*/
 
 import { useState, useEffect } from 'react';
 
@@ -57,7 +59,6 @@ export default function component({posts}){
     </div>
   </>)
 }
-
-/**
- {boards.map(item0=>{return renderBoards(item0)})}
- */
+/*
+ 
+*/

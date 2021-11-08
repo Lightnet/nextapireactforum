@@ -1,21 +1,27 @@
-// https://www.youtube.com/watch?v=Hixx31BX5kY
-
+/*
+  LICENSE: MIT
+  Created by: Lightnet
+*/
 
 import { useState, useEffect } from 'react';
   
-export default function component(){
+export default function component({forumid}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
   const [postType,setPostType] = useState("post");
   
   
   async function PostAPI(){
+    console.log("BOARD forumid");
+    console.log(forumid);
+    /*
     let rep = await fetch('api/board', {
       method:'POST',
-      body:JSON.stringify({subject:'test board',content:'text'})
+      body:JSON.stringify({forumid:forumid,subject:'test board',content:'text'})
     });
     let data = await rep.json();
     console.log(data);
+    */
   }
 
 

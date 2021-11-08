@@ -3,13 +3,10 @@
   Created by: Lightnet
 */
 
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 import { useSession, signOut, signIn } from "next-auth/react"
-import { getSession } from "next-auth/react";
-
-
+//import { getSession } from "next-auth/react";
 // https://next-auth.js.org/getting-started/client
-// useSession()
 export default function Component() {
   const { data: session, status } = useSession()
   console.log("[[[=== SIGN AREA ===]]]")
@@ -29,7 +26,6 @@ export default function Component() {
     <a href="/auth/credentials-signup">Sign Up</a>
   </>);
 }
-
 /*
-<button onClick={() => signOut()}>Sign out</button>
+
 */

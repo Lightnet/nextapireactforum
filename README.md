@@ -38,16 +38,16 @@ There should be five area when developementing.
 ```
 =========================================
 | client                                |
-| react (components / html / css / js)  |
-| api (url calls)                       |
+|                                       |
+|  url                 api (url calls)  |
 =========================================
-    ^                            |
-    |                            V
-  pre-render client             query
+    ^                            | ^
+    |                            V |
+  pre-render                   query
 =========================================
-| nextjs ( server )                     | 
-| react (components / html / css / js)  |
-| api (server)                          |
+| nextjs ( server )        api (server) | 
+| react                    auth         |
+| auth                     database     |
 | database                              |
 =========================================
 ```
@@ -60,14 +60,11 @@ pages/post (folder)
 - this will handle client render
 - using api to call data for get and post data
 - component will change on the fly.
--
 
 pages/api/post (folder)
 - this will handle get and post simlar to function call.
 - get all posts list
 - post is to save, edit and delete.
-- 
-
 ```
 
 
@@ -87,6 +84,6 @@ pages/api/post (folder)
 ```
 HOST="http://localhost:3000"
 NEXTAUTH_URL="http://localhost:3000"
-DATABASE_URL="mongodb://127.0.0.1/my_database"
+DATABASE_URL="mongodb://127.0.0.1/forum"
 SECRET="secret"
 ```

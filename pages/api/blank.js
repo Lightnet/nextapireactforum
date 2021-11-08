@@ -8,12 +8,11 @@ import { getSession } from "next-auth/react"
 import db from "../../lib/database";
 
 export default async (req, res)=>{
-
+  console.log("BLANK");
   const session = await getSession({ req });
-  //console.log(session);
   let userid;
   let username;
-  
+
   if(session){
     if(!session.user.name){
       return res.json({error:"FAIL"});  
@@ -47,6 +46,9 @@ export default async (req, res)=>{
   }else{
     return res.json({error:"FAIL"});
   }
+
+
+
 
 
   return res.json({error:"NOTFOUND"});

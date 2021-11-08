@@ -1,18 +1,13 @@
-
-
-// https://reactjs.org/docs/hooks-effect.html
-// https://next-auth.js.org/getting-started/client
-// https://nextjs.org/docs/api-reference/next/router
-// 
-// 
+/*
+  LICENSE: MIT
+  Created by: Lightnet
+*/
 
 import SignArea from "../components/system/signarea";
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
 
-//import ForumSection from "../components/forum/forumsection";
 import PostSection from "../components/forum/post/postsection";
-//import PostSection from "../components/forum/postsection";
 import NewPost from "../components/forum/post/newpost";
 import NavBarHeader from "../components/layout/header";
 
