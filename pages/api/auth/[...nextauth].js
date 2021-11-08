@@ -86,7 +86,7 @@ export default NextAuth({
       //console.log(profile);
       //console.log(isNewUser);
 
-      if (user) {//once the user login it will progress
+      if (user) {//once the user login it will progress data
         token.id = user.id;
         token.name = user.name;
         token.role = user.role;

@@ -23,6 +23,55 @@
 ## Account:
   It will not used link account system from other third party. But add next-auth and required some config to work correctly.
 
+## Design:
+  There are component, api server, page and database.
+
+### Layers:
+- page (client browser)
+- page/api (http server request and response)
+- database (local desktop)
+- components (react component / client browser)
+- translate api scripts
+
+There should be five area when developementing.
+
+```
+=========================================
+| client                                |
+| react (components / html / css / js)  |
+| api (url calls)                       |
+=========================================
+    ^                            |
+    |                            V
+  pre-render client             query
+=========================================
+| nextjs ( server )                     | 
+| react (components / html / css / js)  |
+| api (server)                          |
+| database                              |
+=========================================
+```
+
+  Nextjs is design to have preload to reduce request for pre-render client browser but get query request of data change on add, update, delete, edit, theme colors and other things.
+
+## example:
+```
+pages/post (folder)
+- this will handle client render
+- using api to call data for get and post data
+- component will change on the fly.
+-
+
+pages/api/post (folder)
+- this will handle get and post simlar to function call.
+- get all posts list
+- post is to save, edit and delete.
+- 
+
+```
+
+
+
 
 # TO DO LIST:
 - Need to design serverless database peer to peer forum (not build)

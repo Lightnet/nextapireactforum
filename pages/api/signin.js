@@ -32,7 +32,7 @@ export default async (req, res)=>{
   console.log("req.body");
   console.log(req.body);
   //console.log(req.body.firstname);
-  let  userData = JSON.parse(req.body);
+  let userData = JSON.parse(req.body);
   //console.log(userData.newUser);
   //console.log(User);
   
