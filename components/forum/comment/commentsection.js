@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import NewComment from "./newcomment";
 import CommentCard from "./commentcard";
 
-export default function component({comments,postid,selectComment}){
+export default function component({comments,postid,ops}){
 
   const [currentComments, setComments] = useState([])
   const [isOpenComment, setIsOpenComment] = useState(false);
@@ -28,7 +28,7 @@ export default function component({comments,postid,selectComment}){
   function renderComments(){
     if(currentComments){
       return currentComments.map(item=>{
-        return <CommentCard key={item.id} item={item} commentPost={selectComment}></CommentCard>;
+        return <CommentCard key={item.id} item={item} ops={ops}></CommentCard>;
       })
     }else{
       return <div>None</div>

@@ -9,7 +9,7 @@
 import { useState, useEffect } from 'react';
 
 import BoardSection from "./board/boardsection";
-import TopicSection from "./post/postsection";
+import PostSection from "./post/postsection";
 import CommentSection from "./comment/commentsection";
 
 import NewForum from "./newforum";
@@ -17,62 +17,56 @@ import NewForum from "./newforum";
 export default function component(){
   //forum
   const [isNewForum, setIsNewForum] = useState(false);
-  const [forums, setFourms] = useState([]); //use
-  const [forumID, setFourmID] = useState('DEFAULT'); // use
+  const [forums, setFourms] = useState([]); 
+  const [forumID, setFourmID] = useState('DEFAULT');
 
   //board
-  const [boards, setBoards] = useState([]); //  use
-  const [boardID, setBoardID] = useState(null); // use
+  const [boards, setBoards] = useState([]); 
+  const [boardID, setBoardID] = useState(null); 
   const [isBoard, setIsBoard] = useState(false);
 
   //post ? 
-  const [isPost, setIsPost] = useState(false); // use
-  const [posts, setPosts] = useState([]); //  use
-  const [postID, setPostID] = useState(null); // use
+  const [isPost, setIsPost] = useState(false); 
+  const [posts, setPosts] = useState([]); 
+  const [postID, setPostID] = useState(null); 
 
+  //comment
+  const [isComment, setIsComment] = useState(false); 
+  const [comments, setComments] = useState([]);
+  const [commentID, setCommentID] = useState(null); 
 
-  const [isComment, setIsComment] = useState(false); // use
-  const [comments, setComments] = useState([]); // use
-
+  //once init forum
   useEffect(()=>{
     //setBoards([]);
     console.log("init setup");
     getForums();
   },[]);
 
+  // need to fixed this later 
+  // need to check the select type
   useEffect(()=>{
     //setBoards([]);
     console.log("forumID change");
     console.log(forumID);
     if(forumID !='DEFAULT'){
       getBoards();
-      setIsBoard(true);
     }else{
       setIsBoard(false);
     }
-  },[forumID]);
 
-  //check for board id selected for post display
-  useEffect(()=>{
-    console.log("SELECT BOARD ID: ",boardID);
-    if(boardID){
-      setIsBoard(false);
-      setIsPost(true);
+    if(isBoard){
+      getBoards();
+    }
+
+    if(isPost){
       getPosts();
     }
-  },[boardID]);
 
-  //check for post id selected for comment display
-  useEffect(()=>{
-    console.log("SELECT POST ID: ",postID);
-    if(postID){
-      setIsPost(false);
-      setIsComment(true);
+    if(isComment){
       getComments();
     }
-  },[postID]);
 
-
+  },[forumID,isBoard,isPost,isComment]);
 
   async function getForums(){
     let res = await fetch('api/forum',{
@@ -108,7 +102,9 @@ export default function component(){
   }
 
   async function getPosts(){
-    console.log("LOAD POSTS????");
+    console.log("[[[=== LOAD POSTS ===]]]");
+    console.log("[[[=== POSTID ===]]]: ", boardID);
+
     let res = await fetch('api/post',{
       method:'POST'
       , body: JSON.stringify({boardid:boardID,action:'getposts'})
@@ -128,6 +124,8 @@ export default function component(){
 
   async function getComments(){
     console.log("[[[=== LOAD COMMENTS ===]]]");
+    console.log("[[[ === POST ID == ]]]", postID)
+
     let res = await fetch('api/comment',{
       method:'POST'
       , body: JSON.stringify({postid:postID,action:'getcomments'})
@@ -145,7 +143,7 @@ export default function component(){
     }
   }
 
-
+  //display create forum
   function createForum(){
     setIsNewForum(isNewForum ? false : true)
   }
@@ -154,54 +152,126 @@ export default function component(){
     //console.log(e.target.value);
     //console.log("forumID");
     setFourmID(e.target.value);
-    //console.log(forumID);
+    setIsBoard(true);
   }
 
   function getForumID(){
     console.log(forumID);
   }
 
-  // link select board ID
-  function selectBoardID(id){
-    console.log("selectBoardID: ",id);
-    setBoardID(id);
-  }
-
   function checkForumBoard(){
     if(isBoard){
-      return( <BoardSection boards={boards} forumid={forumID} selectBoard={selectBoardID} />);
+      return( <BoardSection boards={boards} forumid={forumID} ops={callBackOPS} />);
     }else{
+      if(boardID){
+        let board;
+        for(let item of boards){
+          console.log("BOARD LIST...");
+          console.log(item);
+          if(item.id == boardID){
+            board = item;
+            break;
+          }
+        }
+        if(board){
+          return(<label> >> <a href="#" onClick={()=>callBackOPS({action:"selectboard"})}> [Board]: {board.subject} </a></label>);
+        }else{
+          return( <label> Board Empty! </label> );
+        }
+      }
       return( <label> Board Empty! </label> );
     }
   }
 
-  // link select board ID
-  function selectPostID(id){
-    console.log("selectPostID: ",id);
-    setPostID(id);
-  }
-
   function checkForumPost(){
     if(isPost){
-      return( <TopicSection posts={posts} boardid={boardID} selectPost={selectPostID} />);
+      return( <PostSection posts={posts} boardid={boardID} ops={callBackOPS} />);
     }else{
-      return( <label> Topic Empty! </label> );
+      if(postID){
+        let post;
+        for(let item of posts){
+          if(item.id == postID){
+            post = item;
+            break;
+          }
+        }
+        if(post){
+          return(<label> >> <a href="#" onClick={()=>callBackOPS({action:"selectpost"})}> [Post]: {post.subject} </a></label>);
+        }
+        return( <label> Post Empty! </label> );
+      }
+      return( <label> Post Empty! </label> );
     }
   }
 
-  // link select board ID
-  function selectCommentID(id){
-    console.log("selectCommentID: ",id);
-    //setCommentID(id);
+  function callBackOPS(args){
+    if(args){
+      if(args.action){
+
+        if(args.action == "selectindex"){
+          setIsBoard(true);
+          setIsPost(false);
+          setIsComment(false);
+          getBoards();
+        }
+
+        if(args.action == "selectboard"){
+          setIsBoard(false);
+          setIsPost(true);
+          setIsComment(false);
+          //getPosts();
+        }
+
+        if(args.action == "selectpost"){
+          setIsBoard(false);
+          setIsPost(false);
+          setIsComment(true);
+          //getComments();
+        }
+
+        if(args.action == "select"){
+          if(args.datatype == "board"){
+            console.log("SELECT BOARD>>>>???");
+            setBoardID(args.id);
+            setIsBoard(false);
+            setIsPost(true);
+            setIsComment(false);
+          }
+          if(args.datatype == "post"){
+            setPostID(args.id);
+            setIsBoard(false);
+            setIsPost(false);
+            setIsComment(true);
+            //getPosts();
+            //getComments();
+          }
+          if(args.datatype == "comment"){
+            setCommentID(args.id);
+            setIsBoard(false);
+            setIsPost(false);
+            setIsComment(true);
+          }
+        }
+      }
+    }
   }
 
   function checkForumComment(){
     if(isComment){
-      return( <CommentSection comments={comments} postid={postID} selectComment={selectCommentID} />);
+      return( <CommentSection comments={comments} postid={postID} ops={callBackOPS} />);
     }else{
       return( <label> Comment Empty! </label> );
     }
   }
+
+  function checkForumIndexRender(){
+    console.log("forumID: ",forumID);
+    console.log(typeof forumID);
+    if(forumID !== "DEFAULT" && forumID != null){
+      return (<a href="#" onClick={()=>callBackOPS({action:"selectindex"})}>Index</a>);
+    }
+    return (<> </>);
+  } 
 
   return(<>
     <div>
@@ -220,6 +290,8 @@ export default function component(){
           )
         })}
       </select>
+      <br />
+      {checkForumIndexRender()}
 
       {checkForumBoard()}
       {checkForumPost()}

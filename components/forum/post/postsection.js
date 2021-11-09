@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import PostCard from "./postcard";
 import NewPost from "./newpost";
 
-export default function component({posts,boardid,selectPost}){
+export default function component({posts,boardid,ops}){
 
   const [currentPosts, setPosts] = useState([])
   const [isOpenPost, setIsOpenPost] = useState(false);
@@ -28,7 +28,7 @@ export default function component({posts,boardid,selectPost}){
   function renderPosts(){
     if(currentPosts){
       return currentPosts.map(item=>{
-        return <PostCard key={item.id} item={item} selectPost={selectPost}></PostCard>;
+        return <PostCard key={item.id} item={item} ops={ops}></PostCard>;
       })
     }else{
       return <div>None</div>

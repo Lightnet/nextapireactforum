@@ -3,13 +3,13 @@
   Created by: Lightnet
 */
 
-export default function component({item,commentPost}){
+export default function component({item,ops}){
 
   return(
     <div key={item.id} style={{
       width:'100%'
     }}>
-      <div> [Comment] <a href="#" onClick={()=>commentPost(item.id)}> {item.subject}</a></div>
+      <div> [Comment] <a href="#" onClick={()=>ops({action:"select",datatype:"comment",id:item.id})}> {item.subject}</a></div>
       <div> [Content] {item.content}</div>
       <div>
       <a href="#"> Up Vote </a>

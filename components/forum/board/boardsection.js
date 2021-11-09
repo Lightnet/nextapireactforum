@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import NewBoard from "./newboard";
 import BoardCard from "./boardcard";
 
-export default function component({boards,forumid,selectBoard}){
+export default function component({boards,forumid,ops}){
 
   const [currentBaords, setBaords] = useState([])
   const [isOpenBoard, setIsOpenBoard] = useState(false)
@@ -20,7 +20,7 @@ export default function component({boards,forumid,selectBoard}){
   function renderBoards(){
     if(currentBaords){
       return currentBaords.map(item=>{
-        return <BoardCard key={item.id} item={item} selectBoard={selectBoard}/>
+        return <BoardCard key={item.id} item={item} ops={ops}/>
       })
     }else{
       return <div>None</div>

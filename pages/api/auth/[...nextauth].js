@@ -80,8 +80,8 @@ export default NextAuth({
     //first process user login
     async jwt({ token, user, account, profile, isNewUser }) {
       console.log("[[[=== callbacks jwt ===]]");
-      console.log(token);
-      console.log(user);
+      //console.log(token);
+      //console.log(user);
       //console.log(account);
       //console.log(profile);
       //console.log(isNewUser);

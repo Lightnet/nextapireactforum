@@ -14,6 +14,16 @@
 
   By using the nextjs to have zero or minimal config server, api rest, pre-render client broswer reactjs and other package features.
 
+## Links:
+  Work in progress. Due to linking id system is not build to reference the post or comment.
+
+## Encryption and Security:
+  The account is encryption for password. Auth checks built with next-auth for url checks and method. 
+
+  Currently post content is not encrypt as work in progress. But due note that search function will take longer to search for keywords.
+  
+  Need work on other things.
+
 ## Routes:
 - https://nextjs.org/docs/api-routes/introduction
 
@@ -114,7 +124,7 @@ pages/api/post (folder)
 - artisanguild (not build)
 - merchantguild (not build)
 
-# prefix guild:
+## prefix guild:
   Those are just prototype idea base on real life to keep it simple to genre types.
 
 
