@@ -30,6 +30,18 @@ export default function component(){
     getForums();
   },[]);
 
+  useEffect(()=>{
+    //setBoards([]);
+    console.log("forumID change");
+    console.log(forumID);
+    if(forumID !='DEFAULT'){
+      getBoards();
+      setIsBoard(true);
+    }else{
+      setIsBoard(false);
+    }
+  },[forumID]);
+
   async function getForums(){
     let res = await fetch('api/forum',{
       method:'GET'
@@ -48,12 +60,19 @@ export default function component(){
   async function getBoards(){
     let res = await fetch('api/board',{
       method:'POST'
-      , body: JSON.stringify({forumid:forumID})
+      , body: JSON.stringify({forumid:forumID,action:'getboards'})
     });
 
-    let _baorddata = await res.json();
-    console.log(_baorddata);
-    setBoards(_baorddata.boards);
+    let data = await res.json();
+    console.log(data);
+    if(data.message=="NOBOARD"){
+      console.log("NO BOARDS")
+      return;
+    }
+    if(data.message=="BOARDS"){
+      console.log("BOARDS")
+      setBoards(data.boards);
+    }
   }
 
   function createForum(){
@@ -64,6 +83,10 @@ export default function component(){
     //console.log(e.target.value);
     //console.log("forumID");
     setFourmID(e.target.value);
+    //console.log(forumID);
+  }
+
+  function getForumID(){
     console.log(forumID);
   }
 
@@ -80,6 +103,7 @@ export default function component(){
       <label>Forum</label>
       <button onClick={createForum}> Create Forum </button>
       <button> Delete Forum </button>
+      <button onClick={getForumID}> Forum ID </button>
 
       {isNewForum && <NewForum />}
       

@@ -4,50 +4,83 @@
 */
 
 import { useState, useEffect } from 'react';
+import { isEmpty } from '../../../lib/helper';
   
 export default function component({forumid}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
-  const [postType,setPostType] = useState("post");
+  const [parentID, setParentID] = useState("");
+
+  useEffect(()=>{
+    if(forumid!=null){
+      setParentID(forumid)
+    }
+  },[forumid,parentID]);
   
   
   async function PostAPI(){
     console.log("BOARD forumid");
     console.log(forumid);
-    /*
+    console.log(subject);
+    console.log(content);
+    if(isEmpty(subject) || isEmpty(content)){
+      console.log("EMPTY!");
+      return;
+    }
+
     let rep = await fetch('api/board', {
       method:'POST',
-      body:JSON.stringify({forumid:forumid,subject:'test board',content:'text'})
+      body:JSON.stringify({
+        forumid:forumid
+        , action:'createboard'
+        , subject:subject
+        , content:content})
     });
     let data = await rep.json();
     console.log(data);
-    */
+    
   }
 
+  function onTypingParentID(e){
+    setParentID(e.target.value);
+  }
 
-  useEffect(()=>{
+  function onSelectParentID(e){
+    setParentID(e.target.value);
+  }
 
-  },[]);
+  function onTypingSubject(e){
+    setSubject(e.target.value);
+  }
+
+  function onTypingContent(e){
+    setContent(e.target.value);
+  }
+  
 
   return(<>
     <div>
       <div>
-        <label>Name</label>
-        <input></input>
+        <label>Name:</label>
+        <br />
+        <input value={subject} onChange={onTypingSubject}></input>
       </div>
 
       <div>
         <label>Parent:</label>
-        <input />
+        <br />
+        <input value={parentID} onChange={onTypingParentID} />
 
-        <select>
-          <option> Test </option>
+        <select value={parentID} onChange={onSelectParentID}>
+          <option value={forumid}> Index </option>
         </select>
       </div>
 
 
       <div>
-        <textarea>
+        <label>Summrty:</label>
+        <br />
+        <textarea value={content} onChange={onTypingContent}>
 
         </textarea>
       </div>

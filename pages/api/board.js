@@ -62,22 +62,45 @@ export default async (req, res)=>{
 
   //need to config build later for other setting
   if(req.method == 'POST'){
-
     var boardData = JSON.parse(req.body);
-    //console.log(boardData);
-    let board = new Board({
-      userid:userid
-      , username: username
-      , subject: boardData.subject
-      , content: boardData.content
-    });
-    board.save(function (err) {
-      if (err) return handleError(err);
-      // saved!
-      console.log("save board");
-      return res.json({message:"pass"});
-    });
-  }
+    console.log("CHECK FORUM ID...")
+    if(boardData.forumid){
+      console.log(boardData.forumid)
+      console.log(boardData.action)
+      if(boardData.action == 'getboards'){
+        let boards = await Board.find({parentid:boardData.forumid}).exec();
+        console.log("CHECK BOARDS...");
+        if(boards.length == 0){
+          return res.json({message:"NOBOARD"});
+        }
+        if(boards.length >= 1){
+          return res.json({message:"BOARDS",boards:boards});
+        }
+      }
+      if(boardData.action == 'createboard'){
+        let board = new Board({
+          userid:userid
+          , username: username
+          , parentid: boardData.forumid
+          , parenttype: 'forum'
+          , subject: boardData.subject
+          , content: boardData.content
+        });
+        try{
+          await board.save();
+          console.log("CREATE BOARD");
+          return res.json({message:"pass"});
+        }catch(e){
+          console.log("FAIL CREATE BOARD");
+          return res.json({message:"FAIL"});
+        }
+      }
+      if(boardData.action == 'deleteboard'){
 
+        
+        return res.json({message:"FAIL"});
+      }
+    }
+  }
   //return res.json({error:"NOTFOUND"});
 };

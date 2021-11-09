@@ -7,12 +7,13 @@ import { useState, useEffect } from 'react';
 import NewBoard from "./newboard";
 
 function divBoard(item){
+
   return(
     <div key={item.id} style={{
       width:'100%'
     }}>
-      <div> <a href="#">  {item.subject} </a> </div>
-      <div>{item.content}</div>
+      <div>[ Board ] <a href="#">  {item.subject} </a> [ Options ]</div>
+      <div>[ Info ] {item.content}</div>
     <div>
       <span> | </span>
       <a href="#"> Tags </a>  
@@ -26,10 +27,17 @@ export default function component({boards,forumid}){
   const [currentBaords, setBaords] = useState([])
   const [isOpenBoard, setIsOpenBoard] = useState(false)
 
+  //useEffect(()=>{
+    //console.log("[[[=== UPDATE BOARD ===]]]");
+    //getBoards();
+  //},[forumid]);
+
   useEffect(()=>{
     console.log("[[[=== UPDATE BOARD ===]]]");
-    getBoards();
-  },[forumid]);
+    setBaords(boards)
+  },[boards]);
+
+
 
   function getBoards(){
     console.log("UPDATE API BOARD???");

@@ -46,12 +46,22 @@ export default async (req, res)=>{
         //create user
         let newUser = new User({username: userData.alias})
         newUser.setPassword(userData.passphrase);
+        try{
+          let saveUser = await newUser.save();
+          console.log("save user");
+          return res.json(saveUser.toAuthJSON());
+        }catch(e){
+          return res.json({error:"FAIL"});
+        }
+
+        /*
         newUser.save(function (err) {
           if (err) return handleError(err);
           // saved!
           console.log("save user");
           return res.json(newUser.toAuthJSON());
         });
+        */
       }else{
         console.log("[newUser] Exist");
         return res.json({error:"EXIST"});

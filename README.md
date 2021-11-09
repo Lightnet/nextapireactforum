@@ -3,22 +3,26 @@
 # Created By: Lightnet
 
 # Packages:
-- next.js
-- react.js
+- next (https://nextjs.org/)
+- react (https://reactjs.org/)
 - mongoose (MongoDB)
 
 # Information:
-  Prototype build for next.js using just react component, mongodb, nodejs and other other packages to create forum, post and other things about community.
+  Prototype build for forum.
 
-  The design is Rest API to keep the server load simple.
+  The forum will be built by using the nextjs, reactjs and mongoDB json format. Other features will have simple post types like news, blog and other things about community.
+
+  By using the nextjs to have zero or minimal config server, api rest, pre-render client broswer reactjs and other package features.
 
 ## Routes:
 - https://nextjs.org/docs/api-routes/introduction
 
 ## database:
 - mongoose (MongoDB)
+  - json
 
-  To build peer to peer database is not easy since it design with people and users in mind.
+- gun ( https://github.com/amark/gun )
+  - To build peer to peer database is not easy since it design with people and users in mind.
 
 ## Account:
   It will not used link account system from other third party. But add next-auth and required some config to work correctly.
@@ -67,18 +71,17 @@ pages/api/post (folder)
 - post is to save, edit and delete.
 ```
 
-
-
-
 # TO DO LIST:
 - Need to design serverless database peer to peer forum (not build)
 - auth (simple login user and password)
 - access/permission (not build)
-- post (work in progress)
+- forum (work in progress)
 - board (work in progress)
+- post (work in progress)
+- comment (work in progress)
 - plugin (Not build)
 - mod/admin (Not build)
-
+- database
 
 .env
 ```

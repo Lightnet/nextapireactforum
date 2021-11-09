@@ -6,6 +6,7 @@
 //import { getCsrfToken, getProviders } from "next-auth/react";
 import { getSession } from "next-auth/react"
 import db from "../../lib/database";
+import { isEmpty } from "../../lib/helper";
 
 export default async (req, res)=>{
   //if(req.method !== 'POST'){
@@ -62,33 +63,30 @@ export default async (req, res)=>{
 
   //need to config build later for other setting
   if(req.method == 'POST'){
+    console.log("FORUM");
+    let forumData = JSON.parse(req.body);
+    console.log(forumData)
 
-    var forumData = JSON.parse(req.body);
+    if(isEmpty(forumData.subject) || isEmpty(forumData.content)){
+      console.log("EMPTYFIELD");
+      return res.json({error:"EMPTYFIELD"});
+    }
+    
     //console.log(boardData);
     let forum = new Forum({
       userid:userid
       , username: username
-      , subject: forumData.subject
-      , content: forumData.content
+      , subject: forumData.subject.trim()
+      , content: forumData.content.trim()
     });
     try {
       let saveForum = await forum.save();
 
-      return res.json({message:"pass"});
+      return res.json({message:"CREATED"});
     } catch (err) {
       console.log('err' + err);
       return res.json({error:"FAIL"});
     }
-
-    /*
-    community.save(function (err) {
-      if (err) return handleError(err);
-      // saved!
-      console.log("save community");
-      return res.json({message:"pass"});
-    });
-    */
   }
-
   //return res.json({error:"NOTFOUND"});
 };
