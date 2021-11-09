@@ -9,7 +9,9 @@
 import { useState, useEffect } from 'react';
 
 import BoardSection from "./board/boardsection";
-//import CommunitySection from "./community/communitysection";
+import TopicSection from "./post/postsection";
+import CommentSection from "./comment/commentsection";
+
 import NewForum from "./newforum";
 
 export default function component(){
@@ -19,10 +21,18 @@ export default function component(){
   const [forumID, setFourmID] = useState('DEFAULT'); // use
 
   //board
-  const [boards, setBoards] = useState([]); // not use
+  const [boards, setBoards] = useState([]); //  use
+  const [boardID, setBoardID] = useState(null); // use
   const [isBoard, setIsBoard] = useState(false);
 
   //post ? 
+  const [isPost, setIsPost] = useState(false); // use
+  const [posts, setPosts] = useState([]); //  use
+  const [postID, setPostID] = useState(null); // use
+
+
+  const [isComment, setIsComment] = useState(false); // use
+  const [comments, setComments] = useState([]); // use
 
   useEffect(()=>{
     //setBoards([]);
@@ -41,6 +51,27 @@ export default function component(){
       setIsBoard(false);
     }
   },[forumID]);
+
+  //check for board id selected for post display
+  useEffect(()=>{
+    console.log("SELECT BOARD ID: ",boardID);
+    if(boardID){
+      setIsBoard(false);
+      setIsPost(true);
+      getPosts();
+    }
+  },[boardID]);
+
+  //check for post id selected for comment display
+  useEffect(()=>{
+    console.log("SELECT POST ID: ",postID);
+    if(postID){
+      setIsPost(false);
+      setIsComment(true);
+    }
+  },[postID]);
+
+
 
   async function getForums(){
     let res = await fetch('api/forum',{
@@ -75,6 +106,26 @@ export default function component(){
     }
   }
 
+  async function getPosts(){
+    console.log("LOAD POSTS????");
+    let res = await fetch('api/post',{
+      method:'POST'
+      , body: JSON.stringify({boardid:boardID,action:'getposts'})
+    });
+
+    let data = await res.json();
+    console.log(data);
+    if(data.message=="NOPOST"){
+      console.log("NO POST")
+      return;
+    }
+    if(data.message=="POSTS"){
+      console.log("POSTS")
+      setPosts(data.posts);
+    }
+  }
+
+
   function createForum(){
     setIsNewForum(isNewForum ? false : true)
   }
@@ -90,11 +141,45 @@ export default function component(){
     console.log(forumID);
   }
 
+  // link select board ID
+  function selectBoardID(id){
+    console.log("selectBoardID: ",id);
+    setBoardID(id);
+  }
+
   function checkForumBoard(){
     if(isBoard){
-      return( <BoardSection boards={boards} forumid={forumID} />);
+      return( <BoardSection boards={boards} forumid={forumID} selectBoard={selectBoardID} />);
     }else{
       return( <label> Board Empty! </label> );
+    }
+  }
+
+  // link select board ID
+  function selectPostID(id){
+    console.log("selectPostID: ",id);
+    setPostID(id);
+  }
+
+  function checkForumPost(){
+    if(isPost){
+      return( <TopicSection posts={posts} boardid={boardID} selectPost={selectPostID} />);
+    }else{
+      return( <label> Topic Empty! </label> );
+    }
+  }
+
+  // link select board ID
+  function selectCommentID(id){
+    console.log("selectCommentID: ",id);
+    //setCommentID(id);
+  }
+
+  function checkForumComment(){
+    if(isComment){
+      return( <CommentSection comments={comments} postid={postID} selectComment={selectCommentID} />);
+    }else{
+      return( <label> Comment Empty! </label> );
     }
   }
 
@@ -117,9 +202,8 @@ export default function component(){
       </select>
 
       {checkForumBoard()}
-
-
-      
+      {checkForumPost()}
+      {checkForumComment()}
     </div>
   </>)
 }

@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
   
-export default function component({boardid}){
+export default function component({postid}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
   //const [postType,setPostType] = useState("post");
@@ -16,17 +16,17 @@ export default function component({boardid}){
   },[]);
   
   async function PostAPI(){
-    console.log("post boardid");
+    console.log("comment postid");
 
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
       return;
     }
 
-    let rep = await fetch('api/post', {
+    let rep = await fetch('api/comment', {
       method:'POST',
       body:JSON.stringify({
-        boardid:boardid
+        postid:postid
         , action:'createpost'
         , subject:subject
         , content:content
@@ -48,7 +48,7 @@ export default function component({boardid}){
   return(<>
     <div>
       <div>
-        <label>Topic Name:</label>
+        <label>Comment Name:</label>
         <br />
         <input value={subject} onChange={onTypingSubject} />
       </div>

@@ -5,48 +5,22 @@
 
 import { useState, useEffect } from 'react';
 import NewBoard from "./newboard";
+import BoardCard from "./boardcard";
 
-function divBoard(item){
-
-  return(
-    <div key={item.id} style={{
-      width:'100%'
-    }}>
-      <div>[ Board ] <a href="#">  {item.subject} </a> [ Options ]</div>
-      <div>[ Info ] {item.content}</div>
-    <div>
-      <span> | </span>
-      <a href="#"> Tags </a>  
-      </div>
-    </div>
-  )
-}
-
-export default function component({boards,forumid}){
+export default function component({boards,forumid,selectBoard}){
 
   const [currentBaords, setBaords] = useState([])
   const [isOpenBoard, setIsOpenBoard] = useState(false)
-
-  //useEffect(()=>{
-    //console.log("[[[=== UPDATE BOARD ===]]]");
-    //getBoards();
-  //},[forumid]);
 
   useEffect(()=>{
     console.log("[[[=== UPDATE BOARD ===]]]");
     setBaords(boards)
   },[boards]);
 
-
-
-  function getBoards(){
-    console.log("UPDATE API BOARD???");
-  }
-
   function renderBoards(){
     if(currentBaords){
       return currentBaords.map(item=>{
-        return divBoard(item);
+        return <BoardCard key={item.id} item={item} selectBoard={selectBoard}/>
       })
     }else{
       return <div>None</div>
@@ -71,8 +45,6 @@ export default function component({boards,forumid}){
     </div>
   </>)
 }
+/*
 
-/**
- {renderPosts()}
- {boards.map(item0=>{return renderBoards(item0)})}
- */
+*/

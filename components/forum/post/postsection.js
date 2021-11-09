@@ -4,48 +4,31 @@
 */
 
 import { useState, useEffect } from 'react';
+import PostCard from "./postcard";
+import NewPost from "./newpost";
 
-function divPost(item){
-  return(
-    <div key={item.id} style={{
-      width:'100%'
-    }}>
-      <div>{item.subject}</div>
-      <div>{item.content}</div>
-      <div>
-      <a href="#"> Up Vote </a>
-      <span> | </span>
-      <a href="#"> Down Vote </a>
-      <span> | </span>
-      <a href="#"> Comment </a>
-      <span> | </span>
-      <a href="#"> Tags </a>
-      <span> | </span>
-      <a href="#"> Report </a>
-      </div>
-    </div>
-  )
-}
-
-export default function component({posts}){
+export default function component({posts,boardid,selectPost}){
 
   const [currentPosts, setPosts] = useState([])
-  const [comments, setComments] = useState([])
+  const [isOpenPost, setIsOpenPost] = useState(false);
 
   useEffect(()=>{
-    console.log("UPDATE POST...]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+    console.log("[[[=== UPDATE POST ===]]]");
     //setPosts(posts);
     console.log(posts)
     if(posts){//check if has var
       setPosts(posts);
     }
-
   },[posts]);
+
+  function btnCreatePost(){
+    setIsOpenPost(!isOpenPost);
+  }
 
   function renderPosts(){
     if(currentPosts){
       return currentPosts.map(item=>{
-        return divPost(item);
+        return <PostCard key={item.id} item={item} selectPost={selectPost}></PostCard>;
       })
     }else{
       return <div>None</div>
@@ -55,6 +38,10 @@ export default function component({posts}){
   return(<>
     <div>
       <label>post</label>
+      <button  onClick={btnCreatePost}> New Post </button>
+      <button> Delete Post </button>
+      {isOpenPost && <NewPost boardid={boardid}></NewPost>}
+
       {renderPosts()}
     </div>
   </>)

@@ -6,6 +6,7 @@
 //import { getCsrfToken, getProviders } from "next-auth/react";
 import { getSession } from "next-auth/react"
 import db from "../../lib/database";
+import { isEmpty } from "../../lib/helper";
 
 export default async (req, res)=>{
   //if(req.method !== 'POST'){
@@ -64,20 +65,50 @@ export default async (req, res)=>{
   if(req.method == 'POST'){
 
     var postData = JSON.parse(req.body);
-    //console.log(postData);
-    let post = new Post({
-      userid:userid
-      , username: username
-      , subject: postData.subject
-      , content: postData.content
-    });
-    post.save(function (err) {
-      if (err) return handleError(err);
-      // saved!
-      console.log("save post");
-      return res.json({message:"pass"});
-    });
-  }
 
+    
+    console.log(postData);
+
+
+    if(postData.boardid){
+      if(postData.action == 'createpost'){
+        if(isEmpty(postData.subject) || isEmpty(postData.content)){
+          console.log("EMPTY!");
+          return res.json({message:"EMPTY"});
+        }
+        
+        let post = new Post({
+          userid:userid
+          , parentid:postData.boardid
+          , parenttype:"board"
+          , username: username
+          , subject: postData.subject
+          , content: postData.content
+        });
+        try{
+          let savePost = await post.save();
+          console.log(savePost);
+          return res.json({message:"CREATED",post:savePost});
+          //return res.json({message:"CREATED"});
+        }catch(e){
+          return res.json({message:"FAIL"});
+        }
+      }
+
+      if(postData.action == 'getposts'){
+        console.log("postData.boardid: ",postData.boardid)
+        let posts = await Post.find({parentid:postData.boardid}).exec();
+        if(posts.length == 0){
+          return res.json({message:"NOPOST"});
+        }
+        if(posts.length >= 1){
+          return res.json({message:"POSTS",posts:posts});
+        }
+      }
+      return res.json({message:"FAIL"});
+    }else{
+      return res.json({message:"FAIL"});
+    }
+  }
   //return res.json({error:"NOTFOUND"});
 };
