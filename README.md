@@ -73,15 +73,50 @@ pages/api/post (folder)
 
 # TO DO LIST:
 - Need to design serverless database peer to peer forum (not build)
-- auth (simple login user and password)
-- access/permission (not build)
-- forum (work in progress)
-- board (work in progress)
-- post (work in progress)
-- comment (work in progress)
+- auth 
+  - signup (added / simple)
+  - token (added)
 - plugin (Not build)
-- mod/admin (Not build)
+- mod (Not build)
+  - layout
+- admin (Not build)
+  - top level ?
+  - layout
+- access/permission (not build)
+  - forum (not build)
+  - board (not build)
+  - post (not build)
+  - comment (not build)
+  - ...
+- forum (work in progress)
+  - create (added)
+  - delete (not build)
+  - list (added)
+- board (work in progress)
+  - create (added)
+  - delete (not build)
+  - list (added)
+- post (work in progress)
+  - create (added)
+  - delete (not build)
+  - list (added)
+- comment (work in progress)
+  - create (added)
+  - delete (not build)
+  - list (added)
 - database
+  - user (added)
+  - forum (added)
+  - board (added)
+  - post (added)
+  - comment (added)
+- adventureguild (not build)
+- artisanguild (not build)
+- merchantguild (not build)
+
+# prefix guild:
+  Those are just prototype idea base on real life to keep it simple to genre types.
+
 
 .env
 ```

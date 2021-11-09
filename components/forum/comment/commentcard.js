@@ -9,8 +9,8 @@ export default function component({item,commentPost}){
     <div key={item.id} style={{
       width:'100%'
     }}>
-      <div> <a href="#" onClick={()=>commentPost(item.id)}> {item.subject}</a></div>
-      <div>{item.content}</div>
+      <div> [Comment] <a href="#" onClick={()=>commentPost(item.id)}> {item.subject}</a></div>
+      <div> [Content] {item.content}</div>
       <div>
       <a href="#"> Up Vote </a>
       <span> | </span>

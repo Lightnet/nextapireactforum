@@ -7,9 +7,8 @@ import SignArea from "../components/system/signarea";
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
 
-import PostSection from "../components/forum/post/postsection";
-import NewPost from "../components/forum/post/newpost";
 import NavBarHeader from "../components/layout/header";
+import QuestSection from "../components/adventureguild/quest/questsection";
 
 import { useRouter } from 'next/router';
 
@@ -45,15 +44,12 @@ function Page() {
   if (status === "authenticated") {
     return (<>
       <NavBarHeader></NavBarHeader>
-      {/*<button onClick={getPosts}> get posts </button>*/}
-      <PostSection
-        posts={posts}
-       />
-      <NewPost></NewPost>
+      <QuestSection></QuestSection>
     </>)
   }
+
   return (<>
-    <div>Welcome to Next.js!</div>
+    <div>Quests Section!</div>
     <SignArea></SignArea>
   </>)
 }

@@ -27,7 +27,7 @@ export default function component({postid}){
       method:'POST',
       body:JSON.stringify({
         postid:postid
-        , action:'createpost'
+        , action:'createcomment'
         , subject:subject
         , content:content
       })
@@ -65,7 +65,6 @@ export default function component({postid}){
     </div>
   </>)
 }
-
 /*
  
 */

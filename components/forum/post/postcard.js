@@ -9,8 +9,8 @@ export default function component({item,selectPost}){
     <div key={item.id} style={{
       width:'100%'
     }}>
-      <div> <a href="#" onClick={()=>selectPost(item.id)}> {item.subject}</a></div>
-      <div>{item.content}</div>
+      <div> [POST] <a href="#" onClick={()=>selectPost(item.id)}> {item.subject}</a></div>
+      <div> [Content] {item.content}</div>
       <div>
       <a href="#"> Up Vote </a>
       <span> | </span>

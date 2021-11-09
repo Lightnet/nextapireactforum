@@ -21,25 +21,27 @@ import "../styles/global.css";
 //console.log(serverRuntimeConfig);
 //console.log(publicRuntimeConfig);
 
+//import { log } from "../lib/log";
 
 export default function App({Component, pageProps}){
-  console.log("[[[=== _app.js ===]]]");
+  //console.log("[[[=== _app.js ===]]]");
   //console.log("session: ",session);
+  //log("Hello Debug???=======================================================?")
 
   const router = useRouter();
   //const [loading, setLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(async () => {
-    console.log("APP INIT USEDEFFECT!");
+    //console.log("APP INIT USEDEFFECT!");
     //setLoading(true);
     const handleStart = (url) => {
       url !== router.pathname ? setLoading(true) : setLoading(false);
       //setLoading(true);
-      console.log("loading:",loading);
+      //console.log("loading:",loading);
     };
     const handleComplete = (url) =>{ 
-      console.log("FINISH LOADING...");
+      //console.log("FINISH LOADING...");
       setLoading(false);
     };
 
@@ -65,7 +67,7 @@ export default function App({Component, pageProps}){
     </SessionProvider>
   );
 }
-
+/*
 function Auth({ children }) {
   const { data: session, status } = useSession()
   const isUser = !!session?.user
@@ -81,3 +83,4 @@ function Auth({ children }) {
   // If no user, useEffect() will redirect.
   return <div>Loading...</div>
 }
+*/

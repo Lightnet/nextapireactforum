@@ -28,7 +28,7 @@ export default function component({comments,postid,selectComment}){
   function renderComments(){
     if(currentComments){
       return currentComments.map(item=>{
-        return <CommentCard key={item.id} item={item} selectPost={selectPost}></CommentCard>;
+        return <CommentCard key={item.id} item={item} commentPost={selectComment}></CommentCard>;
       })
     }else{
       return <div>None</div>
@@ -40,7 +40,7 @@ export default function component({comments,postid,selectComment}){
       <label>Comment</label>
       <button  onClick={btnCreateComment}> New Comment </button>
       <button> Delete Post </button>
-      {setIsOpenComment && <NewComment postid={postid}></NewComment>}
+      {isOpenComment && <NewComment postid={postid}></NewComment>}
 
       {renderComments()}
     </div>

@@ -3,9 +3,15 @@
   Created by: Lightnet
 */
 
+// https://reactjs.org/docs/hooks-effect.html
+// https://next-auth.js.org/getting-started/client
+// 
+
+import SignArea from "../components/system/signarea";
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
-import BtnSign from "../system/btnsign";
+import ForumSection from "../components/forum/forumsection";
+import NavBarHeader from "../components/layout/header";
 
 function Page() {
 
@@ -15,27 +21,19 @@ function Page() {
     console.log("status:", status)
   });
 
+
   if (status === "loading") {
     return <label>Loading...</label>
   }
 
   if (status === "authenticated") {
     return (<>
-      <div style={{width:"100%",height:"32px",backgroundColor:'#808080'}}>
-        <a href="/">Home</a>
-        <span> | </span>
-        <a href="/forum">Forum</a>
-        <span> | </span>
-        <a href="/adventureguild">Adventure Guild</a>
-        <span> | </span>
-        <label>Signed in as {session.user.name}</label>
-        <span> | </span>
-        <BtnSign></BtnSign>
-        </div>
+        <NavBarHeader></NavBarHeader>
+        <ForumSection />
     </>)
   }
-
   return (<>
+    <div>Welcome to Next.js!</div>
     <SignArea></SignArea>
   </>)
 }

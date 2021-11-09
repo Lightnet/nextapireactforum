@@ -68,6 +68,7 @@ export default function component(){
     if(postID){
       setIsPost(false);
       setIsComment(true);
+      getComments();
     }
   },[postID]);
 
@@ -122,6 +123,25 @@ export default function component(){
     if(data.message=="POSTS"){
       console.log("POSTS")
       setPosts(data.posts);
+    }
+  }
+
+  async function getComments(){
+    console.log("[[[=== LOAD COMMENTS ===]]]");
+    let res = await fetch('api/comment',{
+      method:'POST'
+      , body: JSON.stringify({postid:postID,action:'getcomments'})
+    });
+
+    let data = await res.json();
+    console.log(data);
+    if(data.message=="NOCOMMENT"){
+      console.log("NO COMMENT")
+      return;
+    }
+    if(data.message=="COMMENTS"){
+      console.log("COMMENTS")
+      setComments(data.comments);
     }
   }
 
@@ -208,7 +228,5 @@ export default function component(){
   </>)
 }
 /*
-<BoardSection
-        boards={boards}
-        />
+
 */
