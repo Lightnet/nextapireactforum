@@ -3,6 +3,8 @@
   Created by: Lightnet
 */
 
+// https://dev.to/ananyaneogi/create-a-dark-light-mode-switch-with-css-variables-34l8
+
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
 import BtnSign from "../system/btnsign";
@@ -14,6 +16,14 @@ function Page() {
   useEffect(() => {
     console.log("status:", status)
   });
+
+  function changeLight(){
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+
+  function changeDark(){
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
 
   if (status === "loading") {
     return <label>Loading...</label>
@@ -31,6 +41,12 @@ function Page() {
         <label>Signed in as {session.user.name}</label>
         <span> | </span>
         <BtnSign></BtnSign>
+
+        
+        <span> | </span>
+        <a href="#" onClick={changeLight}>Light</a>
+        <span> | </span>
+        <a href="#"  onClick={changeDark}>Dark</a>
         </div>
     </>)
   }

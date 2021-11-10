@@ -174,7 +174,11 @@ export default function component(){
           }
         }
         if(board){
-          return(<label> >> <a href="#" onClick={()=>callBackOPS({action:"selectboard"})}> [Board]: {board.subject} </a></label>);
+          return(
+          <label>
+            <span> oo </span>
+            <a href="#" onClick={()=>callBackOPS({action:"selectboard"})}> [Board]: {board.subject} </a>
+          </label>);
         }else{
           return( <label> Board Empty! </label> );
         }
@@ -196,7 +200,11 @@ export default function component(){
           }
         }
         if(post){
-          return(<label> >> <a href="#" onClick={()=>callBackOPS({action:"selectpost"})}> [Post]: {post.subject} </a></label>);
+          return(
+          <label> 
+            <span> oo </span> 
+            <a href="#" onClick={()=>callBackOPS({action:"selectpost"})}> [Post]: {post.subject} </a>
+          </label>);
         }
         return( <label> Post Empty! </label> );
       }
