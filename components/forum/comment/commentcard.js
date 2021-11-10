@@ -9,19 +9,24 @@ export default function component({item,ops}){
     <div key={item.id} style={{
       width:'100%'
     }}>
-      <div className="headerpanel"> [Comment] <a href="#" onClick={()=>ops({action:"select",datatype:"comment",id:item.id})}> {item.subject}</a></div>
+      <div className="headerpanel"> [Comment] <a href="#" onClick={()=>ops({action:"select",datatype:"comment",id:item.id})}> {item.subject}</a>
+      <span style={{float:'right'}}>
+        <a href="#" onClick={()=>ops({action:"edit",datatype:"comment",id:item.id})}>EDIT</a>
+        <span> | </span>
+        <a href="#" onClick={()=>ops({action:"delete",datatype:"comment",id:item.id})}>DELETE</a>
+      </span>
+      
+      </div>
       <div className="contentpanel"> [Content] {item.content}</div>
       <div  className="footerpanel">
-      <a href="#"> Up Vote </a>
-      <span> | </span>
-      <a href="#"> Down Vote </a>
-      <span> | </span>
-      <a href="#"> Comment </a>
-      <span> | </span>
-      <a href="#"> Tags </a>
-      <span> | </span>
-      <a href="#"> Report </a>
-      </div>
+        <a href="#" onClick={()=>ops({action:"upvote",datatype:"comment",id:item.id})}> Up Vote </a>
+        <span> | </span>
+        <a href="#" onClick={()=>ops({action:"downvote",datatype:"comment",id:item.id})}> Down Vote </a>
+        <span> | </span>
+        <a href="#" onClick={()=>ops({action:"tags",datatype:"comment",id:item.id})}> Tags </a>
+        <span> | </span>
+        <a href="#" onClick={()=>ops({action:"report",datatype:"comment",id:item.id})}> Report </a>
+        </div>
     </div>
   )
 }

@@ -4,28 +4,30 @@
 */
 
 import { useState, useEffect } from 'react';
-import { isEmpty } from '../../../lib/helper';
+import { isEmpty } from '../../lib/helper';
   
-export default function component({boardid}){
-  const [subject,setSubject] = useState("");
-  const [content,setContent] = useState("");
+export default function component(){
+
+  const [sentID, setSentID] = useState("");
+  const [subject, setSubject] = useState("");
+  const [content, setContent] = useState("");
 
   //useEffect(()=>{
   //},[]);
   
   async function PostAPI(){
-    console.log("post boardid");
+    console.log("post Message");
 
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
       return;
     }
 
-    let rep = await fetch('api/post', {
+    let rep = await fetch('api/message', {
       method:'POST',
       body:JSON.stringify({
-        boardid:boardid
-        , action:'createpost'
+        sentID:sentID
+        , action:'createmessage'
         , subject:subject
         , content:content
       })
@@ -33,6 +35,10 @@ export default function component({boardid}){
 
     let data = await rep.json();
     console.log(data);
+  }
+
+  function onTypingID(e){
+    setSentID(e.target.value);
   }
 
   function onTypingSubject(e){
@@ -45,13 +51,16 @@ export default function component({boardid}){
 
   return(<>
     <div>
-      <div className="headerpanel">
-        <label>Topic Name:</label>
+      <div>
+        <label> ID </label><input value={sentID} onChange={onTypingID} />
+      </div>  
+      <div>
+        <label>Subject:</label>
         <br />
         <input value={subject} onChange={onTypingSubject} />
       </div>
       <div>
-        <label>Content</label>
+        <label>Message:</label>
         <br />
         <textarea value={content} onChange={onTypingContent}>
 

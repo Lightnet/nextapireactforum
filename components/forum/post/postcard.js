@@ -12,19 +12,24 @@ export default function component({item,ops}){
       <div className="headerpanel">
         [POST] 
         <a href="#" onClick={()=>ops({action:"select",datatype:"post",id:item.id})}> {item.subject}</a>
+        <span style={{float:'right'}}>
+          <a href="#" onClick={()=>ops({action:"edit",datatype:"post",id:item.id})}>EDIT</a>
+          <span> | </span>
+          <a href="#" onClick={()=>ops({action:"delete",datatype:"post",id:item.id})}>DELETE</a>
+        </span>
       </div>
       <div className="contentpanel"> 
         [Content] {item.content}</div>
       <div className="footerpanel">
-        <a href="#"> Up Vote </a>
+        <a href="#" onClick={()=>ops({action:"upvote",datatype:"post",id:item.id})}> Up Vote </a>
         <span> | </span>
-        <a href="#"> Down Vote </a>
+        <a href="#" onClick={()=>ops({action:"downvote",datatype:"post",id:item.id})}> Down Vote </a>
         <span> | </span>
-        <a href="#"> Comment </a>
+        <a href="#" onClick={()=>ops({action:"select",datatype:"post",id:item.id})}> Comment </a>
         <span> | </span>
-        <a href="#"> Tags </a>
+        <a href="#" onClick={()=>ops({action:"tags",datatype:"post",id:item.id})}> Tags </a>
         <span> | </span>
-        <a href="#"> Report </a>
+        <a href="#" onClick={()=>ops({action:"report",datatype:"post",id:item.id})}> Report </a>
       </div>
     </div>
   )

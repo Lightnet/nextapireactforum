@@ -211,7 +211,6 @@ export default function component(){
   function callBackOPS(args){
     if(args){
       if(args.action){
-
         if(args.action == "selectindex"){
           setIsBoard(true);
           setIsPost(false);
@@ -256,6 +255,48 @@ export default function component(){
             setIsComment(true);
           }
         }
+
+        if(args.action == "upvote"){
+          if(args.datatype == "board"){
+
+          }
+          if(args.datatype == "post"){
+
+          }
+          if(args.datatype == "comment"){
+
+          }
+        }
+
+        if(args.action == "downvote"){
+          if(args.datatype == "board"){
+
+          }
+          if(args.datatype == "post"){
+
+          }
+          if(args.datatype == "comment"){
+
+          }
+        }
+
+        if(args.action == "tags"){
+
+        }
+
+        if(args.action == "report"){
+          if(args.datatype == "board"){
+            console.log("[REPORT] board",args.id)
+          }
+          if(args.datatype == "post"){
+            console.log("[REPORT] post",args.id)
+          }
+          if(args.datatype == "comment"){
+            console.log("[REPORT] comment",args.id)
+          }
+        }
+
+        //end action section
       }
     }
   }

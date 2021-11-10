@@ -9,24 +9,30 @@
 
 export default function component({item,ops}){
 
-  function callid(id){
-    console.log(id);
-  }
+  //function callid(id){
+    //console.log(id);
+  //}
 
   return(
     <div key={item.id} style={{
       width:'100%'
     }}>
       <div className="headerpanel">[Board] 
-        <a href="#" onClick={()=>ops({action:"select",datatype:"board",id:item.id})}>{item.subject}</a> [ Options ]
+        <a href="#" onClick={()=>ops({action:"select",datatype:"board",id:item.id})}>{item.subject}</a>
+        <span style={{float:'right'}}>
+          <a href="#" onClick={()=>ops({action:"delete",datatype:"board",id:item.id})}>EDIT</a>
+          <span> | </span>
+          <a href="#" onClick={()=>ops({action:"delete",datatype:"board",id:item.id})}>DELETE</a>
+        </span>
       </div>
       <div className="contentpanel">
+
         [Content] {item.content}
         
       </div>
     <div className="footerpanel">
       <span> | </span>
-      <a href="#"> Tags </a>  
+      <a href="#"  onClick={()=>ops({action:"tags",datatype:"board",id:item.id})}> Tags </a>  
       </div>
     </div>
   )

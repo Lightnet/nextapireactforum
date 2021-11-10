@@ -46,6 +46,10 @@ function Page() {
         <span> | </span>
         <Link  href="/forum">Forum</Link >
         <span> | </span>
+        <Link  href="/message">Message</Link >
+        <span> | </span>
+        <Link  href="/chat">Chat</Link >
+        <span> | </span>
         <Link  href="/adventureguild">Adventure Guild</Link >
         <span> | </span>
         <label> Theme </label>
