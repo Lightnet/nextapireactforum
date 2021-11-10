@@ -1,4 +1,4 @@
 
 .header{
-  background-color: --headerbgc;
+  background-color: var(--headerbgc);
 }

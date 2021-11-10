@@ -21,17 +21,11 @@ export default function component({item,ops}){
         <a href="#" onClick={()=>callid(item.id)}>Test ID</a>  
         <a href="#" onClick={()=>ops({action:"select",datatype:"board",id:item.id})}>{item.subject}</a> [ Options ]
       </div>
-      <div style={{
-        //borderStyle:"solid",
-        backgroundColor:"#e6e6e6"
-      }}>
+      <div className="contentpanel">
         [ Content ] {item.content}
         
       </div>
-    <div style={{
-        //borderStyle:"solid",
-        backgroundColor:"#f2f2f2"
-      }}>
+    <div className="footerpanel">
       <span> | </span>
       <a href="#"> Tags </a>  
       </div>
