@@ -7,13 +7,15 @@
 import { getSession } from "next-auth/react"
 import db from "../../lib/database";
 import { isEmpty } from "../../lib/helper";
+import { log } from "../../lib/log";
 
 export default async (req, res)=>{
   //if(req.method !== 'POST'){
     //return res.status(405).json({message:'Method not allowed!'});
   //}
   const session = await getSession({ req })
-  console.log(session);
+  //console.log(session);
+  log(session);
   let userid;
   let username;
   
@@ -51,8 +53,8 @@ export default async (req, res)=>{
     return res.json({error:"FAIL"});
   }
 
+  //schema
   const Forum = db.model('Forum');
-  //console.log(Post);
 
   // config default and other setting later...
   if(req.method == 'GET'){
@@ -81,10 +83,9 @@ export default async (req, res)=>{
     });
     try {
       let saveForum = await forum.save();
-
-      return res.json({message:"CREATED"});
+      return res.json({message:"CREATED",forum:saveForum});
     } catch (err) {
-      console.log('err' + err);
+      //console.log('err' + err);
       return res.json({error:"FAIL"});
     }
   }

@@ -3,8 +3,6 @@
   Created by: Lightnet
 */
 
-// https://www.youtube.com/watch?v=Hixx31BX5kY
-
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../lib/helper';
   
@@ -33,9 +31,7 @@ export default function component(){
     console.log(data);
   }
 
-
   useEffect(()=>{
-
   },[]);
 
   function onTypeSubject(e){
@@ -54,7 +50,7 @@ export default function component(){
       </div>
 
       <div>
-        <label>Fourm Content:</label>
+        <label>Forum Content:</label>
         <br />
         <textarea value={content} onChange={onTypeContent}>
 

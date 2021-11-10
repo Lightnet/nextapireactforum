@@ -37,11 +37,9 @@ export default function component({comments,postid,ops}){
 
   return(<>
     <div>
-      <label>Comment</label>
-      <button  onClick={btnCreateComment}> New Comment </button>
-      <button> Delete Post </button>
+      <label>Comment </label>
+      <button onClick={btnCreateComment}> New Comment </button>
       {isOpenComment && <NewComment postid={postid}></NewComment>}
-
       {renderComments()}
     </div>
   </>)

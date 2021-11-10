@@ -37,9 +37,8 @@ export default function component({boards,forumid,ops}){
 
   return(<>
     <div>
-      <label>Boards</label>
+      <label>Boards </label>
       <button onClick={btnCreateBoard}> Create Baord </button>  
-      <button onClick={btnDeleteBoard}> Create Baord </button>  
       {isOpenBoard && <NewBoard forumid={forumid}></NewBoard>}
       {renderBoards()}
     </div>

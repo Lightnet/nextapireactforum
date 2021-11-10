@@ -17,12 +17,11 @@ export default function component({item,ops}){
     <div key={item.id} style={{
       width:'100%'
     }}>
-      <div className="headerpanel">[ Board ] 
-        <a href="#" onClick={()=>callid(item.id)}>Test ID</a>  
+      <div className="headerpanel">[Board] 
         <a href="#" onClick={()=>ops({action:"select",datatype:"board",id:item.id})}>{item.subject}</a> [ Options ]
       </div>
       <div className="contentpanel">
-        [ Content ] {item.content}
+        [Content] {item.content}
         
       </div>
     <div className="footerpanel">
@@ -33,5 +32,5 @@ export default function component({item,ops}){
   )
 }
 /*
-className={styles.header}
+<a href="#" onClick={()=>callid(item.id)}>Test ID</a>
 */

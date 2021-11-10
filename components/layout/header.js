@@ -39,7 +39,7 @@ function Page() {
 
   if (status === "authenticated") {
     return (<>
-      <div className="headerpanel" style={{width:"100%",height:"32px"}}>
+      <div className="headerpanel navblock" style={{width:"100%",height:"32px"}}>
         <label>Username: {session.user.name}</label>
         <span> | </span>
         <Link  href="/">Home</Link >
@@ -47,6 +47,8 @@ function Page() {
         <Link  href="/forum">Forum</Link >
         <span> | </span>
         <Link  href="/adventureguild">Adventure Guild</Link >
+        <span> | </span>
+        <label> Theme </label>
         <span> | </span>
         <a  href="#" onClick={changeLight}>Light</a>
         <span> | </span>

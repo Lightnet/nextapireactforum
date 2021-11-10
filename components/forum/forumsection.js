@@ -12,11 +12,12 @@ import BoardSection from "./board/boardsection";
 import PostSection from "./post/postsection";
 import CommentSection from "./comment/commentsection";
 
-import NewForum from "./newforum";
+import ForumNavBar from "./forumnavbar";
+//import NewForum from "./newforum";
 
 export default function component(){
   //forum
-  const [isNewForum, setIsNewForum] = useState(false);
+  
   const [forums, setFourms] = useState([]); 
   const [forumID, setFourmID] = useState('DEFAULT');
 
@@ -78,8 +79,11 @@ export default function component(){
       console.log("ERROR GET FORUM ");
       return;
     }
-    if(data.message){
-      setFourms(data.forums);
+    //console.log(data.message);
+    if(data.message == "forums"){
+      if(data.forums){
+        setFourms(data.forums);
+      }
     }
   }
 
@@ -142,11 +146,6 @@ export default function component(){
     }
   }
 
-  //display create forum
-  function createForum(){
-    setIsNewForum(isNewForum ? false : true)
-  }
-
   function onChangeForum(e){
     //console.log(e.target.value);
     //console.log("forumID");
@@ -154,9 +153,7 @@ export default function component(){
     setIsBoard(true);
   }
 
-  function getForumID(){
-    console.log(forumID);
-  }
+
 
   function checkForumBoard(){
     if(isBoard){
@@ -282,22 +279,12 @@ export default function component(){
 
   return(<>
     <div>
-      <label>Forum</label>
-      <button onClick={createForum}> Create Forum </button>
-      <button> Delete Forum </button>
-      <button onClick={getForumID}> Forum ID </button>
+      <ForumNavBar 
+        forumID={forumID} 
+        forums={forums}
+        onChangeForum={onChangeForum}
+      />
 
-      {isNewForum && <NewForum />}
-      
-      <select defaultValue={forumID || "DEFAULT"} onChange={onChangeForum}>
-        <option value='DEFAULT' disabled={true}> Choose here </option>
-        {forums.map((item)=>{
-          return(
-            <option key={item.id} value={item.id}> {item.subject} </option>
-          )
-        })}
-      </select>
-      <br />
       {checkForumIndexRender()}
 
       {checkForumBoard()}
