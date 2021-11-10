@@ -14,7 +14,7 @@ class MyDocument extends Document {
   //console.log("[[[[=== INIT DOC ===]]]]");
 
   static async getInitialProps(ctx) {
-    console.log("[[[[=== INIT DOC ===]]]]");
+    //console.log("[[[[=== INIT DOC ===]]]]");
     const initialProps = await Document.getInitialProps(ctx);
     return { ...initialProps }
   }
@@ -32,10 +32,10 @@ class MyDocument extends Document {
 
           <script id="nextjshead"
             dangerouslySetInnerHTML={{__html:`
-              console.log("testing...");
-              window.addEventListener('load', (event) => {
-                console.log("page is fully loaded");
-              });
+              //console.log("testing...");
+              //window.addEventListener('load', (event) => {
+                //console.log("page is fully loaded");
+              //});
             `}}
             />
           <style>{`

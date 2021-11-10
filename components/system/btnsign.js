@@ -15,7 +15,7 @@ export default function Component() {
     </>);
   }
   return (<>
-    <button onClick={() => signIn()}>Sign in</button>
+    <button onClick={() => signIn()}>Sign in</button><span> | </span>
     <a href="/auth/credentials-signup">Sign Up</a>
   </>);
 }

@@ -38,7 +38,7 @@ export default function component(){
   //once init forum
   useEffect(()=>{
     //setBoards([]);
-    console.log("init setup");
+    //console.log("init setup");
     getForums();
   },[]);
 
@@ -46,8 +46,8 @@ export default function component(){
   // need to check the select type
   useEffect(()=>{
     //setBoards([]);
-    console.log("forumID change");
-    console.log(forumID);
+    //console.log("forumID change");
+    //console.log(forumID);
     if(forumID !='DEFAULT'){
       getBoards();
     }else{
@@ -73,7 +73,7 @@ export default function component(){
       method:'GET'
     });
     let data = await res.json();
-    console.log(data);
+    //console.log(data);
     if(data.error){
       console.log("ERROR GET FORUM ");
       return;
@@ -90,7 +90,7 @@ export default function component(){
     });
 
     let data = await res.json();
-    console.log(data);
+    //console.log(data);
     if(data.message=="NOBOARD"){
       console.log("NO BOARDS")
       return;
@@ -102,16 +102,15 @@ export default function component(){
   }
 
   async function getPosts(){
-    console.log("[[[=== LOAD POSTS ===]]]");
-    console.log("[[[=== POSTID ===]]]: ", boardID);
-
+    //console.log("[[[=== LOAD POSTS ===]]]");
+    //console.log("[[[=== POSTID ===]]]: ", boardID);
     let res = await fetch('api/post',{
       method:'POST'
       , body: JSON.stringify({boardid:boardID,action:'getposts'})
     });
 
     let data = await res.json();
-    console.log(data);
+    //console.log(data);
     if(data.message=="NOPOST"){
       console.log("NO POST")
       return;
@@ -123,8 +122,8 @@ export default function component(){
   }
 
   async function getComments(){
-    console.log("[[[=== LOAD COMMENTS ===]]]");
-    console.log("[[[ === POST ID == ]]]", postID)
+    //console.log("[[[=== LOAD COMMENTS ===]]]");
+    //console.log("[[[ === POST ID == ]]]", postID)
 
     let res = await fetch('api/comment',{
       method:'POST'
@@ -132,7 +131,7 @@ export default function component(){
     });
 
     let data = await res.json();
-    console.log(data);
+    //console.log(data);
     if(data.message=="NOCOMMENT"){
       console.log("NO COMMENT")
       return;
@@ -166,8 +165,8 @@ export default function component(){
       if(boardID){
         let board;
         for(let item of boards){
-          console.log("BOARD LIST...");
-          console.log(item);
+          //console.log("BOARD LIST...");
+          //console.log(item);
           if(item.id == boardID){
             board = item;
             break;
@@ -239,7 +238,7 @@ export default function component(){
 
         if(args.action == "select"){
           if(args.datatype == "board"){
-            console.log("SELECT BOARD>>>>???");
+            //console.log("SELECT BOARD>>>>???");
             setBoardID(args.id);
             setIsBoard(false);
             setIsPost(true);
@@ -273,8 +272,8 @@ export default function component(){
   }
 
   function checkForumIndexRender(){
-    console.log("forumID: ",forumID);
-    console.log(typeof forumID);
+    //console.log("forumID: ",forumID);
+    //console.log(typeof forumID);
     if(forumID !== "DEFAULT" && forumID != null){
       return (<a href="#" onClick={()=>callBackOPS({action:"selectindex"})}>Index</a>);
     }

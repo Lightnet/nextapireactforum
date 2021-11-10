@@ -3,11 +3,11 @@
   Created by: Lightnet
 */
 
-import SignArea from "../components/system/signarea";
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
-
 import NavBarHeader from "../components/layout/header";
+import AuthAccess from "../components/system/authaccess";
+import Blank from "../components/blankcomponent";
 
 function Page() {
 
@@ -17,19 +17,10 @@ function Page() {
     console.log("status:", status)
   });
 
-  if (status === "loading") {
-    return <label>Loading...</label>
-  }
-
-  if (status === "authenticated") {
-    return (<>
-      <NavBarHeader></NavBarHeader>
-
-
-    </>)
-  }
-  return (<>
-    <SignArea></SignArea>
-  </>)
+  return (<AuthAccess>
+    <NavBarHeader></NavBarHeader>
+    <label>Hello Blank</label>
+    <Blank></Blank>
+  </AuthAccess>)
 }
 export default Page

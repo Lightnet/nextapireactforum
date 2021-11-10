@@ -6,35 +6,15 @@
 // https://reactjs.org/docs/hooks-effect.html
 // https://next-auth.js.org/getting-started/client
 // 
-
-import SignArea from "../components/system/signarea";
-import { useSession } from "next-auth/react"
-import { useState, useEffect } from 'react';
 import ForumSection from "../components/forum/forumsection";
 import NavBarHeader from "../components/layout/header";
+import AuthAccess from "../components/system/authaccess";
 
 function Page() {
 
-  const { data: session, status } = useSession()
-
-  useEffect(() => {
-    console.log("status:", status)
-  });
-
-
-  if (status === "loading") {
-    return <label>Loading...</label>
-  }
-
-  if (status === "authenticated") {
-    return (<>
-        <NavBarHeader></NavBarHeader>
-        <ForumSection />
-    </>)
-  }
-  return (<>
-    <div>Welcome to Next.js!</div>
-    <SignArea></SignArea>
-  </>)
+  return (<AuthAccess>
+    <NavBarHeader></NavBarHeader>
+    <ForumSection />
+  </AuthAccess>)
 }
 export default Page

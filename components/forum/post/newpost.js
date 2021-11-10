@@ -9,11 +9,9 @@ import { isEmpty } from '../../../lib/helper';
 export default function component({boardid}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
-  //const [postType,setPostType] = useState("post");
 
-  useEffect(()=>{
-
-  },[]);
+  //useEffect(()=>{
+  //},[]);
   
   async function PostAPI(){
     console.log("post boardid");
@@ -47,7 +45,7 @@ export default function component({boardid}){
 
   return(<>
     <div>
-      <div>
+      <div className="headerpanel">
         <label>Topic Name:</label>
         <br />
         <input value={subject} onChange={onTypingSubject} />

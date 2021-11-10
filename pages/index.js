@@ -6,17 +6,15 @@
 import SignArea from "../components/system/signarea";
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
-
-import ForumSection from "../components/forum/forumsection";
 import NavBarHeader from "../components/layout/header";
 
 function Page() {
-  const { data: session, status } = useSession();
 
-  console.log(session);
+  const { data: session, status } = useSession();
+  //console.log(session);
 
   useEffect(() => {
-    console.log("status:", status)
+    //console.log("status:", status)
   });
 
   if (status === "loading") {
@@ -26,10 +24,11 @@ function Page() {
   if (status === "authenticated") {
     return (<>
       <NavBarHeader></NavBarHeader>
+      <label>Work in progress.</label>
     </>)
   }
   return (<>
-    <div>Welcome to simple posts system.</div>
+    <div>Welcome to simple forum / posts management.</div>
     <SignArea></SignArea>
   </>)
 }

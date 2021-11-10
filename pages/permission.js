@@ -3,12 +3,12 @@
   Created by: Lightnet
 */
 
-import SignArea from "../components/system/signarea";
-import { useSession } from "next-auth/react"
-import { useState, useEffect } from 'react';
 
+import { useSession } from "next-auth/react";
+import { useState, useEffect } from 'react';
 import NavBarHeader from "../components/layout/header";
 import PermissionSection from "../components/forum/permission/permissionsection";
+import AuthAccess from "../components/system/authaccess";
 
 function Page() {
 
@@ -23,18 +23,9 @@ function Page() {
 
   }
 
-  if (status === "loading") {
-    return <label>Loading...</label>
-  }
-
-  if (status === "authenticated") {
-    return (<>
-      <NavBarHeader></NavBarHeader>
-      <PermissionSection></PermissionSection>
-    </>)
-  }
-  return (<>
-    <SignArea></SignArea>
-  </>)
+  return (<AuthAccess>
+    <NavBarHeader></NavBarHeader>
+    <PermissionSection />
+  </AuthAccess>)
 }
 export default Page

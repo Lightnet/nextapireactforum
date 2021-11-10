@@ -9,9 +9,9 @@ export default function component({item,ops}){
     <div key={item.id} style={{
       width:'100%'
     }}>
-      <div> [Comment] <a href="#" onClick={()=>ops({action:"select",datatype:"comment",id:item.id})}> {item.subject}</a></div>
-      <div> [Content] {item.content}</div>
-      <div>
+      <div className="headerpanel"> [Comment] <a href="#" onClick={()=>ops({action:"select",datatype:"comment",id:item.id})}> {item.subject}</a></div>
+      <div className="contentpanel"> [Content] {item.content}</div>
+      <div  className="footerpanel">
       <a href="#"> Up Vote </a>
       <span> | </span>
       <a href="#"> Down Vote </a>

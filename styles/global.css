@@ -28,9 +28,16 @@
   --footer-color:#4d4d4d;
   --footer-font:#cccccc;
 }
+ body{
+  background-color: var(--bg-color); 
+ }
 
 .headerpanel{
   background-color: var(--header-color);
+  color:var(--header-font);
+}
+
+.headerpanel a{
   color:var(--header-font);
 }
 
@@ -44,8 +51,17 @@
   color:var(--footer-font);
 }
 
+.footerpanel a{
+  color:var(--footer-font);
+}
 
+a{
+  color: var(--font-color);
+}
 
+label{
+  color: var(--font-color);
+}
 
 
 

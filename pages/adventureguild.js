@@ -3,14 +3,13 @@
   Created by: Lightnet
 */
 
-import SignArea from "../components/system/signarea";
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 import NavBarHeader from "../components/layout/header";
 import QuestSection from "../components/adventureguild/quest/questsection";
-
-import { useRouter } from 'next/router';
+import AuthAccess from "../components/system/authaccess";
 
 function Page() {
   const { data: session, status } = useSession();
@@ -37,20 +36,9 @@ function Page() {
     setPosts(data.posts);
   }
 
-  if (status === "loading") {
-    return <label>Loading...</label>
-  }
-
-  if (status === "authenticated") {
-    return (<>
-      <NavBarHeader></NavBarHeader>
-      <QuestSection></QuestSection>
-    </>)
-  }
-
-  return (<>
-    <div>Quests Section!</div>
-    <SignArea></SignArea>
-  </>)
+  return (<AuthAccess>
+    <NavBarHeader></NavBarHeader>
+    <QuestSection></QuestSection>
+  </AuthAccess>)
 }
 export default Page
