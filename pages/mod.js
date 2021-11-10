@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import NavBarHeader from "../components/layout/header";
-import ModSection from "../components/mod/mod";
+import ModSection from "../components/mod/modsection";
 import AuthAccess from "../components/system/authaccess";
 
 function Page() {

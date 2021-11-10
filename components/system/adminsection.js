@@ -3,9 +3,11 @@
   Created by: Lightnet
 */
 import { useState, useEffect } from 'react';
+import AdminHeader from "../admin/adminheader";
 
 export default function component(){
-  const [isMaintainMode,setIsMaintainMode] =useState(false)
+  const [isMaintainMode,setIsMaintainMode] = useState(false);
+  const [view, setView] = useState(null);
 
   async function btnMaintainMode(){
     setIsMaintainMode(!isMaintainMode)
@@ -18,28 +20,19 @@ export default function component(){
     console.log(data);
   }
 
+  function contentRender(){
+
+    return <></>;
+  }
+
 
   return(<>
     <div>
+      <AdminHeader></AdminHeader>
       <div>
-        <label>Admin</label>
-        <br />
         <button onClick={btnMaintainMode}> Maintain Mode {isMaintainMode? "Off":"On"} </button>
       </div>
-      <div>
-        <label>Forums</label>
-      </div>
-      <div>
-        <label>Bans</label>
-      </div>
-
-      <div>
-        <label>Groups</label>
-      </div>
-
-      <div>
-        <label>Users</label>
-      </div>
+      {contentRender()}
     </div>
   </>)
 }

@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import NavBarHeader from "../components/layout/header";
-import QuestSection from "../components/adventureguild/quest/questsection";
+import AdventureSection from "../components/adventureguild/adventureguildsection";
 import AuthAccess from "../components/system/authaccess";
 
 function Page() {
@@ -23,9 +23,10 @@ function Page() {
   useEffect(() => {
     console.log("router.asPath: ",router.asPath);
     console.log("router.query: ",router.query);
-    getPosts();
+    //getPosts();
   },[]);
 
+  /*
   async function getPosts(){
     let response = await fetch('api/post',{
       method:'GET'
@@ -35,10 +36,11 @@ function Page() {
     console.log(data);
     setPosts(data.posts);
   }
+  */
 
   return (<AuthAccess>
     <NavBarHeader></NavBarHeader>
-    <QuestSection></QuestSection>
+    <AdventureSection></AdventureSection>
   </AuthAccess>)
 }
 export default Page

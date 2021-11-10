@@ -4,6 +4,7 @@
 */
 
 import { useState, useEffect } from 'react';
+import ModHeader from "./modheader";
 
 export default function component({props}){
 
@@ -16,7 +17,8 @@ export default function component({props}){
 
   return(<>
     <div>
-      <label>Blank {data}</label>
+      <ModHeader></ModHeader>
+      <label>Work in progress...</label>
     </div>
   </>)
 }
