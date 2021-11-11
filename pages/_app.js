@@ -5,23 +5,18 @@
   Note: this override the _app data set up
 */
 
-//import Head from "next/head";
-//import './styles.css';
-//import { getSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import { SessionProvider } from 'next-auth/react';
 import { useRouter } from "next/router";
-//import dynamic from 'next/dynamic'
 //import getConfig from 'next/config';
+//import { log } from "../lib/log";
 import "../styles/global.css";
-//import Loading from "../components/system/loading";
 
 // Only holds serverRuntimeConfig and publicRuntimeConfig
 //const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 //console.log(serverRuntimeConfig);
 //console.log(publicRuntimeConfig);
 
-//import { log } from "../lib/log";
 
 export default function App({Component, pageProps}){
   //console.log("[[[=== _app.js ===]]]");
@@ -29,8 +24,7 @@ export default function App({Component, pageProps}){
   //log("Hello Debug???=======================================================?")
 
   const router = useRouter();
-  //const [loading, setLoading] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(async () => {
     //console.log("APP INIT USEDEFFECT!");
@@ -50,7 +44,6 @@ export default function App({Component, pageProps}){
     router.events.on("routeChangeError", handleComplete);
 
     return () => {
-      window.removeEventListener('load',load);
       router.events.off("routeChangeStart", handleStart);
       router.events.off("routeChangeComplete", handleComplete);
       router.events.off("routeChangeError", handleComplete);

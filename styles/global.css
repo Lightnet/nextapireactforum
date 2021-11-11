@@ -1,3 +1,13 @@
+#__next {/* fixed max screen */
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position:fixed;
+  top: 0;
+  left: 0;
+}
+
 :root {
   --main-bg-color: brown;
   --bg-color: #fff;  
@@ -28,7 +38,10 @@
   --footer-color:#4d4d4d;
   --footer-font:#cccccc;
 }
- body{
+
+
+
+body{
   background-color: var(--bg-color); 
  }
 

@@ -24,6 +24,7 @@ export default async (req, res) => {
     io.on('connection', socket => {
       console.log("Connect user!");
       socket.broadcast.emit('a user connected')
+      
       socket.on('hello', msg => {
         socket.emit('hello', 'world!')
       });

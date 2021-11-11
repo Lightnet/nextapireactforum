@@ -11,8 +11,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 import Script from 'next/script'
 
 class MyDocument extends Document {
-  //console.log("[[[[=== INIT DOC ===]]]]");
-
+  
   static async getInitialProps(ctx) {
     //console.log("[[[[=== INIT DOC ===]]]]");
     const initialProps = await Document.getInitialProps(ctx);
