@@ -12,12 +12,14 @@ import BoardSection from "./board/boardsection";
 import PostSection from "./post/postsection";
 import CommentSection from "./comment/commentsection";
 
+import NewForum from "./newforum";
+
 import ForumNavBar from "./forumnavbar";
-//import NewForum from "./newforum";
+import Modal from '../ui/modal';
 
 export default function component(){
+
   //forum
-  
   const [forums, setFourms] = useState([]); 
   const [forumID, setFourmID] = useState('DEFAULT');
 
@@ -26,7 +28,7 @@ export default function component(){
   const [boardID, setBoardID] = useState(null); 
   const [isBoard, setIsBoard] = useState(false);
 
-  //post ? 
+  //post 
   const [isPost, setIsPost] = useState(false); 
   const [posts, setPosts] = useState([]); 
   const [postID, setPostID] = useState(null); 
@@ -34,7 +36,12 @@ export default function component(){
   //comment
   const [isComment, setIsComment] = useState(false); 
   const [comments, setComments] = useState([]);
-  const [commentID, setCommentID] = useState(null); 
+  const [commentID, setCommentID] = useState(null);
+
+  //modal
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [dataTypeModal, setDataTypeModal] = useState(null); // forum, board, post, commment
+  const [dataModeModal, setDataModeModal] = useState(null); // edit, delete, move?
 
   //once init forum
   useEffect(()=>{
@@ -153,9 +160,7 @@ export default function component(){
     setIsBoard(true);
   }
 
-
-
-  function checkForumBoard(){
+  function renderBoards(){
     if(isBoard){
       return( <BoardSection boards={boards} forumid={forumID} ops={callBackOPS} />);
     }else{
@@ -183,7 +188,7 @@ export default function component(){
     }
   }
 
-  function checkForumPost(){
+  function renderPosts(){
     if(isPost){
       return( <PostSection posts={posts} boardid={boardID} ops={callBackOPS} />);
     }else{
@@ -296,12 +301,36 @@ export default function component(){
           }
         }
 
+        if(args.action == "create"){
+          if(args.datatype == "forum"){
+            setDataTypeModal('forum');
+            setDataModeModal('create');
+            setIsOpenModal(true);
+          }
+        }
+
+        if(args.action == "edit"){
+          if(args.datatype == "forum"){
+            setDataTypeModal('forum');
+            setDataModeModal('edit');
+            setIsOpenModal(true);
+          }
+        }
+
+        if(args.action == "delete"){
+          if(args.datatype == "forum"){
+            setDataTypeModal('forum');
+            setDataModeModal('delete');
+            setIsOpenModal(true);
+          }
+        }
+
         //end action section
       }
     }
   }
 
-  function checkForumComment(){
+  function renderComments(){
     if(isComment){
       return( <CommentSection comments={comments} postid={postID} ops={callBackOPS} />);
     }else{
@@ -318,22 +347,48 @@ export default function component(){
     return (<> </>);
   } 
 
+  function closeModel(){
+    setIsOpenModal(false);
+  }
+  function toggleModal(){
+    setIsOpenModal(!isOpenModal)
+  }
+
+  function renderDataTypeModal(){
+    if(dataTypeModal == "forum"){
+      if(dataModeModal == "create"){
+        return <NewForum></NewForum>
+      }
+      if(dataModeModal == "edit"){
+        return <p>Edit Forum Modal</p>
+      }
+      if(dataModeModal == "delete"){
+        return <p>Delete Forum Modal</p>
+      }
+    }
+    return <p>Empty Modal</p>
+  }
+
   return(<>
     <div>
       <ForumNavBar 
         forumID={forumID} 
         forums={forums}
         onChangeForum={onChangeForum}
+        ops={callBackOPS}
       />
 
       {checkForumIndexRender()}
 
-      {checkForumBoard()}
-      {checkForumPost()}
-      {checkForumComment()}
+      {renderBoards()}
+      {renderPosts()}
+      {renderComments()}
+      <Modal isOpen={isOpenModal} closeModal={closeModel}>
+        {renderDataTypeModal()}
+      </Modal>
     </div>
   </>)
 }
 /*
-
+<button onClick={toggleModal}>Modal</button>
 */

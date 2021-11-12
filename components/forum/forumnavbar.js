@@ -4,17 +4,16 @@
 */
 
 import { useState, useEffect } from 'react';
-import { isEmpty } from '../../lib/helper';
+//import { isEmpty } from '../../lib/helper';
 import NewForum from "./newforum";
 
-export default function component({forumID,forums,onChangeForum}){
+export default function component({forumID,forums,onChangeForum,ops}){
 
-  const [isCreate,setIsCreate] = useState(true);
+  //const [isCreate,setIsCreate] = useState(true);
   const [isNewForum, setIsNewForum] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isOwner, setIsOwner] = useState(false);
+  //const [isAdmin, setIsAdmin] = useState(false);
+  //const [isOwner, setIsOwner] = useState(false);
   const [isOpenOptions, setIsOpenOptions] = useState(false);
-
 
   //display create forum
   function createForum(){
@@ -47,17 +46,20 @@ export default function component({forumID,forums,onChangeForum}){
           )
         })}
       </select>
+      
       {forumIDRender()}
       <button onClick={toggleOption}> Option </button>
       {isOpenOptions && (
         <>
-        <button onClick={createForum}> Create Forum </button>
-        <button> Delete Forum </button>
+        <button onClick={()=>ops({action:'create',datatype:'forum',id:forumID})}> Create Forum </button>
+        <button onClick={()=>ops({action:'edit',datatype:'forum',id:forumID})}> Edit Forum </button>
+        <button  onClick={()=>ops({action:'delete',datatype:'forum',id:forumID})}> Delete Forum </button>
         </>
       )}
       
-
-      {isNewForum && <NewForum />}
     </div>
   </>)
 }
+/*
+{isNewForum && <NewForum />}
+*/

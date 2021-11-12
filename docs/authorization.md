@@ -1,11 +1,14 @@
 https://newbedev.com/group-rule-based-authorization-approach-in-node-js-and-express-js
 
 
+Need to check access expire access later.
+
+
+
 create
 show
 update
 destroy
-
 
 # idea design
 
@@ -23,6 +26,22 @@ permission
 -type
 
 if user is in forum script witll check which users is accessing to reduce waste data. But still wast data depend on the layers.
+
+
+when forum id it will check permision id and role
+
+when board id it will check permision id and role
+
+then where the user id check role?
+- user, role, access, datatype, tagid
+
+# CALLS:
+- permission id (id, role, access, read, write, post)
+- user access id (userid, role, access, tagid, datatype)
+- user account id (role, id)
+
+- user check if need to register access (forum id, isPublic, isRegister, isAssignRole, default role) 
+- user register forum (user id, id form, is pending, default role)
 
 
 

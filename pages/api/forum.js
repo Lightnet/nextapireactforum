@@ -13,7 +13,7 @@ export default async (req, res)=>{
   //if(req.method !== 'POST'){
     //return res.status(405).json({message:'Method not allowed!'});
   //}
-  const session = await getSession({ req })
+  const session = await getSession({ req });
   //console.log(session);
   log(session);
   let userid;
@@ -58,8 +58,8 @@ export default async (req, res)=>{
 
   // config default and other setting later...
   if(req.method == 'GET'){
+    log("GET FOURMS")
     let forums = await Forum.find({parenttype:'forum'}).exec();
-    //console.log(boards);
     return res.json({message:"forums",forums:forums});
   }
 
