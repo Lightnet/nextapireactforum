@@ -4,17 +4,18 @@
 */
 
 import { useState, useEffect } from 'react';
-import NewBoard from "./newboard";
+//import NewBoard from "./newboard";
 import BoardCard from "./boardcard";
 
-export default function component({boards,forumid,ops}){
+export default function BoardSection({boards,forumid,ops}){
 
-  const [currentBaords, setBaords] = useState([])
-  const [isOpenBoard, setIsOpenBoard] = useState(false)
+  const [currentBaords, setBaords] = useState([]);
 
   useEffect(()=>{
     console.log("[[[=== UPDATE BOARD ===]]]");
-    setBaords(boards)
+    if(boards){
+      setBaords(boards);
+    }
   },[boards]);
 
   function renderBoards(){
@@ -27,19 +28,10 @@ export default function component({boards,forumid,ops}){
     }
   }
 
-  function btnCreateBoard(){
-    setIsOpenBoard(!isOpenBoard);
-  }
-
-  function btnDeleteBoard(){
-
-  }
-
   return(<>
     <div>
       <label>Boards </label>
-      <button onClick={btnCreateBoard}> Create Baord </button>  
-      {isOpenBoard && <NewBoard forumid={forumid}></NewBoard>}
+      <button onClick={()=>ops({action:'create',datatype:'board',id:forumid})}> Create Baord </button>
       {renderBoards()}
     </div>
   </>)

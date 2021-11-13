@@ -52,7 +52,6 @@ export default async (req, res)=>{
   }
 
   const Comment = db.model('Comment');
-  //console.log(Post);
 
   // config default and other setting later...
   //if(req.method == 'GET'){
@@ -66,8 +65,24 @@ export default async (req, res)=>{
     var commentData = JSON.parse(req.body);
     console.log("commentData");
     console.log(commentData);
+    if(commentData.commentid){ //need to check exist
+      if(commentData.action == 'UPDATE'){
+        let query ={
+          id:commentData.commentid
+        };
+        let update={
+          subject: commentData.subject,
+          content: commentData.content
+        }
+        const doc = await Comment.findOneAndUpdate(query, update,{ new: true } )
+        console.log(doc);
+        //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>")
+        return res.json({message:"UPDATE",comment:doc});
+      }
+    }
+
     if(commentData.postid){
-      if(commentData.action == 'createcomment'){
+      if(commentData.action == 'CREATE'){
         if(isEmpty(commentData.subject) || isEmpty(commentData.content)){
           console.log("EMPTY!");
           return res.json({message:"EMPTY"});

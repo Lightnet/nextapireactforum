@@ -6,28 +6,30 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
   
-export default function component({postid}){
+export default function EditPost({post,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
-  //const [postType,setPostType] = useState("post");
 
   useEffect(()=>{
-
-  },[]);
+    if(post){
+      setSubject(post.subject);
+      setContent(post.content);
+    }
+  },[post]);
   
   async function PostAPI(){
-    console.log("comment postid");
+    console.log("post boardid");
 
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
       return;
     }
 
-    let rep = await fetch('api/comment', {
+    let rep = await fetch('api/post', {
       method:'POST',
       body:JSON.stringify({
-        postid:postid
-        , action:'CREATE'
+        postid:post.id
+        , action:'UPDATE'
         , subject:subject
         , content:content
       })
@@ -35,6 +37,15 @@ export default function component({postid}){
 
     let data = await rep.json();
     console.log(data);
+    if(data.message=='UPDATE'){
+      ops({
+        action:'update',
+        datatype:'post',
+        id:data.post.id,
+        subject:data.post.subject,
+        content:data.post.content,
+      });
+    }
   }
 
   function onTypingSubject(e){
@@ -47,8 +58,8 @@ export default function component({postid}){
 
   return(<>
     <div>
-      <div>
-        <label>Comment Name:</label>
+      <div >
+        <label>Edit Post Name:</label>
         <br />
         <input value={subject} onChange={onTypingSubject} />
       </div>

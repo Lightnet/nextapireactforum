@@ -35,13 +35,15 @@ export default async (req, res)=>{
         if(user){
           //console.log("FOUND???");
           let bcheck = user.checkToken(session.user.token);
-          //console.log("TOKEN: ", bcheck);
+          console.log("TOKEN: ", bcheck);
           //console.log(user);
           if(bcheck){
             // pass
+            log('PASS TOKEN');
             userid = user._id;
             username = user.username;
           }else{
+            log('FAIL TOKEN');
             return res.json({error:"FAIL"});
           }
         }else{
@@ -60,6 +62,7 @@ export default async (req, res)=>{
   if(req.method == 'GET'){
     log("GET FOURMS")
     let forums = await Forum.find({parenttype:'forum'}).exec();
+    //console.log(forums);
     return res.json({message:"forums",forums:forums});
   }
 
@@ -73,20 +76,38 @@ export default async (req, res)=>{
       console.log("EMPTYFIELD");
       return res.json({error:"EMPTYFIELD"});
     }
-    
-    //console.log(boardData);
-    let forum = new Forum({
-      userid:userid
-      , username: username
-      , subject: forumData.subject.trim()
-      , content: forumData.content.trim()
-    });
-    try {
-      let saveForum = await forum.save();
-      return res.json({message:"CREATED",forum:saveForum});
-    } catch (err) {
-      //console.log('err' + err);
-      return res.json({error:"FAIL"});
+
+    if(forumData.action=='UPDATE'){
+      let query ={
+        id:forumData.forumid
+      };
+
+      let update={
+        subject: forumData.subject,
+        content: forumData.content
+      }
+
+      const doc = await Forum.findOneAndUpdate(query, update,{ new: true } )
+      console.log(doc);
+      console.log(doc);
+      return res.json({message:"UPDATE",forum:doc});
+    }
+
+    if(forumData.action=='CREATE'){
+      //console.log(boardData);
+      let forum = new Forum({
+        userid:userid
+        , username: username
+        , subject: forumData.subject.trim()
+        , content: forumData.content.trim()
+      });
+      try {
+        let saveForum = await forum.save();
+        return res.json({message:"CREATED",forum:saveForum});
+      } catch (err) {
+        //console.log('err' + err);
+        return res.json({error:"FAIL"});
+      }
     }
   }
   //return res.json({error:"NOTFOUND"});

@@ -6,13 +6,21 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../lib/helper';
   
-export default function component(){
+export default function editForum({forum,forumid,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
+
+  useEffect(()=>{
+    if(forum){
+      setSubject(forum.subject)
+      setContent(forum.content)
+    }
+
+  },[forum]);
   
   async function PostAPI(e){
     e.preventDefault();
-    console.log("create forum");
+    console.log("update forum");
     console.log(subject);
     console.log(content);
     if(isEmpty(subject) || isEmpty(content)){
@@ -23,17 +31,24 @@ export default function component(){
     let rep = await fetch('api/forum', {
       method:'POST',
       body:JSON.stringify({
-        action:'CREATE',
-        subject:subject,
+        action:'UPDATE',
+        forumid:forum.id ,
+        subject:subject ,
         content:content
       })
     });
     let data = await rep.json();
     console.log(data);
+    if(data.message == 'UPDATE'){
+      ops({
+        action:'update',
+        datatype:'forum',
+        id:data.forum.id,
+        subject:data.forum.subject,
+        content:data.forum.content
+      })
+    }
   }
-
-  useEffect(()=>{
-  },[]);
 
   function onTypeSubject(e){
     setSubject(e.target.value);
@@ -58,7 +73,7 @@ export default function component(){
         </textarea>
       </div>
       <div>
-        <button onClick={PostAPI}>Sumbit</button>
+        <button onClick={PostAPI}>Update</button>
       </div>
     </div>
   </>)

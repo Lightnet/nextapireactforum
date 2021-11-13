@@ -6,13 +6,16 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
   
-export default function component({postid}){
+export default function EditComment({comment,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
   //const [postType,setPostType] = useState("post");
 
   useEffect(()=>{
-
+    if(comment){
+      setSubject(comment.subject);
+      setContent(comment.content);
+    }
   },[]);
   
   async function PostAPI(){
@@ -26,8 +29,8 @@ export default function component({postid}){
     let rep = await fetch('api/comment', {
       method:'POST',
       body:JSON.stringify({
-        postid:postid
-        , action:'CREATE'
+        commentid:comment.id
+        , action:'UPDATE'
         , subject:subject
         , content:content
       })
@@ -35,6 +38,15 @@ export default function component({postid}){
 
     let data = await rep.json();
     console.log(data);
+    if(data.message=='UPDATE'){
+      ops({
+        action:'update',
+        datatype:'comment',
+        id:data.comment.id,
+        subject:data.comment.subject,
+        content:data.comment.content,
+      });
+    }
   }
 
   function onTypingSubject(e){

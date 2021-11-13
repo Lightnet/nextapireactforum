@@ -25,7 +25,7 @@ export default function component({boardid}){
       method:'POST',
       body:JSON.stringify({
         boardid:boardid
-        , action:'createpost'
+        , action:'CREATE'
         , subject:subject
         , content:content
       })

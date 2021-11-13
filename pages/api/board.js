@@ -64,6 +64,33 @@ export default async (req, res)=>{
   if(req.method == 'POST'){
     var boardData = JSON.parse(req.body);
     console.log("CHECK FORUM ID...")
+    console.log(boardData);
+
+    if(boardData.boardid){
+      if(boardData.action == 'UPDATE'){
+        let query ={
+          id:boardData.boardid
+        };
+
+        let update={
+          subject: boardData.subject,
+          content: boardData.content
+        }
+
+        const doc = await Board.findOneAndUpdate(query, update,{ new: true } )
+        console.log(doc);
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>")
+        return res.json({message:"UPDATE",board:doc});
+      }
+
+      if(boardData.action == 'DELETE'){
+
+        
+        return res.json({message:"FAIL"});
+      }
+
+    }
+
     if(boardData.forumid){
       console.log(boardData.forumid)
       console.log(boardData.action)
@@ -77,7 +104,8 @@ export default async (req, res)=>{
           return res.json({message:"BOARDS",boards:boards});
         }
       }
-      if(boardData.action == 'createboard'){
+
+      if(boardData.action == 'CREATE'){
         let board = new Board({
           userid:userid
           , username: username
@@ -95,12 +123,9 @@ export default async (req, res)=>{
           return res.json({message:"FAIL"});
         }
       }
-      if(boardData.action == 'deleteboard'){
 
-        
-        return res.json({message:"FAIL"});
-      }
     }
   }
+
   //return res.json({error:"NOTFOUND"});
 };

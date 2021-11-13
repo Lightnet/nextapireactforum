@@ -63,15 +63,26 @@ export default async (req, res)=>{
 
   //need to config build later for other setting
   if(req.method == 'POST'){
-
     var postData = JSON.parse(req.body);
-
-    
     console.log(postData);
-
+    if(postData.postid){
+      if(postData.action == 'UPDATE'){
+        let query ={
+          id:postData.postid
+        };
+        let update={
+          subject: postData.subject,
+          content: postData.content
+        }
+        const doc = await Post.findOneAndUpdate(query, update,{ new: true } )
+        console.log(doc);
+        //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>")
+        return res.json({message:"UPDATE",post:doc});
+      }
+    }
 
     if(postData.boardid){
-      if(postData.action == 'createpost'){
+      if(postData.action == 'CREATE'){
         if(isEmpty(postData.subject) || isEmpty(postData.content)){
           console.log("EMPTY!");
           return res.json({message:"EMPTY"});

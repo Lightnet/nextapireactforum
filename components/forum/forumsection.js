@@ -1,6 +1,10 @@
 /*
   LICENSE: MIT
   Created by: Lightnet
+
+  Information:
+    This will handle forum data and handle events.
+
 */
 
 // https://www.youtube.com/watch?v=Hixx31BX5kY
@@ -13,6 +17,14 @@ import PostSection from "./post/postsection";
 import CommentSection from "./comment/commentsection";
 
 import NewForum from "./newforum";
+import NewBoard from "./board/newboard";
+import NewPost from "./post/newpost";
+import NewComment from "./comment/newcomment";
+
+import EditForum from "./editforum";
+import EditBoard from './board/editboard';
+import EditPost from './post/editpost';
+import EditComment from './comment/editcomment';
 
 import ForumNavBar from "./forumnavbar";
 import Modal from '../ui/modal';
@@ -20,14 +32,14 @@ import Modal from '../ui/modal';
 export default function component(){
 
   //forum
-  const [forums, setFourms] = useState([]); 
-  const [forumID, setFourmID] = useState('DEFAULT');
+  const [forums, setForums] = useState([]); 
+  const [forumID, setForumID] = useState('DEFAULT');
 
   //board
   const [boards, setBoards] = useState([]); 
   const [boardID, setBoardID] = useState(null); 
   const [isBoard, setIsBoard] = useState(false);
-
+  
   //post 
   const [isPost, setIsPost] = useState(false); 
   const [posts, setPosts] = useState([]); 
@@ -42,6 +54,9 @@ export default function component(){
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [dataTypeModal, setDataTypeModal] = useState(null); // forum, board, post, commment
   const [dataModeModal, setDataModeModal] = useState(null); // edit, delete, move?
+  const [editID, setEditID] = useState(null);
+
+  const [messageModal, setMessageModal] = useState("None Message!"); // edit, delete, move?
 
   //once init forum
   useEffect(()=>{
@@ -89,7 +104,7 @@ export default function component(){
     //console.log(data.message);
     if(data.message == "forums"){
       if(data.forums){
-        setFourms(data.forums);
+        setForums(data.forums);
       }
     }
   }
@@ -156,7 +171,7 @@ export default function component(){
   function onChangeForum(e){
     //console.log(e.target.value);
     //console.log("forumID");
-    setFourmID(e.target.value);
+    setForumID(e.target.value);
     setIsBoard(true);
   }
 
@@ -307,12 +322,35 @@ export default function component(){
             setDataModeModal('create');
             setIsOpenModal(true);
           }
+          if(args.datatype == "board"){
+            setDataTypeModal('board');
+            setDataModeModal('create');
+            setIsOpenModal(true);
+          }
         }
 
         if(args.action == "edit"){
           if(args.datatype == "forum"){
             setDataTypeModal('forum');
             setDataModeModal('edit');
+            setIsOpenModal(true);
+          }
+          if(args.datatype == "board"){
+            setDataTypeModal('board');
+            setDataModeModal('edit');
+            setEditID(args.id)
+            setIsOpenModal(true);
+          }
+          if(args.datatype == "post"){
+            setDataTypeModal('post');
+            setDataModeModal('edit');
+            setEditID(args.id)
+            setIsOpenModal(true);
+          }
+          if(args.datatype == "comment"){
+            setDataTypeModal('comment');
+            setDataModeModal('edit');
+            setEditID(args.id)
             setIsOpenModal(true);
           }
         }
@@ -325,6 +363,74 @@ export default function component(){
           }
         }
 
+        if(args.action == "update"){
+          if(args.datatype == "forum"){
+            console.log("UPDATE???");
+            console.log(forums);
+            for(let i=0; i < forums.length;i++){
+              console.log(forums[i]);
+              if(forums[i].id  == args.id){
+                forums[i].subject = args.subject;
+                forums[i].content = args.content;
+                setForums(forums);
+                setDataTypeModal('message');
+                setDataModeModal('message');
+                setMessageModal("Forum Data Update!");
+                setIsOpenModal(true);
+                console.log("UPDATE DATA???");
+                break;
+              }
+            }
+          }
+          if(args.datatype == "board"){
+            for(let i=0; i < boards.length;i++){
+              console.log(boards[i]);
+              if(boards[i].id  == args.id){
+                boards[i].subject = args.subject;
+                boards[i].content = args.content;
+                setBoards(boards);
+                setDataTypeModal('message');
+                setDataModeModal('message');
+                setMessageModal("Board Data Update!");
+                setIsOpenModal(true);
+                console.log("UPDATE DATA???");
+                break;
+              }
+            }
+          }
+          if(args.datatype == "post"){
+            for(let i=0; i < posts.length;i++){
+              console.log(posts[i]);
+              if(posts[i].id  == args.id){
+                posts[i].subject = args.subject;
+                posts[i].content = args.content;
+                setPosts(posts);
+                setDataTypeModal('message');
+                setDataModeModal('message');
+                setMessageModal("Post Data Update!");
+                setIsOpenModal(true);
+                //console.log("UPDATE DATA???");
+                break;
+              }
+            }
+          }
+          if(args.datatype == "comment"){
+            for(let i=0; i < comments.length;i++){
+              console.log(comments[i]);
+              if(comments[i].id  == args.id){
+                comments[i].subject = args.subject;
+                comments[i].content = args.content;
+                setComments(comments);
+                setDataTypeModal('message');
+                setDataModeModal('message');
+                setMessageModal("Comment Data Update!");
+                setIsOpenModal(true);
+                //console.log("UPDATE DATA???");
+                break;
+              }
+            }
+          }
+        }
         //end action section
       }
     }
@@ -338,7 +444,7 @@ export default function component(){
     }
   }
 
-  function checkForumIndexRender(){
+  function checkRenderForumIndex(){
     //console.log("forumID: ",forumID);
     //console.log(typeof forumID);
     if(forumID !== "DEFAULT" && forumID != null){
@@ -360,13 +466,83 @@ export default function component(){
         return <NewForum></NewForum>
       }
       if(dataModeModal == "edit"){
-        return <p>Edit Forum Modal</p>
+        let forum;
+        for(let _forum of forums){
+          console.log(_forum);
+          if(_forum.id  == forumID){
+            forum=_forum;
+            break;
+          }
+        }
+        return <EditForum forum={forum} forumid={forumID} ops={callBackOPS}></EditForum>
       }
       if(dataModeModal == "delete"){
         return <p>Delete Forum Modal</p>
       }
     }
-    return <p>Empty Modal</p>
+
+    if(dataTypeModal == "board"){
+      if(dataModeModal == "create"){
+        return <NewBoard forumid={forumID}></NewBoard>
+      }
+      if(dataModeModal == "edit"){
+        let board;
+        for(let _board of boards){
+          console.log(_board);
+          if(_board.id  == editID){
+            board=_board;
+            break;
+          }
+        }
+        return <EditBoard board={board} ops={callBackOPS}></EditBoard>
+      }
+      if(dataModeModal == "delete"){
+        return <p>Delete Forum Modal</p>
+      }
+    }
+
+    if(dataTypeModal == "post"){
+      if(dataModeModal == "create"){
+        return <NewPost boardid={boardID}></NewPost>
+      }
+      if(dataModeModal == "edit"){
+        let post;
+        for(let _post of posts){
+          console.log(_post);
+          if(_post.id  == editID){
+            post=_post;
+            break;
+          }
+        }
+        return <EditPost post={post} ops={callBackOPS}></EditPost>
+      }
+      if(dataModeModal == "delete"){
+        return <p>Delete Forum Modal</p>
+      }
+    }
+
+    if(dataTypeModal == "comment"){
+      console.log("COMMENT......>>>>>>>>>>>>>>>>")
+      if(dataModeModal == "create"){
+        return <NewComment postid={postID}></NewComment>
+      }
+      if(dataModeModal == "edit"){
+        let comment;
+        for(let _comment of comments){
+          console.log(_comment);
+          if(_comment.id  == editID){
+            comment=_comment;
+            break;
+          }
+        }
+        return <EditComment comment={comment} ops={callBackOPS}></EditComment>
+      }
+      if(dataModeModal == "delete"){
+        return <p>Delete Forum Modal</p>
+      }
+    }
+
+    return <p>{messageModal}</p>
   }
 
   return(<>
@@ -378,7 +554,7 @@ export default function component(){
         ops={callBackOPS}
       />
 
-      {checkForumIndexRender()}
+      {checkRenderForumIndex()}
 
       {renderBoards()}
       {renderPosts()}

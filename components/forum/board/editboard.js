@@ -6,21 +6,20 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
   
-export default function component({forumid}){
+export default function EditBoard({board,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
   const [parentID, setParentID] = useState("");
 
   useEffect(()=>{
-    if(forumid!=null){
-      setParentID(forumid)
+    if(board){
+      setSubject(board.subject);
+      setContent(board.content);
     }
-  },[forumid,parentID]);
-  
+  },[board]);
   
   async function PostAPI(){
-    console.log("BOARD forumid");
-    console.log(forumid);
+    console.log("BOARD boardid");
     console.log(subject);
     console.log(content);
     if(isEmpty(subject) || isEmpty(content)){
@@ -31,13 +30,22 @@ export default function component({forumid}){
     let rep = await fetch('api/board', {
       method:'POST',
       body:JSON.stringify({
-        forumid:forumid
-        , action:'CREATE'
+        boardid:board.id
+        , action:'UPDATE'
         , subject:subject
         , content:content})
     });
     let data = await rep.json();
     console.log(data);
+    if(data.message=='UPDATE'){
+      ops({
+        action:'update',
+        datatype:'board',
+        id:data.board.id,
+        subject:data.board.subject,
+        content:data.board.content,
+      });
+    }
     
   }
 
@@ -57,7 +65,6 @@ export default function component({forumid}){
     setContent(e.target.value);
   }
   
-
   return(<>
     <div>
       <div>
@@ -72,7 +79,7 @@ export default function component({forumid}){
         <input value={parentID} onChange={onTypingParentID} />
 
         <select value={parentID} onChange={onSelectParentID}>
-          <option value={forumid}> Index </option>
+          <option > Index </option>
         </select>
       </div>
 
