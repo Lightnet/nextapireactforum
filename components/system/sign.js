@@ -6,7 +6,7 @@
 import { useSession, signOut, signIn } from "next-auth/react";
 import Link from 'next/link';
 
-export default function Component() {
+export default function Sign() {
   const {data: session, status} = useSession();
   //console.log("[[[[[[session");
   //console.log(session);

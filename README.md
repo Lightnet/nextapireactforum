@@ -5,7 +5,7 @@
 # Packages:
 - next (https://nextjs.org/)
 - react (https://reactjs.org/)
-- mongoose (MongoDB)
+- mongoose (https://www.mongodb.com/)
 
 # Information:
   Prototype build for forum.
@@ -20,7 +20,7 @@
 ## Encryption and Security:
   The account is encryption for password. Auth checks built with next-auth for url checks and method. 
 
-  Currently post content is not encrypt as work in progress. But due note that search function will take longer to search for keywords.
+  Currently post content is not encrypt as work in progress. Note that search function will take longer to search for keywords.
   
   Need work on other things.
 
@@ -100,18 +100,22 @@ pages/api/post (folder)
   - ...
 - forum (work in progress)
   - create (added)
+  - edit (added)
   - delete (not build)
   - list (added)
 - board (work in progress)
   - create (added)
+  - edit (added)
   - delete (not build)
   - list (added)
 - post (work in progress)
   - create (added)
+  - edit (added)
   - delete (not build)
   - list (added)
 - comment (work in progress)
   - create (added)
+  - edit (added)
   - delete (not build)
   - list (added)
 - database
@@ -123,6 +127,9 @@ pages/api/post (folder)
 - adventureguild (not build)
 - artisanguild (not build)
 - merchantguild (not build)
+- web socket chat (added)
+  - list users (not build)
+  - join and leave event (not build)
 
 ## prefix guild:
   Those are just prototype idea base on real life to keep it simple to genre types.

@@ -3,7 +3,6 @@
   Created by: Lightnet
 */
 
-
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from 'react';
 import NavBarHeader from "../components/layout/header";

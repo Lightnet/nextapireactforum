@@ -7,7 +7,7 @@
 
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
-import BtnSign from "../system/btnsign";
+import Sign from "../system/sign";
 import Link from 'next/link';
 
 function Page() {
@@ -58,7 +58,7 @@ function Page() {
         <span> | </span>
         <a  href="#"  onClick={changeDark}>Dark</a>
         <span> | </span>
-        <span style={{float:'right'}}> <BtnSign></BtnSign> </span>
+        <span style={{float:'right'}}> <Sign></Sign> </span>
         </div>
     </>)
   }

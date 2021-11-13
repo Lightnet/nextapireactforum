@@ -3,9 +3,9 @@
   Created by: Lightnet
 */
 import { useState, useEffect } from 'react';
-import AdminHeader from "../admin/adminheader";
+import AdminHeader from "./adminheader";
 
-export default function component(){
+export default function AdminSection(){
   const [isMaintainMode,setIsMaintainMode] = useState(false);
   const [view, setView] = useState(null);
 

@@ -4,7 +4,7 @@
 */
 
 import { useSession } from "next-auth/react";
-import SignArea from "./btnsign";
+import Sign from "./sign";
 
 export default function component({children}){
 
@@ -21,6 +21,6 @@ export default function component({children}){
   }
   return (<>
     <div>Access!</div>
-    <SignArea></SignArea>
+    <Sign></Sign>
   </>)
 }
