@@ -29,6 +29,8 @@ import EditComment from './comment/editcomment';
 import ForumNavBar from "./forumnavbar";
 import Modal from '../ui/modal';
 import DeleteComment from './comment/deletecomment';
+import DeletePost from './post/deletepost';
+import DeleteBoard from './board/deleteboard';
 
 export default function component(){
 
@@ -250,7 +252,6 @@ export default function component(){
           setIsBoard(false);
           setIsPost(false);
           setIsComment(true);
-          //getComments();
         }
 
         if(args.action == "select"){
@@ -266,8 +267,6 @@ export default function component(){
             setIsBoard(false);
             setIsPost(false);
             setIsComment(true);
-            //getPosts();
-            //getComments();
           }
           if(args.datatype == "comment"){
             setCommentID(args.id);
@@ -363,6 +362,20 @@ export default function component(){
             setIsOpenModal(true);
           }
 
+          if(args.datatype == "board"){
+            setBoardID(args.id)
+            setDataTypeModal('board');
+            setDataModeModal('delete');
+            setIsOpenModal(true);
+          }
+
+          if(args.datatype == "post"){
+            setPostID(args.id)
+            setDataTypeModal('post');
+            setDataModeModal('delete');
+            setIsOpenModal(true);
+          }
+
           if(args.datatype == "comment"){
             setCommentID(args.id)
             setDataTypeModal('comment');
@@ -384,6 +397,34 @@ export default function component(){
             setComments(comments);
             setDataTypeModal('DELETE');
             setDataModeModal('COMMENT');
+            setIsOpenModal(true);
+          }
+          if(args.datatype == "post"){
+            setPostID(args.id);
+            for(let i=0;i < posts.length;i++){
+              //console.log(_comment);
+              if(posts[i].id  == args.id){
+                posts.splice(i,1)
+                break;
+              }
+            }
+            setPosts(posts);
+            setDataTypeModal('DELETE');
+            setDataModeModal('POST');
+            setIsOpenModal(true);
+          }
+          if(args.datatype == "board"){
+            setPostID(args.id);
+            for(let i=0;i < boards.length;i++){
+              //console.log(_comment);
+              if(boards[i].id  == args.id){
+                boards.splice(i,1)
+                break;
+              }
+            }
+            setBoards(boards);
+            setDataTypeModal('DELETE');
+            setDataModeModal('BOARD');
             setIsOpenModal(true);
           }
         }
@@ -522,7 +563,14 @@ export default function component(){
         return <EditBoard board={board} ops={callBackOPS}></EditBoard>
       }
       if(dataModeModal == "delete"){
-        return <p>Delete Forum Modal</p>
+        let board;
+        for(const _board of boards){
+          if(_board.id == boardID){
+            board =_board; 
+            break;
+          }
+        }
+        return (<DeleteBoard board={board}  ops={callBackOPS} ></DeleteBoard>)
       }
     }
 
@@ -542,7 +590,14 @@ export default function component(){
         return <EditPost post={post} ops={callBackOPS}></EditPost>
       }
       if(dataModeModal == "delete"){
-        return <p>Delete Forum Modal</p>
+        let post;
+        for(const _post of posts){
+          if(_post.id == postID){
+            post =_post; 
+            break;
+          }
+        }
+        return (<DeletePost post={post} ops={callBackOPS} ></DeletePost>)
       }
     }
 
@@ -570,13 +625,21 @@ export default function component(){
             break;
           }
         }
-
         return (<DeleteComment comment={comment}  ops={callBackOPS} ></DeleteComment>)
       }
     }
 
     if(dataTypeModal == 'DELETE'){
-      return <p>ID [ {commentID} ] is Delete {dataModeModal}! </p>
+      if(dataModeModal == 'BOARD'){
+        return <p>ID [ {boardID} ] is Delete {dataModeModal}! </p>
+      }
+      if(dataModeModal == 'POST'){
+        return <p>ID [ {postID} ] is Delete {dataModeModal}! </p>
+      }
+      if(dataModeModal == 'COMMENT'){
+        return <p>ID [ {commentID} ] is Delete {dataModeModal}! </p>
+      }
+      
     }
 
     return <p>{messageModal}</p>

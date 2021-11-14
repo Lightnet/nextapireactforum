@@ -79,6 +79,10 @@ export default async (req, res)=>{
         //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>")
         return res.json({message:"UPDATE",post:doc});
       }
+      if(postData.action == 'DELETE'){
+        const deleteComment = await Post.deleteOne({id:postData.postid}).exec();
+        return res.json({action:"DELETE",id:postData.postid});
+      }
     }
 
     if(postData.boardid){

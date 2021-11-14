@@ -6,29 +6,29 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
   
-export default function DeleteComment({comment,ops}){
+export default function DeletePost({post,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
 
   useEffect(()=>{
-    if(comment){
-      setSubject(comment.subject);
-      setContent(comment.content);
+    if(post){
+      setSubject(post.subject);
+      setContent(post.content);
     }
-  },[comment]);
+  },[post]);
   
   async function PostAPI(){
-    console.log("commentid");
+    console.log("postid");
 
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
       return;
     }
 
-    let rep = await fetch('api/comment', {
+    let rep = await fetch('api/post', {
       method:'POST',
       body:JSON.stringify({
-        commentid:comment.id
+        postid:post.id
         , action:'DELETE'
       })
     });
@@ -38,7 +38,7 @@ export default function DeleteComment({comment,ops}){
     if(data.action=='DELETE'){
       ops({
         action:'UPDATEDELETE',
-        datatype:'comment',
+        datatype:'post',
         id:data.id,
       });
     }
@@ -47,7 +47,7 @@ export default function DeleteComment({comment,ops}){
   return(<>
     <div>
       <div>
-        <label>Comment ID:{comment.id}</label>
+        <label>Post ID:{post?.id}</label>
         <br />
         <label>Subject:</label>
         <br />
@@ -66,6 +66,3 @@ export default function DeleteComment({comment,ops}){
     </div>
   </>)
 }
-/*
- 
-*/

@@ -71,24 +71,19 @@ export default async (req, res)=>{
         let query ={
           id:boardData.boardid
         };
-
         let update={
           subject: boardData.subject,
           content: boardData.content
         }
-
         const doc = await Board.findOneAndUpdate(query, update,{ new: true } )
         console.log(doc);
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>")
         return res.json({message:"UPDATE",board:doc});
       }
-
       if(boardData.action == 'DELETE'){
-
-        
-        return res.json({message:"FAIL"});
+        const deleteComment = await Board.deleteOne({id:boardData.boardid}).exec();
+        return res.json({action:"DELETE",id:boardData.boardid});
       }
-
     }
 
     if(boardData.forumid){
@@ -126,6 +121,5 @@ export default async (req, res)=>{
 
     }
   }
-
-  //return res.json({error:"NOTFOUND"});
+  return res.json({error:"NOTFOUND"});
 };
