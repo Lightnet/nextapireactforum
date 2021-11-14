@@ -6,13 +6,16 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
   
-export default function component({postid}){
+export default function DeleteComment({comment,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
 
   useEffect(()=>{
-
-  },[]);
+    if(comment){
+      setSubject(comment.subject);
+      setContent(comment.content);
+    }
+  },[comment]);
   
   async function PostAPI(){
     console.log("comment postid");
@@ -25,41 +28,40 @@ export default function component({postid}){
     let rep = await fetch('api/comment', {
       method:'POST',
       body:JSON.stringify({
-        postid:postid
-        , action:'CREATE'
-        , subject:subject
-        , content:content
+        commentid:comment.id
+        , action:'DELETE'
       })
     });
 
     let data = await rep.json();
     console.log(data);
-  }
-
-  function onTypingSubject(e){
-    setSubject(e.target.value);
-  }
-
-  function onTypingContent(e){
-    setContent(e.target.value);
+    if(data.action=='DELETE'){
+      ops({
+        action:'UPDATEDELETE',
+        datatype:'comment',
+        id:data.id,
+      });
+    }
   }
 
   return(<>
     <div>
       <div>
-        <label>Comment Name:</label>
+        <label>ID:{comment.id}</label>
         <br />
-        <input value={subject} onChange={onTypingSubject} />
+        <label>Subject:</label>
+        <br />
+        <label>{subject}</label>
       </div>
       <div>
         <label>Content</label>
         <br />
-        <textarea value={content} onChange={onTypingContent}>
-
-        </textarea>
+        <label>
+          {content}
+        </label>
       </div>
       <div>
-        <button onClick={PostAPI}>Sumbit</button>
+        <button onClick={PostAPI}>Delete Confirm?</button>
       </div>
     </div>
   </>)

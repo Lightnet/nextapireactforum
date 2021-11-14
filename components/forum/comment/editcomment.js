@@ -16,7 +16,7 @@ export default function EditComment({comment,ops}){
       setSubject(comment.subject);
       setContent(comment.content);
     }
-  },[]);
+  },[comment]);
   
   async function PostAPI(){
     console.log("comment postid");

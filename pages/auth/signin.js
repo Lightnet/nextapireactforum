@@ -37,7 +37,7 @@ export default function SignIn({ csrfToken }) {
                 <label>Password</label>
               </td>
               <td>
-                <input name="password" type="password" />
+                <input name="passphrase" type="password" />
               </td>
             </tr>
             <tr>

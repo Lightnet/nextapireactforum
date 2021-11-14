@@ -28,6 +28,7 @@ import EditComment from './comment/editcomment';
 
 import ForumNavBar from "./forumnavbar";
 import Modal from '../ui/modal';
+import DeleteComment from './comment/deletecomment';
 
 export default function component(){
 
@@ -361,6 +362,30 @@ export default function component(){
             setDataModeModal('delete');
             setIsOpenModal(true);
           }
+
+          if(args.datatype == "comment"){
+            setCommentID(args.id)
+            setDataTypeModal('comment');
+            setDataModeModal('delete');
+            setIsOpenModal(true);
+          }
+        }
+
+        if(args.action == "UPDATEDELETE"){
+          if(args.datatype == "comment"){
+            setCommentID(args.id);
+            for(let i=0;i < comments.length;i++){
+              //console.log(_comment);
+              if(comments[i].id  == args.id){
+                comments.splice(i,1)
+                break;
+              }
+            }
+            setComments(comments);
+            setDataTypeModal('DELETE');
+            setDataModeModal('COMMENT');
+            setIsOpenModal(true);
+          }
         }
 
         if(args.action == "update"){
@@ -522,14 +547,14 @@ export default function component(){
     }
 
     if(dataTypeModal == "comment"){
-      console.log("COMMENT......>>>>>>>>>>>>>>>>")
+      //console.log("COMMENT......>>>>>>>>>>>>>>>>")
       if(dataModeModal == "create"){
         return <NewComment postid={postID}></NewComment>
       }
       if(dataModeModal == "edit"){
         let comment;
         for(let _comment of comments){
-          console.log(_comment);
+          //console.log(_comment);
           if(_comment.id  == editID){
             comment=_comment;
             break;
@@ -538,8 +563,20 @@ export default function component(){
         return <EditComment comment={comment} ops={callBackOPS}></EditComment>
       }
       if(dataModeModal == "delete"){
-        return <p>Delete Forum Modal</p>
+        let comment;
+        for(const _comment of comments){
+          if(_comment.id == commentID){
+            comment =_comment; 
+            break;
+          }
+        }
+
+        return (<DeleteComment comment={comment}  ops={callBackOPS} ></DeleteComment>)
       }
+    }
+
+    if(dataTypeModal == 'DELETE'){
+      return <p>ID [ {commentID} ] is Delete {dataModeModal}! </p>
     }
 
     return <p>{messageModal}</p>
@@ -565,6 +602,3 @@ export default function component(){
     </div>
   </>)
 }
-/*
-<button onClick={toggleModal}>Modal</button>
-*/
