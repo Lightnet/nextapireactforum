@@ -14,7 +14,7 @@ export default async function useFetch(args){
   args.body = args.body || {};
 
   try{
-    let rep = await fetch('api/', {
+    let rep = await fetch(args.url, {
       method:args.method
       , body:args.body
     });
@@ -22,6 +22,6 @@ export default async function useFetch(args){
     return data;
   }catch(e){
     console.log("FETCH ERROR");
-    return null;
+    return {error:'FETCH ERROR'};
   }
 }

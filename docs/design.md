@@ -1,5 +1,15 @@
 
 
+# Design:
+ Note that 'import { ReactDOM } from "react";' does not work on pages folder. It is due to server pre-render.
+
+ Exammple on Notification base simple setup.
+
+
+
+
+
+
 
 # Information:
   Using the next.js and react.js to pre-render or preload components to create the page or document. To reduce bandwidth as well rerender the page. It only need query user fetch data from api call that simalar to function calls.
@@ -32,8 +42,7 @@ function renderDataTypeModal(){
 }
 ```
 ## Notes:
-- when the user action depend to able to create, edit, delete post
-
+- when the user action depend to able to create, edit, delete post.
 
 
 # Next.js
@@ -56,6 +65,75 @@ function renderDataTypeModal(){
 # Forum Permssion:
   work in progress idea design.  
 
+# passing props:
+  Passing props some time time there will be error.
 
+
+
+```js
+  //...
+  //main app
+  //...
+
+  //const [message , setmessage ] = useState("This is a notification!");// this will error // it not react component
+  const [message , setmessage ] = useState(<label>This is a notification!</label>);//this will work
+  const [notify,setNotify] = useState();
+  //...
+
+  function info(children, autoClose) {
+    console.log("info");
+    return setNotify({
+      color: Color.info,
+      children,
+      autoClose,
+    });
+  }
+  //...
+
+  <button onClick={() => info(message, true)}>Info</button>
+  <NotificationsManager
+    setNotify={notify}
+    />
+
+  //...
+  //NotificationsManager
+  //...
+  return (
+  <CreateContainer>
+    {notifications.map(({ id, ...props }, index) => {
+      //console.log(id);
+      //console.log(index);
+      console.log(props);
+      //return (<label key={id}>Hello</label>);
+      return (
+      <Notification
+        key={id}
+        onDelete={() => deleteNotification(index)}
+        color={props.color}
+        autoClose={props.autoClose}
+        children={props.children} //it get pass here "message label"
+      />);
+    })}
+  </CreateContainer>
+  );
+
+  //...
+  //Notification
+  //...
+
+  return (<>
+    <div className={cn([
+        styles.notification,
+        styles[color],
+        { [styles.slideIn]: !isClosing },
+        { [styles.slideOut]: isClosing },
+        ])}>
+      {/* children > message  > <label>This is a notification! </label> */}
+      {children} 
+      <button onClick={() => setIsClosing(true)} className={styles.closeButton}> x </button>
+    </div>
+  </>);
+
+```
 
 

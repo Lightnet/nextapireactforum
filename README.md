@@ -146,3 +146,12 @@ NEXTAUTH_URL="http://localhost:3000"
 DATABASE_URL="mongodb://127.0.0.1/forum"
 SECRET="secret"
 ```
+
+# Credits:
+
+- Author: Seif Ghezala
+  - Notifications/Toasts with 0 dependencies
+  - Note modifed a bit to fit the nextjs prerender load.
+  - https://twitter.com/seif_ghezala
+  - https://github.com/tinloof/notify
+  - https://tinloof.com/blog/how-to-create-react-notifications-with-0-dependencies/
