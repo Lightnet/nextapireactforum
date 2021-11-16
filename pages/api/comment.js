@@ -29,7 +29,7 @@ export default async (req, res)=>{
   //if(req.method == 'GET'){
     //let commments = await Comment.find({parenttype:'post'}).exec();
     //console.log(posts);
-    //return res.json({message:"commments",commments:commments});
+    //return res.json({action:"commments",commments:commments});
   //}
 
   //need to config build later for other setting
@@ -49,7 +49,7 @@ export default async (req, res)=>{
         const doc = await Comment.findOneAndUpdate(query, update,{ new: true } )
         console.log(doc);
         //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>")
-        return res.json({message:"UPDATE",comment:doc});
+        return res.json({action:"UPDATE",comment:doc});
       }
       if(commentData.action == 'DELETE'){
         const deleteComment = await Comment.deleteOne({id:commentData.commentid}).exec();
@@ -61,7 +61,7 @@ export default async (req, res)=>{
       if(commentData.action == 'CREATE'){
         if(isEmpty(commentData.subject) || isEmpty(commentData.content)){
           console.log("EMPTY!");
-          return res.json({message:"EMPTY"});
+          return res.json({action:"EMPTY"});
         }
         
         let comment = new Comment({
@@ -76,7 +76,7 @@ export default async (req, res)=>{
           let saveComment = await comment.save();
           console.log(saveComment);
           return res.json({action:"CREATE",doc:saveComment});
-          //return res.json({message:"CREATED"});
+          //return res.json({action:"CREATED"});
         }catch(e){
           return res.json({message:"FAIL"});
         }
@@ -86,10 +86,10 @@ export default async (req, res)=>{
         console.log("commentData.postid: ",commentData.postid)
         let comments = await Comment.find({parentid:commentData.postid}).exec();
         if(comments.length == 0){
-          return res.json({message:"NOCOMMENT"});
+          return res.json({action:"NOCOMMENT"});
         }
         if(comments.length >= 1){
-          return res.json({message:"COMMENTS",comments:comments});
+          return res.json({action:"COMMENTS",comments:comments});
         }
       }
       return res.json({message:"FAIL"});

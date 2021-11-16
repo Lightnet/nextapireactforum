@@ -28,7 +28,7 @@ export default async (req, res)=>{
   if(req.method == 'GET'){
     let communities = await Community.find({parenttype:'community'}).exec();
     //console.log(boards);
-    return res.json({message:"communitues",communities:communities});
+    return res.json({action:"communitues",communities:communities});
   }
 
   //need to config build later for other setting

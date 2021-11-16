@@ -30,7 +30,7 @@ export default async (req, res)=>{
   if(req.method == 'GET'){
     let posts = await Post.find({parenttype:'post'}).exec();
     //console.log(posts);
-    return res.json({message:"posts",posts:posts});
+    return res.json({action:"posts",posts:posts});
   }
 
   //need to config build later for other setting
@@ -49,7 +49,7 @@ export default async (req, res)=>{
         const doc = await Post.findOneAndUpdate(query, update,{ new: true } )
         console.log(doc);
         //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>")
-        return res.json({message:"UPDATE",post:doc});
+        return res.json({action:"UPDATE",post:doc});
       }
       if(postData.action == 'DELETE'){
         const deleteComment = await Post.deleteOne({id:postData.postid}).exec();
@@ -68,7 +68,7 @@ export default async (req, res)=>{
       if(postData.action == 'CREATE'){
         if(isEmpty(postData.subject) || isEmpty(postData.content)){
           console.log("EMPTY!");
-          return res.json({message:"EMPTY"});
+          return res.json({action:"EMPTY"});
         }
         
         let post = new Post({
@@ -83,7 +83,6 @@ export default async (req, res)=>{
           let savePost = await post.save();
           console.log(savePost);
           return res.json({action:"CREATE",doc:savePost});
-          //return res.json({message:"CREATED"});
         }catch(e){
           return res.json({action:"FAIL"});
         }
@@ -93,10 +92,10 @@ export default async (req, res)=>{
         console.log("postData.boardid: ",postData.boardid)
         let posts = await Post.find({parentid:postData.boardid}).exec();
         if(posts.length == 0){
-          return res.json({message:"NOPOST"});
+          return res.json({action:"NOPOST"});
         }
         if(posts.length >= 1){
-          return res.json({message:"POSTS",posts:posts});
+          return res.json({action:"POSTS",posts:posts});
         }
       }
       return res.json({message:"FAIL"});

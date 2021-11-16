@@ -83,7 +83,6 @@ export default function component({forumid,ops}){
         </select>
       </div>
 
-
       <div>
         <label>Summary:</label>
         <br />

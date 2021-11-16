@@ -105,8 +105,8 @@ export default function component(){
       console.log("ERROR GET FORUM ");
       return;
     }
-    //console.log(data.message);
-    if(data.message == "forums"){
+    //console.log(data);
+    if(data.action == "forums"){
       if(data.forums){
         setForums(data.forums);
       }
@@ -121,11 +121,11 @@ export default function component(){
 
     let data = await res.json();
     //console.log(data);
-    if(data.message=="NOBOARD"){
+    if(data.action=="NOBOARD"){
       console.log("NO BOARDS")
       return;
     }
-    if(data.message=="BOARDS"){
+    if(data.action=="BOARDS"){
       console.log("BOARDS")
       setBoards(data.boards);
     }
@@ -141,11 +141,11 @@ export default function component(){
 
     let data = await res.json();
     //console.log(data);
-    if(data.message=="NOPOST"){
+    if(data.action=="NOPOST"){
       console.log("NO POST")
       return;
     }
-    if(data.message=="POSTS"){
+    if(data.action=="POSTS"){
       console.log("POSTS")
       setPosts(data.posts);
     }
@@ -162,11 +162,11 @@ export default function component(){
 
     let data = await res.json();
     //console.log(data);
-    if(data.message=="NOCOMMENT"){
+    if(data.action=="NOCOMMENT"){
       console.log("NO COMMENT")
       return;
     }
-    if(data.message=="COMMENTS"){
+    if(data.action=="COMMENTS"){
       console.log("COMMENTS")
       setComments(data.comments);
     }

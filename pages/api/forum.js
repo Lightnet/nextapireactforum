@@ -32,7 +32,7 @@ export default async (req, res)=>{
     log("GET FOURMS")
     let forums = await Forum.find({parenttype:'forum'}).exec();
     //console.log(forums);
-    return res.json({message:"forums",forums:forums});
+    return res.json({action:"forums",forums:forums});
   }
 
   //need to config build later for other setting

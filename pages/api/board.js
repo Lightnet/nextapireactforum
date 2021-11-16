@@ -29,7 +29,7 @@ export default async (req, res)=>{
   //if(req.method == 'GET'){
     //let boards = await Board.find({parenttype:'board'}).exec();
     //console.log(boards);
-    //return res.json({message:"board",boards:boards});
+    //return res.json({action:"board",boards:boards});
   //}
 
   //need to config build later for other setting
@@ -49,8 +49,7 @@ export default async (req, res)=>{
         }
         const doc = await Board.findOneAndUpdate(query, update,{ new: true } )
         console.log(doc);
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>")
-        return res.json({message:"UPDATE",board:doc});
+        return res.json({action:"UPDATE",board:doc});
       }
       //delete child or move to another need config
       if(boardData.action == 'DELETE'){
@@ -83,10 +82,10 @@ export default async (req, res)=>{
         let boards = await Board.find({parentid:boardData.forumid}).exec();
         console.log("CHECK BOARDS...");
         if(boards.length == 0){
-          return res.json({message:"NOBOARD"});
+          return res.json({action:"NOBOARD"});
         }
         if(boards.length >= 1){
-          return res.json({message:"BOARDS",boards:boards});
+          return res.json({action:"BOARDS",boards:boards});
         }
       }
 
@@ -105,7 +104,7 @@ export default async (req, res)=>{
           return res.json({action:"CREATE",doc:saveBoard});
         }catch(e){
           console.log("FAIL CREATE BOARD");
-          return res.json({message:"FAIL"});
+          return res.json({action:"FAIL"});
         }
       }
     }

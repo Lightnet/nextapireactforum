@@ -37,7 +37,7 @@ export default function EditPost({post,ops}){
 
     let data = await rep.json();
     console.log(data);
-    if(data.message=='UPDATE'){
+    if(data.action=='UPDATE'){
       ops({
         action:'update',
         datatype:'post',
