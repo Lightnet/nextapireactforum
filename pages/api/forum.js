@@ -5,7 +5,7 @@
 
 //import { getCsrfToken, getProviders } from "next-auth/react";
 import { getSession } from "next-auth/react"
-import db from "../../lib/database";
+import db,{ sessionTokenCheck } from "../../lib/database";
 import { isEmpty } from "../../lib/helper";
 import { log } from "../../lib/log";
 
@@ -14,45 +14,14 @@ export default async (req, res)=>{
     //return res.status(405).json({message:'Method not allowed!'});
   //}
   const session = await getSession({ req });
-  //console.log(session);
   log(session);
-  let userid;
-  let username;
   
-  if(session){
-    if(!session.user.name){
-      return res.json({error:"FAIL"});  
-    }
-    if(!session.user.token){
-      return res.json({error:"FAIL"});  
-    }
-
-    if(session.user.token){
-      const User = db.model('User');
-      const user = await User.findOne({username: session.user.name}).exec();
-      if(typeof session.user.token == "string"){
-        //console.log("STRING DATA...");
-        if(user){
-          //console.log("FOUND???");
-          let bcheck = user.checkToken(session.user.token);
-          console.log("TOKEN: ", bcheck);
-          //console.log(user);
-          if(bcheck){
-            // pass
-            log('PASS TOKEN');
-            userid = user._id;
-            username = user.username;
-          }else{
-            log('FAIL TOKEN');
-            return res.json({error:"FAIL"});
-          }
-        }else{
-          return res.json({error:"FAIL"});
-        }
-      }
-    }
-  }else{
-    return res.json({error:"FAIL"});
+  let {error, userid, username} = await sessionTokenCheck(session);
+  //console.log(error);
+  //console.log(userid);
+  //console.log(username);
+  if(error){
+    return res.json({message:"FAIL"});
   }
 
   //schema
@@ -72,12 +41,12 @@ export default async (req, res)=>{
     let forumData = JSON.parse(req.body);
     console.log(forumData)
 
-    if(isEmpty(forumData.subject) || isEmpty(forumData.content)){
-      console.log("EMPTYFIELD");
-      return res.json({error:"EMPTYFIELD"});
-    }
-
     if(forumData.action=='UPDATE'){
+      if(isEmpty(forumData.subject) || isEmpty(forumData.content)){
+        console.log("EMPTYFIELD");
+        return res.json({error:"EMPTYFIELD"});
+      }
+
       let query ={
         id:forumData.forumid
       };
@@ -95,6 +64,10 @@ export default async (req, res)=>{
 
     if(forumData.action=='CREATE'){
       //console.log(boardData);
+      if(isEmpty(forumData.subject) || isEmpty(forumData.content)){
+        console.log("EMPTYFIELD");
+        return res.json({error:"EMPTYFIELD"});
+      }
       let forum = new Forum({
         userid:userid
         , username: username
@@ -109,6 +82,14 @@ export default async (req, res)=>{
         return res.json({error:"FAIL"});
       }
     }
+
+    if(forumData.action=='DELETE'){
+
+
+      
+
+    }
   }
-  //return res.json({error:"NOTFOUND"});
+
+  return res.json({error:"NOTFOUND"});
 };

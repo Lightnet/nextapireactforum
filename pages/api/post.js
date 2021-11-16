@@ -5,7 +5,7 @@
 
 //import { getCsrfToken, getProviders } from "next-auth/react";
 import { getSession } from "next-auth/react"
-import db from "../../lib/database";
+import db,{ sessionTokenCheck } from "../../lib/database";
 import { isEmpty } from "../../lib/helper";
 
 export default async (req, res)=>{
@@ -14,41 +14,13 @@ export default async (req, res)=>{
   //}
   const session = await getSession({ req })
   console.log(session);
-  let userid;
-  let username;
   
-  if(session){
-    if(!session.user.name){
-      return res.json({error:"FAIL"});  
-    }
-    if(!session.user.token){
-      return res.json({error:"FAIL"});  
-    }
-
-    if(session.user.token){
-      const User = db.model('User');
-      const user = await User.findOne({username: session.user.name}).exec();
-      if(typeof session.user.token == "string"){
-        //console.log("STRING DATA...");
-        if(user){
-          //console.log("FOUND???");
-          let bcheck = user.checkToken(session.user.token);
-          //console.log("TOKEN: ", bcheck);
-          //console.log(user);
-          if(bcheck){
-            // pass
-            userid = user._id;
-            username = user.username;
-          }else{
-            return res.json({error:"FAIL"});
-          }
-        }else{
-          return res.json({error:"FAIL"});
-        }
-      }
-    }
-  }else{
-    return res.json({error:"FAIL"});
+  let {error, userid, username} = await sessionTokenCheck(session);
+  //console.log(error);
+  //console.log(userid);
+  //console.log(username);
+  if(error){
+    return res.json({message:"FAIL"});
   }
 
   const Post = db.model('Post');
@@ -81,6 +53,13 @@ export default async (req, res)=>{
       }
       if(postData.action == 'DELETE'){
         const deleteComment = await Post.deleteOne({id:postData.postid}).exec();
+        const Comment = db.model('Comment');
+
+        //delete Comments if exist
+        let deleteComments = await Comment.deleteMany({parentid:postData.postid}).exec();
+        console.log("delete Comments:");
+        console.log(deleteComments);
+
         return res.json({action:"DELETE",id:postData.postid});
       }
     }

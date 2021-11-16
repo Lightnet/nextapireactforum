@@ -5,66 +5,38 @@
 
 //import { getCsrfToken, getProviders } from "next-auth/react";
 import { getSession } from "next-auth/react"
-import db from "../../lib/database";
+import db,{ sessionTokenCheck } from "../../lib/database";
 
 export default async (req, res)=>{
   //if(req.method !== 'POST'){
     //return res.status(405).json({message:'Method not allowed!'});
   //}
   const session = await getSession({ req })
-  console.log(session);
-  let userid;
-  let username;
-  
-  if(session){
-    if(!session.user.name){
-      return res.json({error:"FAIL"});  
-    }
-    if(!session.user.token){
-      return res.json({error:"FAIL"});  
-    }
+  //console.log(session);
 
-    if(session.user.token){
-      const User = db.model('User');
-      const user = await User.findOne({username: session.user.name}).exec();
-      if(typeof session.user.token == "string"){
-        //console.log("STRING DATA...");
-        if(user){
-          //console.log("FOUND???");
-          let bcheck = user.checkToken(session.user.token);
-          //console.log("TOKEN: ", bcheck);
-          //console.log(user);
-          if(bcheck){
-            // pass
-            userid = user._id;
-            username = user.username;
-          }else{
-            return res.json({error:"FAIL"});
-          }
-        }else{
-          return res.json({error:"FAIL"});
-        }
-      }
-    }
-  }else{
-    return res.json({error:"FAIL"});
+  let {error, userid, username} = await sessionTokenCheck(session);
+  //console.log(error);
+  //console.log(userid);
+  //console.log(username);
+  if(error){
+    return res.json({message:"FAIL"});
   }
 
   const Board = db.model('Board');
   //console.log(Post);
 
   // config default and other setting later...
-  if(req.method == 'GET'){
-    let boards = await Board.find({parenttype:'board'}).exec();
+  //if(req.method == 'GET'){
+    //let boards = await Board.find({parenttype:'board'}).exec();
     //console.log(boards);
-    return res.json({message:"board",boards:boards});
-  }
+    //return res.json({message:"board",boards:boards});
+  //}
 
   //need to config build later for other setting
   if(req.method == 'POST'){
     var boardData = JSON.parse(req.body);
-    console.log("CHECK FORUM ID...")
-    console.log(boardData);
+    //console.log("CHECK FORUM ID...")
+    //console.log(boardData);
 
     if(boardData.boardid){
       if(boardData.action == 'UPDATE'){
@@ -80,8 +52,26 @@ export default async (req, res)=>{
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>")
         return res.json({message:"UPDATE",board:doc});
       }
+      //delete child or move to another need config
       if(boardData.action == 'DELETE'){
-        const deleteComment = await Board.deleteOne({id:boardData.boardid}).exec();
+        
+
+        const Post = db.model('Post');
+        const Comment = db.model('Comment');
+        let posts = await Post.find({parentid:boardData.boardid}).exec();
+        if(posts.length > 0){
+          for(const post of posts){
+            let deleteComments = await Comment.deleteMany({parentid:post.id}).exec();
+            console.log("deleteComments: ",deleteComments)
+          }
+        }
+
+        let deletePosts = await Post.deleteMany({parentid:boardData.boardid}).exec();
+        console.log("deletePosts: ",deletePosts)
+
+        const deleteBoard = await Board.deleteOne({id:boardData.boardid}).exec();
+        console.log("deleteBoard:",deleteBoard)
+
         return res.json({action:"DELETE",id:boardData.boardid});
       }
     }
@@ -118,8 +108,8 @@ export default async (req, res)=>{
           return res.json({message:"FAIL"});
         }
       }
-
     }
   }
+
   return res.json({error:"NOTFOUND"});
 };
