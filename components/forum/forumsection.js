@@ -31,6 +31,7 @@ import Modal from '../ui/modal';
 import DeleteComment from './comment/deletecomment';
 import DeletePost from './post/deletepost';
 import DeleteBoard from './board/deleteboard';
+import DeleteForum from './deleteforum';
 
 export default function component(){
 
@@ -329,6 +330,22 @@ export default function component(){
           }
         }
 
+        if(args.action == "APICREATE"){
+          if(args.datatype == "forum"){
+            console.log("CREATE API???")
+            forums.push(args.doc);
+            setForums([]);
+            setForums(forums);
+            setDataTypeModal(null);
+            setDataTypeModal(null);
+
+            setDataModeModal(null);
+            setDataModeModal(null);
+            setMessageModal('CREATE FORUM');
+            setIsOpenModal(true);
+          }
+        }
+
         if(args.action == "edit"){
           if(args.datatype == "forum"){
             setDataTypeModal('forum');
@@ -497,6 +514,27 @@ export default function component(){
             }
           }
         }
+
+        if(args.action == "APIDELETE"){
+          if(args.datatype == "forum"){
+            console.log("delete... API FORUM");
+            for(let i =0; i< forums.length;i++){
+              if(forums[i].id == args.id){
+                forums.splice(i,1);
+                break;
+              }
+            }
+            setForums([]);
+            setForums(forums);
+
+            setDataTypeModal('DELETE');
+            setDataModeModal('FORUM');
+            setBoards([]);
+            setPosts([]);
+            setComments([]);
+            setIsOpenModal(true);
+          }
+        }
         //end action section
       }
     }
@@ -529,7 +567,7 @@ export default function component(){
   function renderDataTypeModal(){
     if(dataTypeModal == "forum"){
       if(dataModeModal == "create"){
-        return <NewForum></NewForum>
+        return <NewForum ops={callBackOPS}></NewForum>
       }
       if(dataModeModal == "edit"){
         let forum;
@@ -540,10 +578,18 @@ export default function component(){
             break;
           }
         }
-        return <EditForum forum={forum} forumid={forumID} ops={callBackOPS}></EditForum>
+        return <EditForum forum={forum} ops={callBackOPS}></EditForum>
       }
       if(dataModeModal == "delete"){
-        return <p>Delete Forum Modal</p>
+        let forum;
+        for(const _forum of forums){
+          if(_forum.id == forumID){
+            forum =_forum; 
+            break;
+          }
+        }
+
+        return <DeleteForum forum={forum} ops={callBackOPS}></DeleteForum>
       }
     }
 
@@ -630,6 +676,9 @@ export default function component(){
     }
 
     if(dataTypeModal == 'DELETE'){
+      if(dataModeModal == 'FORUM'){
+        return <p>ID [ {forumID} ] is Delete {dataModeModal}! </p>
+      }
       if(dataModeModal == 'BOARD'){
         return <p>ID [ {boardID} ] is Delete {dataModeModal}! </p>
       }
@@ -639,9 +688,7 @@ export default function component(){
       if(dataModeModal == 'COMMENT'){
         return <p>ID [ {commentID} ] is Delete {dataModeModal}! </p>
       }
-      
     }
-
     return <p>{messageModal}</p>
   }
 

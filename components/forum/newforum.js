@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../lib/helper';
   
-export default function component(){
+export default function NewForum({ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
   
@@ -30,6 +30,13 @@ export default function component(){
     });
     let data = await rep.json();
     console.log(data);
+    if(data.action=='CREATE'){
+      ops({
+        action:'APICREATE'
+        , datatype:'forum'
+        , doc:data.forum
+      })
+    }
   }
 
   useEffect(()=>{

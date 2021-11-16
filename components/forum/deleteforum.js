@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../lib/helper';
   
-export default function editForum({forum,forumid,ops}){
+export default function DeleteForum({forum,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
 
@@ -30,21 +30,17 @@ export default function editForum({forum,forumid,ops}){
     let rep = await fetch('api/forum', {
       method:'POST',
       body:JSON.stringify({
-        action:'UPDATE',
-        forumid:forum.id ,
-        subject:subject ,
-        content:content
+        action:'DELETE',
+        forumid:forum.id
       })
     });
     let data = await rep.json();
     console.log(data);
-    if(data.action == 'UPDATE'){
+    if(data.action == 'DELETE'){
       ops({
-        action:'update',
+        action:'APIDELETE',
         datatype:'forum',
-        id:data.forum.id,
-        subject:data.forum.subject,
-        content:data.forum.content
+        id:data.id,
       })
     }
   }
@@ -72,7 +68,7 @@ export default function editForum({forum,forumid,ops}){
         </textarea>
       </div>
       <div>
-        <button onClick={PostAPI}>Update</button>
+        <button onClick={PostAPI}>Delete Confirm?</button>
       </div>
     </div>
   </>)

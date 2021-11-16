@@ -55,20 +55,20 @@ export default async (req, res)=>{
       //delete child or move to another need config
       if(boardData.action == 'DELETE'){
         
-
         const Post = db.model('Post');
         const Comment = db.model('Comment');
         let posts = await Post.find({parentid:boardData.boardid}).exec();
         if(posts.length > 0){
           for(const post of posts){
+            //delete comments from post id
             let deleteComments = await Comment.deleteMany({parentid:post.id}).exec();
             console.log("deleteComments: ",deleteComments)
           }
         }
-
+        //delete posts from board id
         let deletePosts = await Post.deleteMany({parentid:boardData.boardid}).exec();
         console.log("deletePosts: ",deletePosts)
-
+        //delete board
         const deleteBoard = await Board.deleteOne({id:boardData.boardid}).exec();
         console.log("deleteBoard:",deleteBoard)
 
