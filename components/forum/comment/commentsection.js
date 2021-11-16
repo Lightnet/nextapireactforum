@@ -38,7 +38,7 @@ export default function component({comments,postid,ops}){
   return(<>
     <div>
       <label>Comment </label>
-      <button onClick={btnCreateComment}> New Comment </button>
+      <button onClick={()=>ops({action:'create',datatype:'comment',id:postid})}> New Comment </button>
       {isOpenComment && <NewComment postid={postid}></NewComment>}
       {renderComments()}
     </div>

@@ -82,10 +82,10 @@ export default async (req, res)=>{
         try{
           let savePost = await post.save();
           console.log(savePost);
-          return res.json({message:"CREATED",post:savePost});
+          return res.json({action:"CREATE",doc:savePost});
           //return res.json({message:"CREATED"});
         }catch(e){
-          return res.json({message:"FAIL"});
+          return res.json({action:"FAIL"});
         }
       }
 

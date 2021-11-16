@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
   
-export default function component({postid}){
+export default function component({postid,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
 
@@ -34,6 +34,15 @@ export default function component({postid}){
 
     let data = await rep.json();
     console.log(data);
+    if(data.action){
+      if(data.action=='CREATE'){
+        ops({
+          action:'APICREATE'
+          , datatype:'comment'
+          , doc: data.doc
+        })
+      }
+    }
   }
 
   function onTypingSubject(e){

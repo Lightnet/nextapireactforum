@@ -100,9 +100,9 @@ export default async (req, res)=>{
           , content: boardData.content
         });
         try{
-          await board.save();
+          let saveBoard = await board.save();
           console.log("CREATE BOARD");
-          return res.json({message:"pass"});
+          return res.json({action:"CREATE",doc:saveBoard});
         }catch(e){
           console.log("FAIL CREATE BOARD");
           return res.json({message:"FAIL"});

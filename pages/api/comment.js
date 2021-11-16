@@ -75,7 +75,7 @@ export default async (req, res)=>{
         try{
           let saveComment = await comment.save();
           console.log(saveComment);
-          return res.json({message:"CREATED",comment:saveComment});
+          return res.json({action:"CREATE",doc:saveComment});
           //return res.json({message:"CREATED"});
         }catch(e){
           return res.json({message:"FAIL"});

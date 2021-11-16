@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
   
-export default function component({forumid}){
+export default function component({forumid,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
   const [parentID, setParentID] = useState("");
@@ -38,7 +38,15 @@ export default function component({forumid}){
     });
     let data = await rep.json();
     console.log(data);
-    
+    if(data.action){
+      if(data.action){
+        ops({
+          action:'APICREATE'
+          , datatype:'board'
+          , doc: data.doc
+        })
+      }
+    }
   }
 
   function onTypingParentID(e){
@@ -57,7 +65,6 @@ export default function component({forumid}){
     setContent(e.target.value);
   }
   
-
   return(<>
     <div>
       <div>
@@ -78,7 +85,7 @@ export default function component({forumid}){
 
 
       <div>
-        <label>Summrty:</label>
+        <label>Summary:</label>
         <br />
         <textarea value={content} onChange={onTypingContent}>
 

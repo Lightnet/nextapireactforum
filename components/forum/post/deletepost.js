@@ -37,7 +37,7 @@ export default function DeletePost({post,ops}){
     console.log(data);
     if(data.action=='DELETE'){
       ops({
-        action:'UPDATEDELETE',
+        action:'APIDELETE',
         datatype:'post',
         id:data.id,
       });

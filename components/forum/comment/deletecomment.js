@@ -37,7 +37,7 @@ export default function DeleteComment({comment,ops}){
     console.log(data);
     if(data.action=='DELETE'){
       ops({
-        action:'UPDATEDELETE',
+        action:'APIDELETE',
         datatype:'comment',
         id:data.id,
       });

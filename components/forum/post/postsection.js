@@ -38,7 +38,7 @@ export default function component({posts,boardid,ops}){
   return(<>
     <div>
       <label> Post </label>
-      <button onClick={btnCreatePost}> New Post </button>
+      <button onClick={()=>ops({action:'create',datatype:'post',id:boardid})}> New Post </button>
       {isOpenPost && <NewPost boardid={boardid}></NewPost>}
       {renderPosts()}
     </div>

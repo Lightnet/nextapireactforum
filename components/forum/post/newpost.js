@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
   
-export default function component({boardid}){
+export default function component({boardid,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
 
@@ -14,7 +14,7 @@ export default function component({boardid}){
   //},[]);
   
   async function PostAPI(){
-    console.log("post boardid");
+    console.log("postid");
 
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
@@ -33,6 +33,15 @@ export default function component({boardid}){
 
     let data = await rep.json();
     console.log(data);
+    if(data.action){
+      if(data.action=='CREATE'){
+        ops({
+          action:'APICREATE'
+          , datatype:'post'
+          , doc:data.doc
+        })
+      }
+    }
   }
 
   function onTypingSubject(e){
@@ -45,8 +54,8 @@ export default function component({boardid}){
 
   return(<>
     <div>
-      <div className="headerpanel">
-        <label>Topic Name:</label>
+      <div>
+        <label>[Post] Subject:</label>
         <br />
         <input value={subject} onChange={onTypingSubject} />
       </div>

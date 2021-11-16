@@ -37,7 +37,7 @@ export default function DeleteBoard({board,ops}){
     console.log(data);
     if(data.action=='DELETE'){
       ops({
-        action:'UPDATEDELETE',
+        action:'APIDELETE',
         datatype:'board',
         id:data.id,
       });

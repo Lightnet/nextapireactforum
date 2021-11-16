@@ -328,6 +328,18 @@ export default function component(){
             setDataModeModal('create');
             setIsOpenModal(true);
           }
+
+          if(args.datatype == "post"){
+            setDataTypeModal('post');
+            setDataModeModal('create');
+            setIsOpenModal(true);
+          }
+
+          if(args.datatype == "comment"){
+            setDataTypeModal('comment');
+            setDataModeModal('create');
+            setIsOpenModal(true);
+          }
         }
 
         if(args.action == "APICREATE"){
@@ -337,11 +349,33 @@ export default function component(){
             setForums([]);
             setForums(forums);
             setDataTypeModal(null);
-            setDataTypeModal(null);
-
-            setDataModeModal(null);
             setDataModeModal(null);
             setMessageModal('CREATE FORUM');
+            setIsOpenModal(true);
+          }
+          if(args.datatype == "board"){
+            boards.push(args.doc);
+            setBoards(boards);
+            setDataModeModal(null);
+            setDataTypeModal(null);
+            setMessageModal('CREATE BOARD');
+            setIsOpenModal(true);
+          }
+          if(args.datatype == "post"){
+            posts.push(args.doc);
+            setPosts(posts);
+            setDataModeModal(null);
+            setDataTypeModal(null);
+            setMessageModal('CREATE POST');
+            setIsOpenModal(true);
+          }
+
+          if(args.datatype == "comment"){
+            comments.push(args.doc);
+            setComments(comments);
+            setDataModeModal(null);
+            setDataTypeModal(null);
+            setMessageModal('CREATE COMMENT');
             setIsOpenModal(true);
           }
         }
@@ -397,51 +431,6 @@ export default function component(){
             setCommentID(args.id)
             setDataTypeModal('comment');
             setDataModeModal('delete');
-            setIsOpenModal(true);
-          }
-        }
-
-        if(args.action == "UPDATEDELETE"){
-          if(args.datatype == "comment"){
-            setCommentID(args.id);
-            for(let i=0;i < comments.length;i++){
-              //console.log(_comment);
-              if(comments[i].id  == args.id){
-                comments.splice(i,1)
-                break;
-              }
-            }
-            setComments(comments);
-            setDataTypeModal('DELETE');
-            setDataModeModal('COMMENT');
-            setIsOpenModal(true);
-          }
-          if(args.datatype == "post"){
-            setPostID(args.id);
-            for(let i=0;i < posts.length;i++){
-              //console.log(_comment);
-              if(posts[i].id  == args.id){
-                posts.splice(i,1)
-                break;
-              }
-            }
-            setPosts(posts);
-            setDataTypeModal('DELETE');
-            setDataModeModal('POST');
-            setIsOpenModal(true);
-          }
-          if(args.datatype == "board"){
-            setPostID(args.id);
-            for(let i=0;i < boards.length;i++){
-              //console.log(_comment);
-              if(boards[i].id  == args.id){
-                boards.splice(i,1)
-                break;
-              }
-            }
-            setBoards(boards);
-            setDataTypeModal('DELETE');
-            setDataModeModal('BOARD');
             setIsOpenModal(true);
           }
         }
@@ -534,7 +523,53 @@ export default function component(){
             setComments([]);
             setIsOpenModal(true);
           }
+          if(args.datatype == "board"){
+            setPostID(args.id);
+            for(let i=0;i < boards.length;i++){
+              //console.log(_comment);
+              if(boards[i].id  == args.id){
+                boards.splice(i,1)
+                break;
+              }
+            }
+            setBoards([]);
+            setBoards(boards);
+            setDataTypeModal('DELETE');
+            setDataModeModal('BOARD');
+            setIsOpenModal(true);
+          }
+  
+          if(args.datatype == "post"){
+            setPostID(args.id);
+            for(let i=0;i < posts.length;i++){
+              //console.log(_comment);
+              if(posts[i].id  == args.id){
+                posts.splice(i,1)
+                break;
+              }
+            }
+            setPosts(posts);
+            setDataTypeModal('DELETE');
+            setDataModeModal('POST');
+            setIsOpenModal(true);
+          }
+  
+          if(args.datatype == "comment"){
+            setCommentID(args.id);
+            for(let i=0;i < comments.length;i++){
+              //console.log(_comment);
+              if(comments[i].id  == args.id){
+                comments.splice(i,1)
+                break;
+              }
+            }
+            setComments(comments);
+            setDataTypeModal('DELETE');
+            setDataModeModal('COMMENT');
+            setIsOpenModal(true);
+          }
         }
+        
         //end action section
       }
     }
@@ -595,7 +630,7 @@ export default function component(){
 
     if(dataTypeModal == "board"){
       if(dataModeModal == "create"){
-        return <NewBoard forumid={forumID}></NewBoard>
+        return <NewBoard forumid={forumID} ops={callBackOPS}></NewBoard>
       }
       if(dataModeModal == "edit"){
         let board;
@@ -622,7 +657,7 @@ export default function component(){
 
     if(dataTypeModal == "post"){
       if(dataModeModal == "create"){
-        return <NewPost boardid={boardID}></NewPost>
+        return <NewPost boardid={boardID} ops={callBackOPS}></NewPost>
       }
       if(dataModeModal == "edit"){
         let post;
@@ -650,7 +685,7 @@ export default function component(){
     if(dataTypeModal == "comment"){
       //console.log("COMMENT......>>>>>>>>>>>>>>>>")
       if(dataModeModal == "create"){
-        return <NewComment postid={postID}></NewComment>
+        return <NewComment postid={postID} ops={callBackOPS}></NewComment>
       }
       if(dataModeModal == "edit"){
         let comment;
