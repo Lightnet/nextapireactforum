@@ -5,8 +5,11 @@
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 // https://javascript.info/fetch
 // https://github.github.io/fetch/
-
+// https://medium.com/@9cv9official/what-are-get-post-put-patch-delete-a-walkthrough-with-javascripts-fetch-api-17be31755d28
+// https://dev.to/tienbku/javascript-fetch-getpostputdelete-example-3dmp
 // // *GET, POST, PUT, DELETE, etc.
+
+//GET, POST, PUT, DELETE, PATCH
 
 export default async function useFetch(url,args){
   if(!url){
@@ -19,28 +22,28 @@ export default async function useFetch(url,args){
   if(args.method == 'GET'){
     //console.log('GET!!');
     args.headers = {};
-    args.body = null; //can't get body else error 
+    args.body = null; //set to null for GET since is never allow
   }else{
-    //args.headers = {};
     args.headers = args.headers || {"Content-Type": "application/json"};
     args.body = args.body || {};
   }
 
   try{
-    let rep = await fetch(url, {
-      method:args.method,
-      headers: args.headers,
-      body:args.body
-    });
-    let data = await rep.json();
+    let response = await fetch(url, args);
+    if (!response.ok) {
+      //const message = 'Error with Status Code: ' + response.status;
+      //throw new Error(message);
+      console.log("RESPONSE FETCH ERROR");
+      return {error:'SERVER FETCH ERROR'};// check if the server error
+    }
+    let data = await response.json();
     return data;
   }catch(e){
     console.log("FETCH ERROR");
     console.log(e);
-    return {error:'FETCH ERROR'};
+    return {error:'FETCH ERROR'}; //check for json format error
   }
 }
-
 
 /**
 // Default options are marked with *

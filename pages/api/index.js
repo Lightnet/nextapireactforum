@@ -28,13 +28,29 @@ export default async (req, res)=>{
   }
 
   if(req.method == 'GET'){
-    return res.json({error:"GETFOUND"});
+    return res.json({error:"GET FOUND"});
   }
 
   if(req.method == 'POST'){
     console.log(req.body);
     //return res.end();
-    return res.json({error:"POSTFOUND"});
+    //throw new Error('message test error');
+    return res.json({error:"POST FOUND"});
+  }
+
+  if(req.method == 'PUT'){
+    console.log(req.body);
+    return res.json({error:"PUT FOUND"});
+  }
+
+  if(req.method == 'PATCH'){
+    console.log(req.body);
+    return res.json({error:"PATCH FOUND"});
+  }
+
+  if(req.method == 'DELETE'){
+    console.log(req.body);
+    return res.json({error:"DELETE FOUND"});
   }
 
   return res.json({error:"NOTFOUND"});
