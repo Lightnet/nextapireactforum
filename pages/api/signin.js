@@ -5,14 +5,13 @@
 
 // https://mongoosejs.com/docs/promises.html
 import { getCsrfToken, getProviders } from "next-auth/react";
-import db,{ sessionTokenCheck } from "../../lib/database";
+import db from "../../lib/database";
 
 export default async (req, res)=>{
   console.log("[[[=== SIGN IN ===]]]");
   if(req.method !== 'POST'){
     return res.status(405).json({message:'Method not allowed!'});
   }
-
   //const csrfToken = await getCsrfToken({ req });
   const csrfToken = await getCsrfToken();
   //console.log("csrfToken:",csrfToken);
@@ -24,8 +23,8 @@ export default async (req, res)=>{
   //console.log(userData.newUser);
   
   const user = await User.findOne({username: userData.alias}).exec();
-  console.log("user");
-  console.log(user);
+  //console.log("user");
+  //console.log(user);
   if(userData.newUser){//sign up for new user
     if(!user){
       console.log("[newUser] NOT FOUND, creating...")
@@ -55,7 +54,7 @@ export default async (req, res)=>{
         return res.json(user.toAuthJSON());
       }else{
         console.log("[login] Password Fail!");
-        return res.json({error:"NOTFOUND"});
+        return res.json({error:"PASSWORDFAIL"});
       }
     }
   }

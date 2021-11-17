@@ -7,6 +7,7 @@
 
 import { getCsrfToken } from "next-auth/react";
 import Link from 'next/link';
+import { useState } from "react";
 
 // This is the recommended way for Next.js 9.3 or newer
 export async function getServerSideProps(context) {
@@ -18,6 +19,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function SignIn({ csrfToken }) {
+
   return (
     <center>
       <form method="post" action="/api/auth/callback/credentials">
@@ -43,7 +45,7 @@ export default function SignIn({ csrfToken }) {
             <tr>
               <td colSpan="2">
                 <Link href="/">Back</Link><span> | </span>
-                <button type="submit">Sign in</button>
+                <button type="submit" >Sign in</button>
               </td>
             </tr>
           </tbody>
