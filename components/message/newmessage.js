@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../lib/helper';
+import useFetch from '../hook/usefetch';
   
 export default function component(){
 
@@ -23,7 +24,7 @@ export default function component(){
       return;
     }
 
-    let rep = await fetch('api/message', {
+    let data = await useFetch('api/message', {
       method:'POST',
       body:JSON.stringify({
         sentID:sentID
@@ -32,9 +33,16 @@ export default function component(){
         , content:content
       })
     });
-
-    let data = await rep.json();
     console.log(data);
+    if(data.error){
+      console.log("FETCH MESSAGE ERROR");
+      return;
+    }
+    if(data.action){
+      if(data.action=='CREATE'){
+        console.log('MESSAGE SENT');
+      }
+    }
   }
 
   function onTypingID(e){

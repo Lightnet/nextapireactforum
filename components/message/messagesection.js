@@ -4,8 +4,8 @@
 */
 
 import { useEffect, useState } from "react"
-import useFetch from "../hook/usefetch";
-import Inbox from "./messageinbox";
+//import useFetch from "../hook/usefetch";
+import Inbox from "./inbox";
 import Settings from "./messagesettings";
 import NewMessage from "./newmessage";
 
@@ -13,16 +13,8 @@ export default function component(){
 
   const [view, setView]=useState("inbox");
 
-  useEffect(()=>{
-    getMessages();
-  },[])
-
-
-  async function getMessages(){
-    let data = await useFetch('api/message',{method:'GET'});
-    console.log("MESSSAGE DATA");
-    console.log(data);
-  }
+  //useEffect(()=>{
+  //},[])
 
   function viewRender(){
     if(view=='inbox'){

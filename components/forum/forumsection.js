@@ -179,14 +179,13 @@ export default function component(){
     }
   }
 
-  function onChangeForum(e){
-    //console.log(e.target.value);
-    //console.log("forumID");
-    setForumID(e.target.value);
-    setBoards([]); //clear board
-    setPosts([]) //clear posts
-    setComments([]) //clear comments
-    setIsBoard(true);
+  function checkRenderForumIndex(){
+    //console.log("forumID: ",forumID);
+    //console.log(typeof forumID);
+    if(forumID !== "" && forumID != null){
+      return (<a href="#" onClick={()=>callBackOPS({action:"selectindex"})}>Index</a>);
+    }
+    return (<> </>);
   }
 
   //need to fixed select board to post
@@ -240,6 +239,14 @@ export default function component(){
         return( <label> Post Empty! </label> );
       }
       return( <label> Post Empty! </label> );
+    }
+  }
+
+  function renderComments(){
+    if(isComment){
+      return( <CommentSection comments={comments} postid={postID} ops={callBackOPS} />);
+    }else{
+      return( <label> Comment Empty! </label> );
     }
   }
 
@@ -542,30 +549,23 @@ export default function component(){
     }
   }
 
-  function renderComments(){
-    if(isComment){
-      return( <CommentSection comments={comments} postid={postID} ops={callBackOPS} />);
-    }else{
-      return( <label> Comment Empty! </label> );
-    }
-  }
-
-  function checkRenderForumIndex(){
-    //console.log("forumID: ",forumID);
-    //console.log(typeof forumID);
-    if(forumID !== "DEFAULT" && forumID != null){
-      return (<a href="#" onClick={()=>callBackOPS({action:"selectindex"})}>Index</a>);
-    }
-    return (<> </>);
-  } 
-
   function closeModel(){
     setIsOpenModal(false);
   }
 
-  function toggleModal(){
-    setIsOpenModal(!isOpenModal)
+  function onChangeForum(e){
+    //console.log(e.target.value);
+    //console.log("forumID");
+    setForumID(e.target.value);
+    setBoards([]); //clear board
+    setPosts([]) //clear posts
+    setComments([]) //clear comments
+    setIsBoard(true);
   }
+
+  //function toggleModal(){
+    //setIsOpenModal(!isOpenModal)
+  //}
 
   function renderDataTypeModal(){
     if(dataTypeModal == "forum"){
