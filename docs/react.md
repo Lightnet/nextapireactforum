@@ -1,5 +1,6 @@
 https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
 
+https://dev.to/alexkhismatulin/update-boolean-state-right-with-react-hooks-3k2i
 
 ```
 comment.id //when react clean up it check this for some reason it will error.

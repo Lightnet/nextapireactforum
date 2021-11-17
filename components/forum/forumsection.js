@@ -26,19 +26,20 @@ import EditBoard from './board/editboard';
 import EditPost from './post/editpost';
 import EditComment from './comment/editcomment';
 
-import ForumNavBar from "./forumnavbar";
-import Modal from '../ui/modal';
 import DeleteComment from './comment/deletecomment';
 import DeletePost from './post/deletepost';
 import DeleteBoard from './board/deleteboard';
 import DeleteForum from './deleteforum';
+
+import ForumNavBar from "./forumnavbar";
+import Modal from '../ui/modal';
 import useFetch from '../hook/usefetch';
 import { isEmpty } from '../../lib/helper';
 
 export default function component(){
 
   //forum
-  const [forums, setForums] = useState([]); 
+  const [forums, setForums] = useState([]);
   const [forumID, setForumID] = useState('');
 
   //board
@@ -103,7 +104,6 @@ export default function component(){
       console.log("ERROR GET FORUM ");
       return;
     }
-    //console.log(data);
     if(data.action == "forums"){
       if(data.forums){
         setBoards([]); //clear board
@@ -302,9 +302,6 @@ export default function component(){
         }
 
         if(args.action == "upvote"){
-          if(args.datatype == "board"){
-
-          }
           if(args.datatype == "post"){
 
           }
@@ -314,9 +311,6 @@ export default function component(){
         }
 
         if(args.action == "downvote"){
-          if(args.datatype == "board"){
-
-          }
           if(args.datatype == "post"){
 
           }
@@ -369,9 +363,7 @@ export default function component(){
         if(args.action == "APICREATE"){
           if(args.datatype == "forum"){
             console.log("CREATE API???")
-            forums.push(args.doc);
-            setForums([]);
-            setForums(forums);
+            setForums([...forums,args.doc]);
             setDataTypeModal(null);
             setDataModeModal(null);
             setMessageModal('CREATE FORUM');

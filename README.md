@@ -10,9 +10,9 @@
 # Information:
   Prototype build for forum.
 
-  The forum will be built by using the nextjs, reactjs and mongoDB json format. Other features will have simple post types like news, blog and other things about community.
+  The forum will be built by using the Next.js, React.js and MongoDB json format. Other features will have simple post types like news, blog and other things about community.
 
-  By using the nextjs to have zero or minimal config server, api rest, pre-render client broswer reactjs and other package features.
+  By using the Next.js to have zero or minimal config server, api rest, pre-render client broswer reactjs and other package features.
 
 ## Links:
   Work in progress. Due to linking id system is not build to reference the post or comment.
@@ -66,7 +66,7 @@ There should be five area when developementing.
 =========================================
 ```
 
-  Nextjs is design to have preload to reduce request for pre-render client browser but get query request of data change on add, update, delete, edit, theme colors and other things.
+  Next.js is design to have preload to reduce page render request. The server create react component once to pre-render client browser but get query request of data change on add, update, delete, edit, theme colors and other things.
 
 ## example:
 ```
@@ -84,7 +84,9 @@ pages/api/post (folder)
 # TO DO LIST:
 - Need to design serverless database peer to peer forum (not build)
 - auth 
-  - signup (added / simple)
+  - sign up page (added / simple)
+  - sign in page (added / simple)
+  - error page (not build)
   - token (added)
   - reuse token and session check in api  (added)
 - plugin (Not build)
@@ -109,13 +111,13 @@ pages/api/post (folder)
   - create (added)
   - edit (added)
   - delete (added)
-	- child (added / not test fully)
+	  - child (added)
   - list (added)
 - post (work in progress)
   - create (added)
   - edit (added)
   - delete (added)
-  	- child (added / not test fully)
+  	- child (added)
   - list (added)
 - comment (work in progress)
   - create (added)
@@ -128,6 +130,7 @@ pages/api/post (folder)
   - board (added)
   - post (added)
   - comment (added)
+  - permission (not build)
 - adventureguild (not build)
 - artisanguild (not build)
 - merchantguild (not build)
@@ -136,7 +139,8 @@ pages/api/post (folder)
   - join and leave event (not build)
 
 ## bugs:
-- not select correct board, post and comment to display not fixed yet.
+- no check for access
+- fetch required rework /api calls
 
 ## prefix guild:
   Those are just prototype idea base on real life to keep it simple to genre types.

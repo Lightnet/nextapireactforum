@@ -1,15 +1,79 @@
 
 
 # Design:
- Note that 'import { ReactDOM } from "react";' does not work on pages folder. It is due to server pre-render.
+ Note that 'import { ReactDOM } from "react";' does not work on pages folder. It is due to server pre-render. As well document variable. But depend where it place.
 
  Exammple on Notification base simple setup.
 
+```js
+ReactDOM.render(
+  <NotificationsManager
+    setNotify={(notifyFn) => {
+      notify = notifyFn;
+    }}
+  />,
+  document.getElementById('notifyContainer')
+);
+```
+- this will fail when creating component folder.
+- error on document and render.
 
 
+# hook::useCallback:
+- https://dev.to/alexkhismatulin/update-boolean-state-right-with-react-hooks-3k2i
 
+```js
+const [isToggled, setIsToggled] = React.useState(false);
 
+  // here we added [isToggled, setIsToggled] as a second parameter
+  const toggle = React.useCallback(
+    () => setIsToggled(!isToggled),
+    [isToggled, setIsToggled],
+  );
+```
+- useCallback is only about optimization
+- dependencies array
 
+```js
+// callback for useState that accepts the current state
+setIsToggled(state => !state)
+```
+
+# Array:functions:
+
+```js
+const [forums, setForums] = useState([]);
+
+let doc={
+  id:index, //must different number or id else the react will key={id} will complain.
+  subject:'something'
+  content:'text'
+}
+
+//... add
+setForums([...forums,doc]);
+
+//... update
+function update(args){
+  //args.id
+  setForums(
+    forums.map(item=>
+      item.id === args.id
+      ? {...item,subject:args.subject,content:args.content}
+      : item
+  ));
+}
+//
+
+//... delete
+setForums(forums.filter(item=>item.id !== args.id ));
+// loop item match ingore item or skip item
+```
+- https://www.w3schools.com/jsref/jsref_filter.asp
+- https://www.w3schools.com/jsref/jsref_map.asp
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+  - Spread syntax (...)
+- https://www.samanthaming.com/tidbits/92-6-use-cases-of-spread-with-array/
 
 # Information:
   Using the next.js and react.js to pre-render or preload components to create the page or document. To reduce bandwidth as well rerender the page. It only need query user fetch data from api call that simalar to function calls.
