@@ -33,12 +33,13 @@ import DeletePost from './post/deletepost';
 import DeleteBoard from './board/deleteboard';
 import DeleteForum from './deleteforum';
 import useFetch from '../hook/usefetch';
+import { isEmpty } from '../../lib/helper';
 
 export default function component(){
 
   //forum
   const [forums, setForums] = useState([]); 
-  const [forumID, setForumID] = useState('DEFAULT');
+  const [forumID, setForumID] = useState('');
 
   //board
   const [boards, setBoards] = useState([]); 
@@ -75,10 +76,8 @@ export default function component(){
     //setBoards([]);
     //console.log("forumID change");
     //console.log(forumID);
-    if(forumID !='DEFAULT'){
+    if(!isEmpty(forumID)){
       getBoards();
-    }else{
-      setIsBoard(false);
     }
 
     if(isBoard){
@@ -92,7 +91,9 @@ export default function component(){
     if(isComment){
       getComments();
     }
-
+    return () =>{
+      console.log('CLEAN UP FORUM..........................')
+    }
   },[forumID,isBoard,isPost,isComment]);
 
   async function getForums(){
@@ -105,6 +106,9 @@ export default function component(){
     //console.log(data);
     if(data.action == "forums"){
       if(data.forums){
+        setBoards([]); //clear board
+        setPosts([]) //clear posts
+        setComments([]) //clear comments
         setForums(data.forums);
       }
     }
@@ -179,6 +183,9 @@ export default function component(){
     //console.log(e.target.value);
     //console.log("forumID");
     setForumID(e.target.value);
+    setBoards([]); //clear board
+    setPosts([]) //clear posts
+    setComments([]) //clear comments
     setIsBoard(true);
   }
 
@@ -240,20 +247,27 @@ export default function component(){
     if(args){
       if(args.action){
         if(args.action == "selectindex"){
+          setPosts([]) //clear posts
+          setComments([]) //clear comments
           setIsBoard(true);
           setIsPost(false);
           setIsComment(false);
-          getBoards();
         }
 
         if(args.action == "selectboard"){
+          console.log('TOP NAV SELECT BAORD??');
+          console.log("boardID: ",boardID)
+          //setBoards([]); //clear board
+          //setPosts([]) //clear posts
+          setComments([]) //clear comments
+          //setBoardID(args.id);
           setIsBoard(false);
           setIsPost(true);
           setIsComment(false);
-          //getPosts();
         }
 
         if(args.action == "selectpost"){
+          //setPostID(args.id);
           setIsBoard(false);
           setIsPost(false);
           setIsComment(true);
@@ -261,24 +275,30 @@ export default function component(){
 
         if(args.action == "select"){
           if(args.datatype == "board"){
-            //console.log("SELECT BOARD>>>>???");
+            console.log("CHILD SELECT BOARD");
+            setPosts([])//clear posts
+            setComments([])//clear comments
             setBoardID(args.id);
             setIsBoard(false);
             setIsPost(true);
             setIsComment(false);
           }
           if(args.datatype == "post"){
+            setComments([])//clear comments
             setPostID(args.id);
             setIsBoard(false);
             setIsPost(false);
             setIsComment(true);
           }
+
+          /*
           if(args.datatype == "comment"){
             setCommentID(args.id);
             setIsBoard(false);
             setIsPost(false);
             setIsComment(true);
           }
+          */
         }
 
         if(args.action == "upvote"){
@@ -550,6 +570,7 @@ export default function component(){
   function closeModel(){
     setIsOpenModal(false);
   }
+
   function toggleModal(){
     setIsOpenModal(!isOpenModal)
   }

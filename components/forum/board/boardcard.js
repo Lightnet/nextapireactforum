@@ -18,7 +18,7 @@ export default function component({item,ops}){
       width:'100%'
     }}>
       <div className="headerpanel">[Board] 
-        <a href="#" onClick={()=>ops({action:"select",datatype:"board",id:item.id})}>{item.subject}</a>
+        <a href="#" onClick={()=>ops({action:"select",datatype:"board",id:item.id})}>[ID:{item.id}] {item.subject}</a>
         <span style={{float:'right'}}>
           <a href="#" onClick={()=>ops({action:"edit",datatype:"board",id:item.id})}>EDIT</a>
           <span> | </span>

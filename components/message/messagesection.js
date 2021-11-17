@@ -4,6 +4,7 @@
 */
 
 import { useEffect, useState } from "react"
+import useFetch from "../hook/usefetch";
 import Inbox from "./messageinbox";
 import Settings from "./messagesettings";
 import NewMessage from "./newmessage";
@@ -18,8 +19,7 @@ export default function component(){
 
 
   async function getMessages(){
-    let res = await fetch('api/message',{method:'GET'});
-    let data = await res.json();
+    let data = await useFetch('api/message',{method:'GET'});
     console.log("MESSSAGE DATA");
     console.log(data);
   }
