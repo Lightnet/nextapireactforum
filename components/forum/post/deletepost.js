@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
+import useFetch from '../../hook/usefetch';
   
 export default function DeletePost({post,ops}){
   const [subject,setSubject] = useState("");
@@ -25,16 +26,18 @@ export default function DeletePost({post,ops}){
       return;
     }
 
-    let rep = await fetch('api/post', {
+    let data = await useFetch('api/post', {
       method:'POST',
       body:JSON.stringify({
         postid:post.id
         , action:'DELETE'
       })
     });
-
-    let data = await rep.json();
     console.log(data);
+    if(data.error){
+      console.log("ERROR DELETE POST");
+      return;
+    }
     if(data.action=='DELETE'){
       ops({
         action:'APIDELETE',

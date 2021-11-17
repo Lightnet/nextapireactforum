@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
+import useFetch from '../../hook/usefetch';
   
 export default function EditBoard({board,ops}){
   const [subject,setSubject] = useState("");
@@ -19,7 +20,7 @@ export default function EditBoard({board,ops}){
   },[board]);
   
   async function PostAPI(){
-    console.log("BOARD boardid");
+    console.log("EDIT BoardID");
     console.log(subject);
     console.log(content);
     if(isEmpty(subject) || isEmpty(content)){
@@ -27,7 +28,7 @@ export default function EditBoard({board,ops}){
       return;
     }
 
-    let rep = await fetch('api/board', {
+    let data = await useFetch('api/board', {
       method:'POST',
       body:JSON.stringify({
         boardid:board.id
@@ -35,8 +36,11 @@ export default function EditBoard({board,ops}){
         , subject:subject
         , content:content})
     });
-    let data = await rep.json();
     console.log(data);
+    if(data.error){
+      console.log("ERROR GET BOARDS");
+      return;
+    }
     if(data.action=='UPDATE'){
       ops({
         action:'update',

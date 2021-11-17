@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
+import useFetch from '../../hook/usefetch';
   
 export default function DeleteBoard({board,ops}){
   const [subject,setSubject] = useState("");
@@ -25,16 +26,18 @@ export default function DeleteBoard({board,ops}){
       return;
     }
 
-    let rep = await fetch('api/board', {
+    let data = await useFetch('api/board', {
       method:'POST',
       body:JSON.stringify({
         boardid:board.id
         , action:'DELETE'
       })
     });
-
-    let data = await rep.json();
     console.log(data);
+    if(data.error){
+      console.log("ERROR DELETE BOARDS");
+      return;
+    }
     if(data.action=='DELETE'){
       ops({
         action:'APIDELETE',

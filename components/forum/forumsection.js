@@ -32,6 +32,7 @@ import DeleteComment from './comment/deletecomment';
 import DeletePost from './post/deletepost';
 import DeleteBoard from './board/deleteboard';
 import DeleteForum from './deleteforum';
+import useFetch from '../hook/usefetch';
 
 export default function component(){
 
@@ -64,7 +65,6 @@ export default function component(){
 
   //once init forum
   useEffect(()=>{
-    //setBoards([]);
     //console.log("init setup");
     getForums();
   },[]);
@@ -96,10 +96,7 @@ export default function component(){
   },[forumID,isBoard,isPost,isComment]);
 
   async function getForums(){
-    let res = await fetch('api/forum',{
-      method:'GET'
-    });
-    let data = await res.json();
+    let data = await useFetch('api/forum');
     //console.log(data);
     if(data.error){
       console.log("ERROR GET FORUM ");
@@ -114,12 +111,14 @@ export default function component(){
   }
 
   async function getBoards(){
-    let res = await fetch('api/board',{
+    let data = await useFetch('api/board',{
       method:'POST'
       , body: JSON.stringify({forumid:forumID,action:'getboards'})
     });
-
-    let data = await res.json();
+    if(data.error){
+      console.log("ERROR GET BOARDS");
+      return;
+    }
     //console.log(data);
     if(data.action=="NOBOARD"){
       console.log("NO BOARDS")
@@ -134,13 +133,15 @@ export default function component(){
   async function getPosts(){
     //console.log("[[[=== LOAD POSTS ===]]]");
     //console.log("[[[=== POSTID ===]]]: ", boardID);
-    let res = await fetch('api/post',{
+    let data = await useFetch('api/post',{
       method:'POST'
       , body: JSON.stringify({boardid:boardID,action:'getposts'})
     });
-
-    let data = await res.json();
     //console.log(data);
+    if(data.error){
+      console.log("ERROR GET POSTS");
+      return;
+    }
     if(data.action=="NOPOST"){
       console.log("NO POST")
       return;
@@ -155,13 +156,15 @@ export default function component(){
     //console.log("[[[=== LOAD COMMENTS ===]]]");
     //console.log("[[[ === POST ID == ]]]", postID)
 
-    let res = await fetch('api/comment',{
+    let data = await useFetch('api/comment',{
       method:'POST'
       , body: JSON.stringify({postid:postID,action:'getcomments'})
     });
-
-    let data = await res.json();
     //console.log(data);
+    if(data.error){
+      console.log("ERROR GET BOARDS");
+      return;
+    }
     if(data.action=="NOCOMMENT"){
       console.log("NO COMMENT")
       return;
@@ -179,6 +182,7 @@ export default function component(){
     setIsBoard(true);
   }
 
+  //need to fixed select board to post
   function renderBoards(){
     if(isBoard){
       return( <BoardSection boards={boards} forumid={forumID} ops={callBackOPS} />);
@@ -354,16 +358,14 @@ export default function component(){
             setIsOpenModal(true);
           }
           if(args.datatype == "board"){
-            boards.push(args.doc);
-            setBoards(boards);
+            setBoards([...boards,args.doc]);
             setDataModeModal(null);
             setDataTypeModal(null);
             setMessageModal('CREATE BOARD');
             setIsOpenModal(true);
           }
           if(args.datatype == "post"){
-            posts.push(args.doc);
-            setPosts(posts);
+            setPosts([...posts,args.doc]);
             setDataModeModal(null);
             setDataTypeModal(null);
             setMessageModal('CREATE POST');
@@ -371,8 +373,7 @@ export default function component(){
           }
 
           if(args.datatype == "comment"){
-            comments.push(args.doc);
-            setComments(comments);
+            setComments([...comments,args.doc]);
             setDataModeModal(null);
             setDataTypeModal(null);
             setMessageModal('CREATE COMMENT');
@@ -439,83 +440,60 @@ export default function component(){
           if(args.datatype == "forum"){
             console.log("UPDATE???");
             console.log(forums);
-            for(let i=0; i < forums.length;i++){
-              console.log(forums[i]);
-              if(forums[i].id  == args.id){
-                forums[i].subject = args.subject;
-                forums[i].content = args.content;
-                setForums(forums);
-                setDataTypeModal('message');
-                setDataModeModal('message');
-                setMessageModal("Forum Data Update!");
-                setIsOpenModal(true);
-                console.log("UPDATE DATA???");
-                break;
-              }
-            }
+
+            setForums(
+              forums.map(item=>
+                item.id === args.id
+                ? {...item,subject:args.subject,content:args.content}
+                : item
+            ));
+            setDataTypeModal('message');
+            setDataModeModal('message');
+            setMessageModal("Forum Data Update!");
+            setIsOpenModal(true);
+            console.log("UPDATE DATA???");
           }
           if(args.datatype == "board"){
-            for(let i=0; i < boards.length;i++){
-              console.log(boards[i]);
-              if(boards[i].id  == args.id){
-                boards[i].subject = args.subject;
-                boards[i].content = args.content;
-                setBoards(boards);
-                setDataTypeModal('message');
-                setDataModeModal('message');
-                setMessageModal("Board Data Update!");
-                setIsOpenModal(true);
-                console.log("UPDATE DATA???");
-                break;
-              }
-            }
+            setBoards(boards.map(item=>
+              item.id === args.id
+              ? {...item,subject:args.subject,content:args.content}
+              : item
+            ));
+
+            setDataTypeModal('message');
+            setDataModeModal('message');
+            setMessageModal("Board Data Update!");
+            setIsOpenModal(true);
+              
           }
           if(args.datatype == "post"){
-            for(let i=0; i < posts.length;i++){
-              console.log(posts[i]);
-              if(posts[i].id  == args.id){
-                posts[i].subject = args.subject;
-                posts[i].content = args.content;
-                setPosts(posts);
-                setDataTypeModal('message');
-                setDataModeModal('message');
-                setMessageModal("Post Data Update!");
-                setIsOpenModal(true);
-                //console.log("UPDATE DATA???");
-                break;
-              }
-            }
+            setPosts(posts.map(item=>
+              item.id === args.id
+              ? {...item,subject:args.subject,content:args.content}
+              : item
+            ));
+            setDataTypeModal('message');
+            setDataModeModal('message');
+            setMessageModal("Post Data Update!");
+            setIsOpenModal(true);
           }
           if(args.datatype == "comment"){
-            for(let i=0; i < comments.length;i++){
-              console.log(comments[i]);
-              if(comments[i].id  == args.id){
-                comments[i].subject = args.subject;
-                comments[i].content = args.content;
-                setComments(comments);
-                setDataTypeModal('message');
-                setDataModeModal('message');
-                setMessageModal("Comment Data Update!");
-                setIsOpenModal(true);
-                //console.log("UPDATE DATA???");
-                break;
-              }
-            }
+            setComments(comments.map(item=>
+              item.id === args.id
+              ? {...item,subject:args.subject,content:args.content}
+              : item
+            ));
+            setDataTypeModal('message');
+            setDataModeModal('message');
+            setMessageModal("Comment Data Update!");
+            setIsOpenModal(true);
           }
         }
 
         if(args.action == "APIDELETE"){
           if(args.datatype == "forum"){
             console.log("delete... API FORUM");
-            for(let i =0; i< forums.length;i++){
-              if(forums[i].id == args.id){
-                forums.splice(i,1);
-                break;
-              }
-            }
-            setForums([]);
-            setForums(forums);
-
+            setForums(forums.filter(item=>item.id !== args.id ));
             setDataTypeModal('DELETE');
             setDataModeModal('FORUM');
             setBoards([]);
@@ -525,15 +503,7 @@ export default function component(){
           }
           if(args.datatype == "board"){
             setPostID(args.id);
-            for(let i=0;i < boards.length;i++){
-              //console.log(_comment);
-              if(boards[i].id  == args.id){
-                boards.splice(i,1)
-                break;
-              }
-            }
-            setBoards([]);
-            setBoards(boards);
+            setBoards(boards.filter(item=>item.id !== args.id ));
             setDataTypeModal('DELETE');
             setDataModeModal('BOARD');
             setIsOpenModal(true);
@@ -541,14 +511,7 @@ export default function component(){
   
           if(args.datatype == "post"){
             setPostID(args.id);
-            for(let i=0;i < posts.length;i++){
-              //console.log(_comment);
-              if(posts[i].id  == args.id){
-                posts.splice(i,1)
-                break;
-              }
-            }
-            setPosts(posts);
+            setPosts(posts.filter(item=>item.id !== args.id ));
             setDataTypeModal('DELETE');
             setDataModeModal('POST');
             setIsOpenModal(true);
@@ -556,20 +519,12 @@ export default function component(){
   
           if(args.datatype == "comment"){
             setCommentID(args.id);
-            for(let i=0;i < comments.length;i++){
-              //console.log(_comment);
-              if(comments[i].id  == args.id){
-                comments.splice(i,1)
-                break;
-              }
-            }
-            setComments(comments);
+            setComments(comments.filter(item=>item.id !== args.id ));
             setDataTypeModal('DELETE');
             setDataModeModal('COMMENT');
             setIsOpenModal(true);
           }
         }
-        
         //end action section
       }
     }

@@ -35,7 +35,7 @@ export default async (req, res)=>{
 
   //need to config build later for other setting
   if(req.method == 'POST'){
-    var postData = JSON.parse(req.body);
+    var postData = req.body;
     console.log(postData);
     if(postData.postid){
       if(postData.action == 'UPDATE'){

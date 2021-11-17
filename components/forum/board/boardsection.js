@@ -4,7 +4,6 @@
 */
 
 import { useState, useEffect } from 'react';
-//import NewBoard from "./newboard";
 import BoardCard from "./boardcard";
 
 export default function BoardSection({boards,forumid,ops}){

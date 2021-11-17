@@ -1,3 +1,13 @@
+https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
+
+
+```
+comment.id //when react clean up it check this for some reason it will error.
+comment?.id //added this to when used tmp when passing to child.
+
+
+```
+
 
 
 ```js

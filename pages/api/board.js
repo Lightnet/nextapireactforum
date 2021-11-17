@@ -34,7 +34,8 @@ export default async (req, res)=>{
 
   //need to config build later for other setting
   if(req.method == 'POST'){
-    var boardData = JSON.parse(req.body);
+    //var boardData = JSON.parse(req.body);
+    var boardData = req.body;
     //console.log("CHECK FORUM ID...")
     //console.log(boardData);
 

@@ -25,7 +25,7 @@ export default async function useFetch(url,args){
     args.body = null; //set to null for GET since is never allow
   }else{
     args.headers = args.headers || {"Content-Type": "application/json"};
-    args.body = args.body || {};
+    args.body = args.body || null;
   }
 
   try{

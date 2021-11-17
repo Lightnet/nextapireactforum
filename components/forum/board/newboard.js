@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
+import useFetch from '../../hook/usefetch';
   
 export default function component({forumid,ops}){
   const [subject,setSubject] = useState("");
@@ -27,8 +28,9 @@ export default function component({forumid,ops}){
       console.log("EMPTY!");
       return;
     }
+    
 
-    let rep = await fetch('api/board', {
+    let data = await useFetch('api/board', {
       method:'POST',
       body:JSON.stringify({
         forumid:forumid
@@ -36,8 +38,11 @@ export default function component({forumid,ops}){
         , subject:subject
         , content:content})
     });
-    let data = await rep.json();
     console.log(data);
+    if(data.error){
+      console.log("ERROR NEW POST BOARD");
+      return;
+    }
     if(data.action){
       if(data.action){
         ops({

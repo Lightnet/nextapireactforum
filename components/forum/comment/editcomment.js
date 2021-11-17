@@ -5,11 +5,11 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
+import useFetch from '../../hook/usefetch';
   
 export default function EditComment({comment,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
-  //const [postType,setPostType] = useState("post");
 
   useEffect(()=>{
     if(comment){
@@ -26,7 +26,7 @@ export default function EditComment({comment,ops}){
       return;
     }
 
-    let rep = await fetch('api/comment', {
+    let data = await useFetch('api/comment', {
       method:'POST',
       body:JSON.stringify({
         commentid:comment.id
@@ -35,8 +35,10 @@ export default function EditComment({comment,ops}){
         , content:content
       })
     });
-
-    let data = await rep.json();
+    if(data.error){
+      console.log("ERROR GET BOARDS");
+      return;
+    }
     console.log(data);
     if(data.action=='UPDATE'){
       ops({

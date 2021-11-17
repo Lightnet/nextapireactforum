@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
+import useFetch from '../../hook/usefetch';
   
 export default function component({boardid,ops}){
   const [subject,setSubject] = useState("");
@@ -21,7 +22,7 @@ export default function component({boardid,ops}){
       return;
     }
 
-    let rep = await fetch('api/post', {
+    let data = await useFetch('api/post', {
       method:'POST',
       body:JSON.stringify({
         boardid:boardid
@@ -30,9 +31,11 @@ export default function component({boardid,ops}){
         , content:content
       })
     });
-
-    let data = await rep.json();
     console.log(data);
+    if(data.error){
+      console.log("ERROR GET BOARDS");
+      return;
+    }
     if(data.action){
       if(data.action=='CREATE'){
         ops({

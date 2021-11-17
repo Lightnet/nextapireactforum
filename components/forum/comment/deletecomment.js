@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
+import useFetch from '../../hook/usefetch';
   
 export default function DeleteComment({comment,ops}){
   const [subject,setSubject] = useState("");
@@ -14,6 +15,11 @@ export default function DeleteComment({comment,ops}){
     if(comment){
       setSubject(comment.subject);
       setContent(comment.content);
+    }
+    return ()=>{
+      console.log("clean up???")
+      setSubject(null);
+      setContent(null);
     }
   },[comment]);
   
@@ -25,16 +31,18 @@ export default function DeleteComment({comment,ops}){
       return;
     }
 
-    let rep = await fetch('api/comment', {
+    let data = await useFetch('api/comment', {
       method:'POST',
       body:JSON.stringify({
         commentid:comment.id
         , action:'DELETE'
       })
     });
-
-    let data = await rep.json();
     console.log(data);
+    if(data.error){
+      console.log("ERROR GET BOARDS");
+      return;
+    }
     if(data.action=='DELETE'){
       ops({
         action:'APIDELETE',
@@ -47,7 +55,7 @@ export default function DeleteComment({comment,ops}){
   return(<>
     <div>
       <div>
-        <label>Comment ID:{comment.id}</label>
+        <label>Comment ID:{comment?.id}</label>
         <br />
         <label>Subject:</label>
         <br />

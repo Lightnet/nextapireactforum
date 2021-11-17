@@ -135,6 +135,9 @@ pages/api/post (folder)
   - list users (not build)
   - join and leave event (not build)
 
+## bugs:
+- not select correct board, post and comment to display not fixed yet.
+
 ## prefix guild:
   Those are just prototype idea base on real life to keep it simple to genre types.
 

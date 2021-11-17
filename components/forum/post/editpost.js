@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../../lib/helper';
+import useFetch from '../../hook/usefetch';
   
 export default function EditPost({post,ops}){
   const [subject,setSubject] = useState("");
@@ -25,7 +26,7 @@ export default function EditPost({post,ops}){
       return;
     }
 
-    let rep = await fetch('api/post', {
+    let data = await useFetch('api/post', {
       method:'POST',
       body:JSON.stringify({
         postid:post.id
@@ -34,9 +35,11 @@ export default function EditPost({post,ops}){
         , content:content
       })
     });
-
-    let data = await rep.json();
     console.log(data);
+    if(data.error){
+      console.log("ERROR EDIT POST");
+      return;
+    }
     if(data.action=='UPDATE'){
       ops({
         action:'update',

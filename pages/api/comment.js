@@ -34,7 +34,8 @@ export default async (req, res)=>{
 
   //need to config build later for other setting
   if(req.method == 'POST'){
-    var commentData = JSON.parse(req.body);
+    //var commentData = JSON.parse(req.body);
+    var commentData = req.body;
     console.log("commentData");
     console.log(commentData);
     if(commentData.commentid){ //need to check exist

@@ -4,13 +4,11 @@
 */
 
 import { useState, useEffect } from 'react';
-import NewComment from "./newcomment";
 import CommentCard from "./commentcard";
 
 export default function component({comments,postid,ops}){
 
   const [currentComments, setComments] = useState([])
-  const [isOpenComment, setIsOpenComment] = useState(false);
 
   useEffect(()=>{
     console.log("[[[=== UPDATE POST ===]]]");
@@ -20,10 +18,6 @@ export default function component({comments,postid,ops}){
       setComments(comments);
     }
   },[comments]);
-
-  function btnCreateComment(){
-    setIsOpenComment(!isOpenComment);
-  }
 
   function renderComments(){
     if(currentComments){
@@ -39,7 +33,6 @@ export default function component({comments,postid,ops}){
     <div>
       <label>Comment </label>
       <button onClick={()=>ops({action:'create',datatype:'comment',id:postid})}> New Comment </button>
-      {isOpenComment && <NewComment postid={postid}></NewComment>}
       {renderComments()}
     </div>
   </>)
