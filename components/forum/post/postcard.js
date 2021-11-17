@@ -3,16 +3,20 @@
   Created by: Lightnet
 */
 
+import { unixToDate } from "../../../lib/helper";
+
 export default function component({item,ops}){
 
   return(
     <div key={item.id} style={{
       width:'100%'
     }}>
-      <div className="headerpanel">
-        [POST] 
-        <a href="#" onClick={()=>ops({action:"select",datatype:"post",id:item.id})}>[ID:{item.id}] {item.subject}</a>
-        <span style={{float:'right'}}>
+      <div className="headerpanel" style={{width:'100%',height:'24px'}}>
+        
+        <a href="#" onClick={()=>ops({action:"select",datatype:"post",id:item.id})} style={{display:'block',width:'calc(100% - 128px)'}}>
+        [POST] [ID:{item.id}] {item.subject}
+        </a>
+        <span style={{position:'relative',top:'-16px',right:'4px', float:'right',height:'18px'}}>
           <a href="#" onClick={()=>ops({action:"edit",datatype:"post",id:item.id})}>EDIT</a>
           <span> | </span>
           <a href="#" onClick={()=>ops({action:"delete",datatype:"post",id:item.id})}>DELETE</a>
@@ -21,6 +25,8 @@ export default function component({item,ops}){
       <div className="contentpanel"> 
         [Content] {item.content}</div>
       <div className="footerpanel">
+        <label> Date: {unixToDate(item.date)}</label>
+        <span> | </span>
         <a href="#" onClick={()=>ops({action:"upvote",datatype:"post",id:item.id})}> Up Vote </a>
         <span> | </span>
         <a href="#" onClick={()=>ops({action:"downvote",datatype:"post",id:item.id})}> Down Vote </a>

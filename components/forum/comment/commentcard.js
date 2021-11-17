@@ -3,6 +3,8 @@
   Created by: Lightnet
 */
 
+import { unixToDate } from "../../../lib/helper";
+
 export default function component({item,ops}){
 
   return(
@@ -19,6 +21,8 @@ export default function component({item,ops}){
       </div>
       <div className="contentpanel"> [Content] {item.content}</div>
       <div  className="footerpanel">
+        <label> Date: {unixToDate(item.date)}</label>
+        <span> | </span>
         <a href="#" onClick={()=>ops({action:"upvote",datatype:"comment",id:item.id})}> Up Vote </a>
         <span> | </span>
         <a href="#" onClick={()=>ops({action:"downvote",datatype:"comment",id:item.id})}> Down Vote </a>
