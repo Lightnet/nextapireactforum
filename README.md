@@ -107,23 +107,27 @@ pages/api/post (folder)
   - delete (added)
     - children delete (added)
   - list (added)
+  - try catch (added)
 - board (work in progress)
   - create (added)
   - edit (added)
   - delete (added)
 	  - child (added)
   - list (added)
+  - try catch (added)
 - post (work in progress)
   - create (added)
   - edit (added)
   - delete (added)
   	- child (added)
   - list (added)
+  - try catch (added)
 - comment (work in progress)
   - create (added)
   - edit (added)
   - delete (added)
   - list (added)
+  - try catch (added)
 - database
   - user (added)
   - forum (added)
@@ -140,7 +144,7 @@ pages/api/post (folder)
 
 ## bugs:
 - no check for access
-- fetch required rework /api calls
+- odd delete post not fully delete forum.
 
 ## prefix guild:
   Those are just prototype idea base on real life to keep it simple to genre types.

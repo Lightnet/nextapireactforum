@@ -11,7 +11,7 @@ export default function BoardSection({boards,forumid,ops}){
   const [currentBaords, setBaords] = useState([]);
 
   useEffect(()=>{
-    console.log("[[[=== UPDATE BOARD ===]]]");
+    //console.log("[[[=== UPDATE BOARD ===]]]");
     if(boards){
       setBaords(boards);
     }

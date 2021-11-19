@@ -34,7 +34,7 @@ export default function component({postid,ops}){
     });
     console.log(data);
     if(data.error){
-      console.log("ERROR GET BOARDS");
+      console.log("ERROR GET COMMENT");
       return;
     }
     if(data.action){

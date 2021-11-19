@@ -53,7 +53,7 @@ let doc={
 //... add
 setForums([...forums,doc]);
 
-//... update
+//... update 1
 function update(args){
   //args.id
   setForums(
@@ -63,7 +63,19 @@ function update(args){
       : item
   ));
 }
-//
+//... update 2 with function call //clean?
+setSceneObjs(sceneObjs.map(item=>{
+	if(item.id === param.id){
+	  item.name=param.name;
+	  apiUpdateObject3D(item);
+	  return {...item, name:param.name};
+	}else{
+	  return item
+	}
+}));
+
+
+
 
 //... delete
 setForums(forums.filter(item=>item.id !== args.id ));

@@ -27,16 +27,15 @@ export default function EditComment({comment,ops}){
     }
 
     let data = await useFetch('api/comment', {
-      method:'POST',
+      method:'PATCH',
       body:JSON.stringify({
         commentid:comment.id
-        , action:'UPDATE'
         , subject:subject
         , content:content
       })
     });
     if(data.error){
-      console.log("ERROR GET BOARDS");
+      console.log("ERROR FETCH UPDATE COMMENT");
       return;
     }
     console.log(data);

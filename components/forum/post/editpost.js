@@ -19,25 +19,23 @@ export default function EditPost({post,ops}){
   },[post]);
   
   async function PostAPI(){
-    console.log("post boardid");
-
+    //console.log("postid");
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
       return;
     }
 
     let data = await useFetch('api/post', {
-      method:'POST',
+      method:'PATCH',
       body:JSON.stringify({
         postid:post.id
-        , action:'UPDATE'
         , subject:subject
         , content:content
       })
     });
-    console.log(data);
+    //console.log(data);
     if(data.error){
-      console.log("ERROR EDIT POST");
+      console.log("ERROR FETCH EDIT POST");
       return;
     }
     if(data.action=='UPDATE'){

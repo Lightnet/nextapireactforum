@@ -19,7 +19,7 @@ export default async (req, res)=>{
   //console.log(userid);
   //console.log(username);
   if(error){
-    return res.json({message:"FAIL"});
+    return res.json({error:"FAIL"});
   }
 
   const Board = db.model('Board');
@@ -36,57 +36,23 @@ export default async (req, res)=>{
   if(req.method == 'POST'){
     //var boardData = JSON.parse(req.body);
     var boardData = req.body;
-    //console.log("CHECK FORUM ID...")
     //console.log(boardData);
 
-    if(boardData.boardid){
-      if(boardData.action == 'UPDATE'){
-        let query ={
-          id:boardData.boardid
-        };
-        let update={
-          subject: boardData.subject,
-          content: boardData.content
-        }
-        const doc = await Board.findOneAndUpdate(query, update,{ new: true } )
-        console.log(doc);
-        return res.json({action:"UPDATE",board:doc});
-      }
-      //delete child or move to another need config
-      if(boardData.action == 'DELETE'){
-        
-        const Post = db.model('Post');
-        const Comment = db.model('Comment');
-        let posts = await Post.find({parentid:boardData.boardid}).exec();
-        if(posts.length > 0){
-          for(const post of posts){
-            //delete comments from post id
-            let deleteComments = await Comment.deleteMany({parentid:post.id}).exec();
-            console.log("deleteComments: ",deleteComments)
-          }
-        }
-        //delete posts from board id
-        let deletePosts = await Post.deleteMany({parentid:boardData.boardid}).exec();
-        console.log("deletePosts: ",deletePosts)
-        //delete board
-        const deleteBoard = await Board.deleteOne({id:boardData.boardid}).exec();
-        console.log("deleteBoard:",deleteBoard)
-
-        return res.json({action:"DELETE",id:boardData.boardid});
-      }
-    }
-
     if(boardData.forumid){
-      console.log(boardData.forumid)
-      console.log(boardData.action)
-      if(boardData.action == 'getboards'){
-        let boards = await Board.find({parentid:boardData.forumid}).exec();
-        console.log("CHECK BOARDS...");
-        if(boards.length == 0){
-          return res.json({action:"NOBOARD"});
-        }
-        if(boards.length >= 1){
-          return res.json({action:"BOARDS",boards:boards});
+      //console.log(boardData.forumid)
+      //console.log(boardData.action)
+      if(boardData.action == 'BOARDS'){
+        try{
+          //console.log("GET BOARDS");
+          let boards = await Board.find({parentid:boardData.forumid}).exec();
+          if(boards.length == 0){
+            return res.json({action:"NOBOARD"});
+          }
+          if(boards.length >= 1){
+            return res.json({action:"BOARDS",boards:boards});
+          }
+        }catch(e){
+          return res.json({error:"FAILBOARDS"});
         }
       }
 
@@ -105,9 +71,55 @@ export default async (req, res)=>{
           return res.json({action:"CREATE",doc:saveBoard});
         }catch(e){
           console.log("FAIL CREATE BOARD");
-          return res.json({action:"FAIL"});
+          return res.json({error:"FAILCREATE"});
         }
       }
+    }
+  }
+
+  if(req.method == 'PATCH'){
+    let boardData = req.body;
+    let query ={
+      id:boardData.boardid
+    };
+    let update={
+      subject: boardData.subject,
+      content: boardData.content
+    }
+    try{
+      const doc = await Board.findOneAndUpdate(query, update,{ new: true } )
+      //console.log(doc);
+      return res.json({action:"UPDATE",board:doc});
+    }catch(e){
+      //console.log("FAIL UPDATE BOARD");
+      return res.json({error:"FAILUPDATE"});
+    }
+  }
+
+  if(req.method == 'DELETE'){
+    let boardData = req.body;
+    try{
+      const Post = db.model('Post');
+      const Comment = db.model('Comment');
+      let posts = await Post.find({parentid:boardData.id}).exec();
+      if(posts.length > 0){
+        for(const post of posts){
+          //delete comments from post id
+          let deleteComments = await Comment.deleteMany({parentid:post.id}).exec();
+          //console.log("deleteComments: ",deleteComments)
+        }
+      }
+      //delete posts from board id
+      let deletePosts = await Post.deleteMany({parentid:boardData.id}).exec();
+      //console.log("deletePosts: ",deletePosts)
+      //delete board
+      const deleteBoard = await Board.deleteOne({id:boardData.id}).exec();
+      //console.log("deleteBoard:",deleteBoard)
+
+      return res.json({action:"DELETE",id:boardData.id});
+    }catch(e){
+      //console.log("FAIL UPDATE BOARD");
+      return res.json({error:"FAILUPDATE"});
     }
   }
 

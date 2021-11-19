@@ -32,15 +32,14 @@ export default function DeleteComment({comment,ops}){
     }
 
     let data = await useFetch('api/comment', {
-      method:'POST',
+      method:'DELETE',
       body:JSON.stringify({
         commentid:comment.id
-        , action:'DELETE'
       })
     });
     console.log(data);
     if(data.error){
-      console.log("ERROR GET BOARDS");
+      console.log("ERROR FETCH DELETE COMMENT");
       return;
     }
     if(data.action=='DELETE'){

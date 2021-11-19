@@ -11,9 +11,9 @@ export default function component({comments,postid,ops}){
   const [currentComments, setComments] = useState([])
 
   useEffect(()=>{
-    console.log("[[[=== UPDATE POST ===]]]");
+    //console.log("[[[=== UPDATE POST ===]]]");
     //setPosts(posts);
-    console.log(comments)
+    //console.log(comments)
     if(comments){//check if has var
       setComments(comments);
     }

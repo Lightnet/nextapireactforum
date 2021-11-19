@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../lib/helper';
+import useFetch from '../hook/usefetch';
   
 export default function DeleteForum({forum,ops}){
   const [subject,setSubject] = useState("");
@@ -19,23 +20,25 @@ export default function DeleteForum({forum,ops}){
   
   async function PostAPI(e){
     e.preventDefault();
-    console.log("update forum");
-    console.log(subject);
-    console.log(content);
+    //console.log("delete forum");
+    //console.log(subject);
+    //console.log(content);
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
       return;
     }
     
-    let rep = await fetch('api/forum', {
-      method:'POST',
+    let data = await useFetch('api/forum', {
+      method:'DELETE',
       body:JSON.stringify({
-        action:'DELETE',
         forumid:forum.id
       })
     });
-    let data = await rep.json();
-    console.log(data);
+    //console.log(data);
+    if(data.error){
+      console.log("ERROR FETCH DELETE FOURM");
+      return;
+    }
     if(data.action == 'DELETE'){
       ops({
         action:'APIDELETE',

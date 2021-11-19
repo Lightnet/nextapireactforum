@@ -20,25 +20,24 @@ export default function EditBoard({board,ops}){
   },[board]);
   
   async function PostAPI(){
-    console.log("EDIT BoardID");
-    console.log(subject);
-    console.log(content);
+    //console.log("EDIT BoardID");
+    //console.log(subject);
+    //console.log(content);
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
       return;
     }
 
     let data = await useFetch('api/board', {
-      method:'POST',
+      method:'PATCH',
       body:JSON.stringify({
         boardid:board.id
-        , action:'UPDATE'
         , subject:subject
         , content:content})
     });
-    console.log(data);
+    //console.log(data);
     if(data.error){
-      console.log("ERROR GET BOARDS");
+      console.log("ERROR FETCH EDIT BOARD");
       return;
     }
     if(data.action=='UPDATE'){

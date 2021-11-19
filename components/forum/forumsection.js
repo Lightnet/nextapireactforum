@@ -117,7 +117,7 @@ export default function component(){
   async function getBoards(){
     let data = await useFetch('api/board',{
       method:'POST'
-      , body: JSON.stringify({forumid:forumID,action:'getboards'})
+      , body: JSON.stringify({forumid:forumID,action:'BOARDS'})
     });
     if(data.error){
       console.log("ERROR GET BOARDS");
@@ -139,7 +139,7 @@ export default function component(){
     //console.log("[[[=== POSTID ===]]]: ", boardID);
     let data = await useFetch('api/post',{
       method:'POST'
-      , body: JSON.stringify({boardid:boardID,action:'getposts'})
+      , body: JSON.stringify({boardid:boardID,action:'POSTS'})
     });
     //console.log(data);
     if(data.error){
@@ -162,11 +162,11 @@ export default function component(){
 
     let data = await useFetch('api/comment',{
       method:'POST'
-      , body: JSON.stringify({postid:postID,action:'getcomments'})
+      , body: JSON.stringify({postid:postID,action:'COMMENTS'})
     });
     //console.log(data);
     if(data.error){
-      console.log("ERROR GET BOARDS");
+      console.log("ERROR GET COMMENTS");
       return;
     }
     if(data.action=="NOCOMMENT"){

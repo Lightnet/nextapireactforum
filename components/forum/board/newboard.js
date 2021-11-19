@@ -20,16 +20,14 @@ export default function component({forumid,ops}){
   
   
   async function PostAPI(){
-    console.log("BOARD forumid");
-    console.log(forumid);
-    console.log(subject);
-    console.log(content);
+    //console.log("BOARD forumid: ", forumid);
+    //console.log(subject);
+    //console.log(content);
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
       return;
     }
     
-
     let data = await useFetch('api/board', {
       method:'POST',
       body:JSON.stringify({
@@ -38,9 +36,9 @@ export default function component({forumid,ops}){
         , subject:subject
         , content:content})
     });
-    console.log(data);
+    //console.log(data);
     if(data.error){
-      console.log("ERROR NEW POST BOARD");
+      console.log("ERROR FETCH CREATE BOARD");
       return;
     }
     if(data.action){

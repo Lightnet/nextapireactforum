@@ -19,7 +19,7 @@ export default function DeletePost({post,ops}){
   },[post]);
   
   async function PostAPI(){
-    console.log("postid");
+    //console.log("postid");
 
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
@@ -27,13 +27,12 @@ export default function DeletePost({post,ops}){
     }
 
     let data = await useFetch('api/post', {
-      method:'POST',
+      method:'DELETE',
       body:JSON.stringify({
         postid:post.id
-        , action:'DELETE'
       })
     });
-    console.log(data);
+    //console.log(data);
     if(data.error){
       console.log("ERROR DELETE POST");
       return;

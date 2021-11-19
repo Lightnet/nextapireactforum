@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../lib/helper';
+import useFetch from "../hook/usefetch";
   
 export default function NewForum({ops}){
   const [subject,setSubject] = useState("");
@@ -20,7 +21,7 @@ export default function NewForum({ops}){
       return;
     }
     
-    let rep = await fetch('api/forum', {
+    let data = await useFetch('api/forum', {
       method:'POST',
       body:JSON.stringify({
         action:'CREATE',
@@ -28,8 +29,12 @@ export default function NewForum({ops}){
         content:content
       })
     });
-    let data = await rep.json();
     console.log(data);
+    if(data.error){
+      console.log("ERROR FETCH CREATE FOURM");
+      return;
+    }
+
     if(data.action=='CREATE'){
       ops({
         action:'APICREATE'

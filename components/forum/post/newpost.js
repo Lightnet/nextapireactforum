@@ -15,7 +15,7 @@ export default function component({boardid,ops}){
   //},[]);
   
   async function PostAPI(){
-    console.log("postid");
+    //console.log("postid");
 
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
@@ -31,9 +31,9 @@ export default function component({boardid,ops}){
         , content:content
       })
     });
-    console.log(data);
+    //console.log(data);
     if(data.error){
-      console.log("ERROR GET BOARDS");
+      console.log("ERROR FETCH CREATE POST");
       return;
     }
     if(data.action){

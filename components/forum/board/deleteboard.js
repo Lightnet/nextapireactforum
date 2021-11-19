@@ -19,23 +19,21 @@ export default function DeleteBoard({board,ops}){
   },[board]);
   
   async function PostAPI(){
-    console.log("boardid");
-
+    //console.log("boardid");
     if(isEmpty(subject) || isEmpty(content)){
       console.log("EMPTY!");
       return;
     }
 
     let data = await useFetch('api/board', {
-      method:'POST',
+      method:'DELETE',
       body:JSON.stringify({
-        boardid:board.id
-        , action:'DELETE'
+        id:board.id
       })
     });
-    console.log(data);
+    //console.log(data);
     if(data.error){
-      console.log("ERROR DELETE BOARDS");
+      console.log("ERROR FETCH DELETE BOARD");
       return;
     }
     if(data.action=='DELETE'){

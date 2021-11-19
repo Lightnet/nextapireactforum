@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { isEmpty } from '../../lib/helper';
+import useFetch from '../hook/usefetch';
   
 export default function editForum({forum,forumid,ops}){
   const [subject,setSubject] = useState("");
@@ -27,17 +28,19 @@ export default function editForum({forum,forumid,ops}){
       return;
     }
     
-    let rep = await fetch('api/forum', {
-      method:'POST',
+    let data = await useFetch('api/forum', {
+      method:'PATCH',
       body:JSON.stringify({
-        action:'UPDATE',
         forumid:forum.id ,
         subject:subject ,
         content:content
       })
     });
-    let data = await rep.json();
     console.log(data);
+    if(data.error){
+      console.log("ERROR FETCH DELETE FOURM");
+      return;
+    }
     if(data.action == 'UPDATE'){
       ops({
         action:'update',

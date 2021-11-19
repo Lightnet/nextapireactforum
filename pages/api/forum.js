@@ -14,14 +14,14 @@ export default async (req, res)=>{
     //return res.status(405).json({message:'Method not allowed!'});
   //}
   const session = await getSession({ req });
-  log(session);
+  //log("session", session);
   
   let {error, userid, username} = await sessionTokenCheck(session);
   //console.log(error);
   //console.log(userid);
   //console.log(username);
   if(error){
-    return res.json({message:"FAIL"});
+    return res.json({error:"FAIL"});
   }
 
   //schema
@@ -29,43 +29,26 @@ export default async (req, res)=>{
 
   // config default and other setting later...
   if(req.method == 'GET'){
-    log("GET FOURMS")
-    let forums = await Forum.find({parenttype:'forum'}).exec();
-    //console.log(forums);
-    return res.json({action:"forums",forums:forums});
+    //log("GET FOURMS")
+    try {
+      let forums = await Forum.find({parenttype:'forum'}).exec();
+      //console.log(forums);
+      return res.json({action:"forums",forums:forums});
+    } catch (err) {
+      //console.log('err' + err);
+      return res.json({error:"FAIL"});
+    }
   }
 
   //need to config build later for other setting
   if(req.method == 'POST'){
-    console.log("FORUM");
-    let forumData = JSON.parse(req.body);
-    console.log(forumData)
-
-    if(forumData.action=='UPDATE'){
-      if(isEmpty(forumData.subject) || isEmpty(forumData.content)){
-        console.log("EMPTYFIELD");
-        return res.json({error:"EMPTYFIELD"});
-      }
-
-      let query ={
-        id:forumData.forumid
-      };
-
-      let update={
-        subject: forumData.subject,
-        content: forumData.content
-      }
-
-      const doc = await Forum.findOneAndUpdate(query, update,{ new: true } )
-      console.log(doc);
-      console.log(doc);
-      return res.json({action:"UPDATE",forum:doc});
-    }
-
+    //console.log("FORUM");
+    let forumData = req.body;
+    //console.log(forumData)
     if(forumData.action=='CREATE'){
       //console.log(boardData);
       if(isEmpty(forumData.subject) || isEmpty(forumData.content)){
-        console.log("EMPTYFIELD");
+        //console.log("EMPTYFIELD");
         return res.json({error:"EMPTYFIELD"});
       }
       let forum = new Forum({
@@ -79,15 +62,43 @@ export default async (req, res)=>{
         return res.json({action:"CREATE",forum:saveForum});
       } catch (err) {
         //console.log('err' + err);
-        return res.json({error:"FAIL"});
+        return res.json({error:"FAILCREATE"});
       }
+    }  
+  }
+
+  if(req.method == 'PATCH'){
+    let forumData = req.body;
+    if(isEmpty(forumData.subject) || isEmpty(forumData.content)){
+      //console.log("EMPTYFIELD");
+      return res.json({error:"EMPTYFIELD"});
     }
 
-    if(forumData.action=='DELETE'){
+    let query ={
+      id:forumData.forumid
+    };
+
+    let update={
+      subject: forumData.subject,
+      content: forumData.content
+    }
+    try {
+      const doc = await Forum.findOneAndUpdate(query, update,{ new: true } )
+      //console.log(doc);
+      return res.json({action:"UPDATE",forum:doc});
+    } catch (err) {
+      //console.log('err' + err);
+      return res.json({error:"FAILUPDATE"});
+    }
+  }
+
+  if(req.method == 'DELETE'){
+    let forumData = req.body;
+    try {
       const Board = db.model('Board');
       const Post = db.model('Post');
       const Comment = db.model('Comment');
-
+    
       let boards = await Board.find({parentid:forumData.forumid}).exec();
 
       if(boards.length > 0){
@@ -115,6 +126,9 @@ export default async (req, res)=>{
       console.log("deleteForum:", deleteForum);
 
       return res.json({action:"DELETE",id:forumData.forumid});
+    } catch (err) {
+      //console.log('err' + err);
+      return res.json({error:"FAILDELETE"});
     }
   }
 
