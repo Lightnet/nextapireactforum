@@ -19,11 +19,23 @@ second is the access to application like
 - posts
 
 forum
-- group permission id , role
+- check register
+- userid, isregister, role, fourmid, group (forumuser)
+- group permission id , role (fourmaccess)
+- forumid, defultrole=user,  (forumconfig)
 
+when accessing the forum query check user id and access
+
+when user fetching type it query access by forum, board, post, comment checks.
+- rewrite the docs convert to that user role
+- check if user has access to type write, delete, edit
+
+- 
 permission
--tagid (forum / board / post / comment)
+-tagid , forum , board , post , comment (boardaccess)
 -type
+
+
 
 if user is in forum script witll check which users is accessing to reduce waste data. But still wast data depend on the layers.
 

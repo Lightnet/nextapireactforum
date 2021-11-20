@@ -36,7 +36,7 @@ export default async (req, res)=>{
   if(req.method == 'POST'){
     //var boardData = JSON.parse(req.body);
     var boardData = req.body;
-    //console.log(boardData);
+    console.log(boardData);
 
     if(boardData.forumid){
       //console.log(boardData.forumid)

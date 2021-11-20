@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 export default function component({forumID,forums,onChangeForum,ops}){
 
-  const [isNewForum, setIsNewForum] = useState(false);
+  //const [isNewForum, setIsNewForum] = useState(false);
   //const [isAdmin, setIsAdmin] = useState(false);
   //const [isOwner, setIsOwner] = useState(false);
   const [isOpenOptions, setIsOpenOptions] = useState(false);
@@ -24,10 +24,18 @@ export default function component({forumID,forums,onChangeForum,ops}){
     setIsOpenOptions(!isOpenOptions)
   }
 
+  function onSelectForum(e){
+    console.log("[navbar] e.target.value");
+    console.log(e.target.value);
+    if(typeof onChangeForum !== 'undefined'){
+      onChangeForum(e);
+    }
+  }
+
   return(<>
     <div>
       <label>Forum: </label>
-      <select defaultValue={forumID || ""} onChange={onChangeForum}>
+      <select value={forumID || ""} onChange={onSelectForum}>
         <option value='' disabled={true}> Choose here </option>
         {forums.map((item)=>{
           return(
@@ -45,6 +53,7 @@ export default function component({forumID,forums,onChangeForum,ops}){
         <button  onClick={()=>ops({action:'delete',datatype:'forum',id:forumID})}> Delete Forum </button>
         </>
       )}
+      <label>Search:</label> <input></input>
     </div>
   </>)
 }

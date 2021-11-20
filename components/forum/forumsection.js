@@ -36,16 +36,22 @@ import Modal from '../ui/modal';
 import useFetch from '../hook/usefetch';
 import { isEmpty } from '../../lib/helper';
 
+import { useBoard, useForum } from './forumprovider';
+
 export default function component(){
 
   //forum
   const [forums, setForums] = useState([]);
-  const [forumID, setForumID] = useState('');
+  //const [forumID, setForumID] = useState('');
+  const {forumID, setForumID} = useForum();
 
   //board
   const [boards, setBoards] = useState([]); 
-  const [boardID, setBoardID] = useState(null); 
+  //const [boardID, setBoardID] = useState("");
+  const {boardID, setBoardID} = useBoard();
+
   const [isBoard, setIsBoard] = useState(false);
+  
   
   //post 
   const [isPost, setIsPost] = useState(false); 
@@ -74,21 +80,12 @@ export default function component(){
   // need to fixed this later 
   // need to check the select type
   useEffect(()=>{
-    //setBoards([]);
-    //console.log("forumID change");
-    //console.log(forumID);
-    if(!isEmpty(forumID)){
-      getBoards();
-    }
-
     if(isBoard){
       getBoards();
     }
-
     if(isPost){
       getPosts();
     }
-
     if(isComment){
       getComments();
     }
@@ -96,6 +93,30 @@ export default function component(){
       console.log('CLEAN UP FORUM..........................')
     }
   },[forumID,isBoard,isPost,isComment]);
+
+  useEffect(()=>{
+    console.log("forumID USEEFFECT", forumID)
+    if(!isEmpty(forumID)){
+      getBoards();
+    }
+  },[forumID]);
+
+
+  useEffect(()=>{
+    console.log("boardID USEEFFECT", boardID)
+    
+  },[boardID]);
+
+  function onChangeForum(e){
+    console.log("onChangeForum>>>>>>>>>>>>");
+    console.log(e.target.value);
+    //console.log("forumID");
+    setForumID(e.target.value);
+    setBoards([]); //clear board
+    setPosts([]) //clear posts
+    setComments([]) //clear comments
+    setIsBoard(true);
+  }
 
   async function getForums(){
     let data = await useFetch('api/forum');
@@ -115,6 +136,7 @@ export default function component(){
   }
 
   async function getBoards(){
+    console.log("forumID: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", forumID);
     let data = await useFetch('api/board',{
       method:'POST'
       , body: JSON.stringify({forumid:forumID,action:'BOARDS'})
@@ -553,15 +575,7 @@ export default function component(){
     setIsOpenModal(false);
   }
 
-  function onChangeForum(e){
-    //console.log(e.target.value);
-    //console.log("forumID");
-    setForumID(e.target.value);
-    setBoards([]); //clear board
-    setPosts([]) //clear posts
-    setComments([]) //clear comments
-    setIsBoard(true);
-  }
+  
 
   //function toggleModal(){
     //setIsOpenModal(!isOpenModal)

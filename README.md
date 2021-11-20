@@ -86,7 +86,7 @@ pages/api/post (folder)
 - auth 
   - sign up page (added / simple)
   - sign in page (added / simple)
-  - error page (not build)
+  - error page (added)
   - token (added)
   - reuse token and session check in api  (added)
 - plugin (Not build)
@@ -145,6 +145,7 @@ pages/api/post (folder)
 ## bugs:
 - no check for access
 - odd delete post not fully delete forum.
+- database setup error not async or load correctly.
 
 ## prefix guild:
   Those are just prototype idea base on real life to keep it simple to genre types.
