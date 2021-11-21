@@ -21,7 +21,7 @@ function Page() {
     if(theme){
       document.documentElement.setAttribute('data-theme', theme);
     }
-  });
+  },[]);
 
   function changeLight(){
     document.documentElement.setAttribute('data-theme', 'light');

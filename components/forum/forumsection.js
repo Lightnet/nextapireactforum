@@ -11,6 +11,7 @@
 // https://newbedev.com/warning-use-the-defaultvalue-or-value-props-on-select-instead-of-setting-selected-on-option
 
 import { useState, useEffect } from 'react';
+import { NotificationsManager, Color } from '../notify';
 
 import BoardSection from "./board/boardsection";
 import PostSection from "./post/postsection";
@@ -71,6 +72,9 @@ export default function component(){
 
   const [messageModal, setMessageModal] = useState("None Message!"); // edit, delete, move?
 
+
+  const [notify,setNotify] = useState(); //notify call when detect change in state
+
   //once init forum
   useEffect(()=>{
     //console.log("init setup");
@@ -106,6 +110,54 @@ export default function component(){
     console.log("boardID USEEFFECT", boardID)
     
   },[boardID]);
+
+  function notitfyInfo(children, autoClose) {
+    //console.log("info");
+    return setNotify({
+      color: Color.info,
+      children,
+      autoClose,
+    });
+  }
+
+  function notitfySuccess(children, autoClose) {
+    return setNotify({
+      color: Color.success,
+      children,
+      autoClose,
+    });
+  }
+  
+  function notitfyWarning(children, autoClose) {
+    return setNotify({
+      color: Color.warning,
+      children,
+      autoClose,
+    });
+  }
+  
+  function notitfyError(children, autoClose) {
+    return setNotify({
+      color: Color.error,
+      children,
+      autoClose,
+    });
+  }
+
+  function createInfo(msg){
+    notitfyInfo(<label>{msg}</label>,true);
+  }
+
+  function createSuccess(msg){
+    notitfySuccess(<label>{msg}</label>,true);
+  }
+  function createError(msg){
+    notitfyError(<label>{msg}</label>,true);
+  }
+
+  function createWarn(msg){
+    notitfyWarning(<label>{msg}</label>,true);
+  }
 
   function onChangeForum(e){
     console.log("onChangeForum>>>>>>>>>>>>");
@@ -147,7 +199,8 @@ export default function component(){
     }
     //console.log(data);
     if(data.action=="NOBOARD"){
-      console.log("NO BOARDS")
+      //console.log("NO BOARDS")
+      createInfo('No boards')
       return;
     }
     if(data.action=="BOARDS"){
@@ -391,34 +444,43 @@ export default function component(){
 
         if(args.action == "APICREATE"){
           if(args.datatype == "forum"){
-            console.log("CREATE API???")
+            console.log("CREATE Forum???")
             setForums([...forums,args.doc]);
-            setDataTypeModal(null);
-            setDataModeModal(null);
-            setMessageModal('CREATE FORUM');
-            setIsOpenModal(true);
+            //setDataTypeModal(null);
+            //setDataModeModal(null);
+            //setMessageModal('CREATE FORUM');
+            //setIsOpenModal(true);
+            setIsOpenModal(false);
+            createSuccess('Create Forum: ' + args.doc.subject)
           }
           if(args.datatype == "board"){
             setBoards([...boards,args.doc]);
-            setDataModeModal(null);
-            setDataTypeModal(null);
-            setMessageModal('CREATE BOARD');
-            setIsOpenModal(true);
+            //setDataModeModal(null);
+            //setDataTypeModal(null);
+            //setMessageModal('CREATE BOARD');
+            //setIsOpenModal(true);
+            console.log(args.doc)
+            setIsOpenModal(false);
+            createSuccess('Create Board: ' + args.doc.subject)
           }
           if(args.datatype == "post"){
             setPosts([...posts,args.doc]);
-            setDataModeModal(null);
-            setDataTypeModal(null);
-            setMessageModal('CREATE POST');
-            setIsOpenModal(true);
+            //setDataModeModal(null);
+            //setDataTypeModal(null);
+            //setMessageModal('CREATE POST');
+            //setIsOpenModal(true);
+            setIsOpenModal(false);
+            createSuccess('Create Board: ' + args.doc.subject)
           }
 
           if(args.datatype == "comment"){
             setComments([...comments,args.doc]);
-            setDataModeModal(null);
-            setDataTypeModal(null);
-            setMessageModal('CREATE COMMENT');
-            setIsOpenModal(true);
+            //setDataModeModal(null);
+            //setDataTypeModal(null);
+            //setMessageModal('CREATE COMMENT');
+            //setIsOpenModal(true);
+            setIsOpenModal(false);
+            createSuccess('Create Comment ID: ' + args.doc.id)
           }
         }
 
@@ -488,11 +550,12 @@ export default function component(){
                 ? {...item,subject:args.subject,content:args.content}
                 : item
             ));
-            setDataTypeModal('message');
-            setDataModeModal('message');
-            setMessageModal("Forum Data Update!");
-            setIsOpenModal(true);
-            console.log("UPDATE DATA???");
+            //setDataTypeModal('message');
+            //setDataModeModal('message');
+            //setMessageModal("Forum Data Update!");
+            setIsOpenModal(false);
+            createSuccess('Update Forum ID: ' + args.id);
+            //console.log("UPDATE DATA???");
           }
           if(args.datatype == "board"){
             setBoards(boards.map(item=>
@@ -501,11 +564,11 @@ export default function component(){
               : item
             ));
 
-            setDataTypeModal('message');
-            setDataModeModal('message');
-            setMessageModal("Board Data Update!");
-            setIsOpenModal(true);
-              
+            //setDataTypeModal('message');
+            //setDataModeModal('message');
+            //setMessageModal("Board Data Update!");
+            setIsOpenModal(false);
+            createSuccess('Update Board ID: ' + args.id);
           }
           if(args.datatype == "post"){
             setPosts(posts.map(item=>
@@ -513,10 +576,11 @@ export default function component(){
               ? {...item,subject:args.subject,content:args.content}
               : item
             ));
-            setDataTypeModal('message');
-            setDataModeModal('message');
-            setMessageModal("Post Data Update!");
-            setIsOpenModal(true);
+            //setDataTypeModal('message');
+            //setDataModeModal('message');
+            //setMessageModal("Post Data Update!");
+            setIsOpenModal(false);
+            createSuccess('Update POST ID: ' + args.id);
           }
           if(args.datatype == "comment"){
             setComments(comments.map(item=>
@@ -524,10 +588,11 @@ export default function component(){
               ? {...item,subject:args.subject,content:args.content}
               : item
             ));
-            setDataTypeModal('message');
-            setDataModeModal('message');
-            setMessageModal("Comment Data Update!");
-            setIsOpenModal(true);
+            //setDataTypeModal('message');
+            //setDataModeModal('message');
+            //setMessageModal("Comment Data Update!");
+            setIsOpenModal(false);
+            createSuccess('Update COMMENT ID: ' + args.id);
           }
         }
 
@@ -535,35 +600,39 @@ export default function component(){
           if(args.datatype == "forum"){
             console.log("delete... API FORUM");
             setForums(forums.filter(item=>item.id !== args.id ));
-            setDataTypeModal('DELETE');
-            setDataModeModal('FORUM');
+            //setDataTypeModal('DELETE');
+            //setDataModeModal('FORUM');
             setBoards([]);
             setPosts([]);
             setComments([]);
-            setIsOpenModal(true);
+            setIsOpenModal(false);
+            createSuccess('Delete Forum: ' + args.id)
           }
           if(args.datatype == "board"){
             setPostID(args.id);
             setBoards(boards.filter(item=>item.id !== args.id ));
-            setDataTypeModal('DELETE');
-            setDataModeModal('BOARD');
-            setIsOpenModal(true);
+            //setDataTypeModal('DELETE');
+            //setDataModeModal('BOARD');
+            setIsOpenModal(false);
+            createSuccess('Delete Board: ' + args.id)
           }
   
           if(args.datatype == "post"){
             setPostID(args.id);
             setPosts(posts.filter(item=>item.id !== args.id ));
-            setDataTypeModal('DELETE');
-            setDataModeModal('POST');
-            setIsOpenModal(true);
+            //setDataTypeModal('DELETE');
+            //setDataModeModal('POST');
+            setIsOpenModal(false);
+            createSuccess('Delete Post: ' + args.id)
           }
   
           if(args.datatype == "comment"){
             setCommentID(args.id);
             setComments(comments.filter(item=>item.id !== args.id ));
-            setDataTypeModal('DELETE');
-            setDataModeModal('COMMENT');
-            setIsOpenModal(true);
+            //setDataTypeModal('DELETE');
+            //setDataModeModal('COMMENT');
+            setIsOpenModal(false);
+            createSuccess('Delete Comment: ' + args.id)
           }
         }
         //end action section
@@ -574,8 +643,6 @@ export default function component(){
   function closeModel(){
     setIsOpenModal(false);
   }
-
-  
 
   //function toggleModal(){
     //setIsOpenModal(!isOpenModal)
@@ -723,9 +790,15 @@ export default function component(){
       {renderBoards()}
       {renderPosts()}
       {renderComments()}
+      {isOpenModal &&
       <Modal isOpen={isOpenModal} closeModal={closeModel}>
         {renderDataTypeModal()}
       </Modal>
+      }
     </div>
+
+    <NotificationsManager
+      setNotify={notify}
+    />
   </>)
 }
