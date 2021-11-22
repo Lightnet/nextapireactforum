@@ -4,20 +4,36 @@
 */
 
 import { useState, useEffect } from 'react';
+import { useForum } from '../forumprovider';
 import CommentCard from "./commentcard";
 
 export default function component({comments,postid,ops}){
 
   const [currentComments, setComments] = useState([])
+  const { posts } = useForum();
+  const [ post, setPost ] = useState(null);
 
   useEffect(()=>{
     //console.log("[[[=== UPDATE POST ===]]]");
-    //setPosts(posts);
-    //console.log(comments)
+    console.log("posts")
+    console.log(posts)
+    if(posts){
+      for(let post of posts){
+        if(post.id == postid){
+          console.log(post);
+          setPost(post);
+          break;
+        }
+      }
+    }
     if(comments){//check if has var
       setComments(comments);
     }
-  },[comments]);
+    return ()=>{
+      setComments(null);
+      setPost(null);
+    }
+  },[comments,postid]);
 
   function renderComments(){
     if(currentComments){
@@ -30,6 +46,10 @@ export default function component({comments,postid,ops}){
   }
 
   return(<>
+    <div>
+      <label>Content:</label>
+      {post?.content}
+    </div>
     <div>
       <label>Comment </label>
       <button onClick={()=>ops({action:'create',datatype:'comment',id:postid})}> New Comment </button>

@@ -29,31 +29,43 @@ export function useBoard(){
   if (!context) {
     throw new Error(`useForum must be used within a UserContext`)
   }
-
   const {boardID, setBoardID} = context;
-
   return {boardID, setBoardID};
 }
 
 export function ForumProvider(props){
 
   const [forumID, setForumID] = useState('');
-  const [boardID, setBoardID] = useState('');
-  const [postID, setPostID] = useState('');
-  const [commentID, setCommentID] = useState('');
+  const [forums, setForums] = useState([]);
 
-  //const value = {
-      //forumID:forumID
-    //, setForumID:setForumID
-  //};
+  const [boardID, setBoardID] = useState('');
+  const [boards, setBoards] = useState([]);
+
+  const [postID, setPostID] = useState('');
+  const [posts, setPosts] = useState([]); 
+
+  const [commentID, setCommentID] = useState('');
+  const [comments, setComments] = useState([]);
 
   const value = useMemo(()=> ({
     forumID,setForumID,
+    forums, setForums,
     boardID,setBoardID,
+    boards, setBoards,
     postID,setPostID,
+    posts, setPosts,
     commentID,setCommentID,
-
-  }),[forumID,boardID,postID,commentID]);
+    comments, setComments
+  }),[
+    forumID,
+    forums,
+    boardID,
+    boards,
+    postID,
+    posts,
+    commentID,
+    comments
+  ]);
 
   return <ForumContext.Provider value={value} {...props} />
 }

@@ -48,9 +48,9 @@ function Page() {
         <span> | </span>
         <Link  href="/message">Message</Link >
         <span> | </span>
-        <Link  href="/chat">Chat</Link >
+        <Link  href="/chat">Chat</Link >{/*
         <span> | </span>
-        <Link  href="/adventureguild">Adventure Guild</Link >
+        <Link  href="/adventureguild">Adventure Guild</Link >*/}
         <span> | </span>
         <label> Theme </label>
         <span> | </span>

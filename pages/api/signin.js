@@ -5,7 +5,7 @@
 
 // https://mongoosejs.com/docs/promises.html
 import { getCsrfToken, getProviders } from "next-auth/react";
-import db from "../../lib/database";
+import clientDB from "../../lib/database";
 
 export default async (req, res)=>{
   console.log("[[[=== SIGN IN ===]]]");
@@ -15,12 +15,13 @@ export default async (req, res)=>{
   //const csrfToken = await getCsrfToken({ req });
   const csrfToken = await getCsrfToken();
   //console.log("csrfToken:",csrfToken);
+  const db = await clientDB();
   const User = db.model('User');
 
   console.log("req.body");
   console.log(req.body);
   let userData = JSON.parse(req.body);
-  //console.log(userData.newUser);
+  console.log(userData);
   
   const user = await User.findOne({username: userData.alias}).exec();
   //console.log("user");

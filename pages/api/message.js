@@ -4,7 +4,7 @@
 */
 
 import { getSession } from "next-auth/react"
-import db,{ sessionTokenCheck } from "../../lib/database";
+import clientDB,{ sessionTokenCheck } from "../../lib/database";
 
 export default async (req, res)=>{
 
@@ -18,6 +18,7 @@ export default async (req, res)=>{
   if(error){
     return res.json({message:"FAIL"});
   }
+  const db = await clientDB();
 
   console.log("method: ",req.method);
   const Message = db.model('Message');;

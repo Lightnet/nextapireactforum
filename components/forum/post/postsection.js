@@ -11,7 +11,7 @@ export default function component({posts,boardid,ops}){
   const [currentPosts, setPosts] = useState([])
 
   useEffect(()=>{
-    //console.log("[[[=== UPDATE POST ===]]]");
+    console.log("[[[=== UPDATE POST ===]]]");
     //console.log(posts)
     if(posts){//check if has var
       setPosts(posts);

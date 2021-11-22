@@ -5,7 +5,7 @@
 
 //import { getCsrfToken, getProviders } from "next-auth/react";
 import { getSession } from "next-auth/react"
-import db,{ sessionTokenCheck } from "../../lib/database";
+import clientDB,{ sessionTokenCheck } from "../../lib/database";
 import { isEmpty } from "../../lib/helper";
 import { log } from "../../lib/log";
 
@@ -23,6 +23,8 @@ export default async (req, res)=>{
   if(error){
     return res.json({error:"FAIL"});
   }
+
+  const db = await clientDB();
 
   //schema
   const Forum = db.model('Forum');

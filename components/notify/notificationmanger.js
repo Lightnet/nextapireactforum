@@ -31,7 +31,7 @@ export default function NotificationsManager({ setNotify }) {
   useEffect(() => {
     if(setNotify){
       let { color, autoClose, children } = setNotify;
-      console.log(setNotify);
+      //console.log(setNotify);
       createNotification({ color, autoClose, children });
     }
   }, [setNotify]);
@@ -49,7 +49,7 @@ export default function NotificationsManager({ setNotify }) {
     {notifications.map(({ id, ...props }, index) => {
       //console.log(id);
       //console.log(index);
-      console.log(props);
+      //console.log(props);
       //return (<label key={id}>Hello</label>);
       return (
       <Notification
