@@ -11,7 +11,7 @@ export default function component({item,ops}){
     <div key={item.id} style={{
       width:'100%'
     }}>
-      <div className="headerpanel"> [Comment] <a href="#" onClick={()=>ops({action:"select",datatype:"comment",id:item.id})}>[ID: {item.id}] {item.subject}</a>
+      <div className="headerpanel"> [Comment] <a href="#" onClick={()=>ops({action:"select",datatype:"comment",id:item.id})}>[ID: {item.id}]</a>
       <span style={{float:'right'}}>
         <a href="#" onClick={()=>ops({action:"edit",datatype:"comment",id:item.id})}>EDIT</a>
         <span> | </span>

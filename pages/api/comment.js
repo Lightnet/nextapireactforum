@@ -42,7 +42,7 @@ export default async (req, res)=>{
 
     if(commentData.postid){
       if(commentData.action == 'CREATE'){
-        if(isEmpty(commentData.subject) || isEmpty(commentData.content)){
+        if(isEmpty(commentData.content)){
           //console.log("EMPTY!");
           return res.json({action:"EMPTY"});
         }
@@ -52,7 +52,6 @@ export default async (req, res)=>{
           , parentid:commentData.postid
           , parenttype:"post"
           , username: username
-          , subject: commentData.subject
           , content: commentData.content
         });
         try{
@@ -89,7 +88,6 @@ export default async (req, res)=>{
         id:commentData.commentid
       };
       let update={
-        subject: commentData.subject,
         content: commentData.content
       }
       const doc = await Comment.findOneAndUpdate(query, update,{ new: true } )

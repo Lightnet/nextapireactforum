@@ -8,12 +8,10 @@ import { isEmpty } from '../../../lib/helper';
 import useFetch from '../../hook/usefetch';
   
 export default function EditComment({comment,ops}){
-  const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
 
   useEffect(()=>{
     if(comment){
-      setSubject(comment.subject);
       setContent(comment.content);
     }
   },[comment]);
@@ -30,7 +28,6 @@ export default function EditComment({comment,ops}){
       method:'PATCH',
       body:JSON.stringify({
         commentid:comment.id
-        , subject:subject
         , content:content
       })
     });
@@ -44,7 +41,6 @@ export default function EditComment({comment,ops}){
         action:'update',
         datatype:'comment',
         id:data.comment.id,
-        subject:data.comment.subject,
         content:data.comment.content,
       });
     }

@@ -11,14 +11,13 @@ export default function component({postid,ops}){
   const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
 
-  useEffect(()=>{
-
-  },[]);
+  //useEffect(()=>{
+  //},[]);
   
   async function PostAPI(){
     console.log("comment postid");
 
-    if(isEmpty(subject) || isEmpty(content)){
+    if(isEmpty(content)){
       console.log("EMPTY!");
       return;
     }
@@ -28,7 +27,6 @@ export default function component({postid,ops}){
       body:JSON.stringify({
         postid:postid
         , action:'CREATE'
-        , subject:subject
         , content:content
       })
     });
@@ -48,10 +46,6 @@ export default function component({postid,ops}){
     }
   }
 
-  function onTypingSubject(e){
-    setSubject(e.target.value);
-  }
-
   function onTypingContent(e){
     setContent(e.target.value);
   }
@@ -59,15 +53,9 @@ export default function component({postid,ops}){
   return(<>
     <div>
       <div>
-        <label>Comment Name:</label>
-        <br />
-        <input value={subject} onChange={onTypingSubject} />
-      </div>
-      <div>
-        <label>Content</label>
+        <label>Comment:</label>
         <br />
         <textarea value={content} onChange={onTypingContent}>
-
         </textarea>
       </div>
       <div>

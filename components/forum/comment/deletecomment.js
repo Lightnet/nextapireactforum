@@ -8,28 +8,20 @@ import { isEmpty } from '../../../lib/helper';
 import useFetch from '../../hook/usefetch';
   
 export default function DeleteComment({comment,ops}){
-  const [subject,setSubject] = useState("");
   const [content,setContent] = useState("");
 
   useEffect(()=>{
     if(comment){
-      setSubject(comment.subject);
       setContent(comment.content);
     }
     return ()=>{
       console.log("clean up???")
-      setSubject(null);
       setContent(null);
     }
   },[comment]);
   
   async function PostAPI(){
     console.log("commentid");
-
-    if(isEmpty(subject) || isEmpty(content)){
-      console.log("EMPTY!");
-      return;
-    }
 
     let data = await useFetch('api/comment', {
       method:'DELETE',
@@ -55,10 +47,6 @@ export default function DeleteComment({comment,ops}){
     <div>
       <div>
         <label>Comment ID:{comment?.id}</label>
-        <br />
-        <label>Subject:</label>
-        <br />
-        <label>{subject}</label>
       </div>
       <div>
         <label>Content</label>

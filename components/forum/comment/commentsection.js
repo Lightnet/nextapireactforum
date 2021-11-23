@@ -46,8 +46,8 @@ export default function component({comments,postid,ops}){
   }
 
   return(<>
-    <div>
-      <label>Content:</label>
+    <div className="contentpanel">
+      <label>[Content]:</label>
       {post?.content}
     </div>
     <div>

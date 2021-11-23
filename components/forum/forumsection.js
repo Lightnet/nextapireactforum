@@ -37,13 +37,10 @@ import Modal from '../ui/modal';
 import useFetch from '../hook/usefetch';
 import { isEmpty } from '../../lib/helper';
 
-import { useBoard, useForum } from './forumprovider';
+import { useForum } from './forumprovider';
 
 export default function component(){
 
-  //forum
-  //const [forums, setForums] = useState([]);
-  //const [forumID, setForumID] = useState('');
   const {
     forumID, setForumID,
     forums, setForums,
@@ -55,10 +52,13 @@ export default function component(){
     comments, setComments
   } = useForum();
 
+  //forum
+  //const [forums, setForums] = useState([]);
+  //const [forumID, setForumID] = useState('');
+  
   //board
   //const [boards, setBoards] = useState([]);
   //const [boardID, setBoardID] = useState("");
-  //const {boardID, setBoardID} = useBoard();
   const [isBoard, setIsBoard] = useState(false);  
   //post 
   const [isPost, setIsPost] = useState(false); 
@@ -76,7 +76,6 @@ export default function component(){
   const [editID, setEditID] = useState(null);
 
   const [messageModal, setMessageModal] = useState("None Message!"); // edit, delete, move?
-
 
   const [notify,setNotify] = useState(); //notify call when detect change in state
 
@@ -287,8 +286,6 @@ export default function component(){
             <span> oo </span>
             <a href="#" onClick={()=>callBackOPS({action:"selectboard"})}> [Board]: {board.subject} </a>
           </label>);
-        }else{
-          return( <label> Board Empty! </label> );
         }
       }
       return( <label> Board Empty! </label> );
@@ -314,7 +311,6 @@ export default function component(){
             <a href="#" onClick={()=>callBackOPS({action:"selectpost"})}> [Post]: {post.subject} </a>
           </label>);
         }
-        return( <label> Post Empty! </label> );
       }
       return( <label> Post Empty! </label> );
     }
@@ -735,8 +731,7 @@ export default function component(){
       {isOpenModal &&
       <Modal isOpen={isOpenModal} closeModal={closeModel}>
         {renderDataTypeModal()}
-      </Modal>
-      }
+      </Modal>}
     </div>
 
     <NotificationsManager

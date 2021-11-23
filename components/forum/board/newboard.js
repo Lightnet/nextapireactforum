@@ -77,13 +77,20 @@ export default function component({forumid,ops}){
       </div>
 
       <div>
-        <label>Parent:</label>
+        <label>Parent ID:</label>
         <br />
-        <input value={parentID} onChange={onTypingParentID} />
 
+        {/*
+        <input value={subject} onChange={onTypingSubject}></input>
         <select value={parentID} onChange={onSelectParentID}>
           <option value={forumid}> Index </option>
         </select>
+        <input value={parentID} onChange={onTypingParentID} />
+        */}
+        <label> {parentID} </label>
+        
+
+        
       </div>
 
       <div>
