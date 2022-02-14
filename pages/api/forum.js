@@ -49,6 +49,9 @@ export default async (req, res)=>{
     //console.log(forumData)
     if(forumData.action=='CREATE'){
       //console.log(boardData);
+      const UserForum = db.model('UserForum');
+      const ForumPermission = db.model('ForumPermission');
+
       if(isEmpty(forumData.subject) || isEmpty(forumData.content)){
         //console.log("EMPTYFIELD");
         return res.json({error:"EMPTYFIELD"});
@@ -59,8 +62,39 @@ export default async (req, res)=>{
         , subject: forumData.subject.trim()
         , content: forumData.content.trim()
       });
+      
+      let userForum =  new UserForum({
+        forumid:forum.id
+        , userid:userid
+        , username: username
+        , role:'ADMIN'
+        , isregister:true
+      });
+
+      let adminForumPermission = new ForumPermission({
+        forumid:forum.id,
+        role:'ADMIN',
+        createboard:true,
+        deleteboard:true,
+        editboard:true
+      })
+
+      let userForumPermission = new ForumPermission({
+        forumid:forum.id,
+        role:'USER',
+        createboard:false,
+        deleteboard:false,
+        editboard:false
+      })
+
+
       try {
         let saveForum = await forum.save();
+        await userForum.save();
+        await adminForumPermission.save();
+        await userForumPermission.save();
+
+
         return res.json({action:"CREATE",forum:saveForum});
       } catch (err) {
         //console.log('err' + err);

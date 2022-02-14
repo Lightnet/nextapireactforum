@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 export default function component(){
 
   return(<>
-    <div>
+    <div style={{overflow:'scroll',height:'calc(100% - 32px)'}}>
       <label>Permission</label>
       
       <table>

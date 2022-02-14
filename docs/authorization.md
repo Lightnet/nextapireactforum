@@ -22,7 +22,7 @@ forum
 - check register
 - userid, isregister, role, fourmid, group (forumuser)
 - group permission id , role (fourmaccess)
-- forumid, defultrole=user,  (forumconfig)
+- forumid, defaultrole=user,  (forumconfig)
 
 when accessing the forum query check user id and access
 

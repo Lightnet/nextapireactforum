@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
 import Sign from "../system/sign";
 import Link from 'next/link';
+import ThemeLink from "../theme/themelink";
 
 function Page() {
 
@@ -16,22 +17,7 @@ function Page() {
 
   useEffect(() => {
     //console.log("status:", status);
-    //check for theme
-    const theme = localStorage.getItem('theme');
-    if(theme){
-      document.documentElement.setAttribute('data-theme', theme);
-    }
   },[]);
-
-  function changeLight(){
-    document.documentElement.setAttribute('data-theme', 'light');
-    localStorage.setItem('theme', 'light');
-  }
-
-  function changeDark(){
-    document.documentElement.setAttribute('data-theme', 'dark');
-    localStorage.setItem('theme', 'dark');
-  }
 
   if (status === "loading") {
     return <label>Loading...</label>
@@ -52,11 +38,7 @@ function Page() {
         <span> | </span>
         <Link  href="/adventureguild">Adventure Guild</Link >*/}
         <span> | </span>
-        <label> Theme </label>
-        <span> | </span>
-        <a  href="#" onClick={changeLight}>Light</a>
-        <span> | </span>
-        <a  href="#"  onClick={changeDark}>Dark</a>
+        <ThemeLink />
         <span> | </span>
         <span style={{float:'right'}}> <Sign></Sign> </span>
         </div>

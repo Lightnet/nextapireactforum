@@ -17,16 +17,11 @@
     "dayjs": "^1.10.7",
     "gun": "^0.2020.1235",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.13",
-    "nanoid": "^3.1.30",
-    "next": "^12.0.4",
-    "next-auth": "^4.0.0-beta.26",
-    "prop-types": "^15.7.2",
-    "qrjs2": "^0.1.11",
+    "mongoose": "^6.2.1",
+    "nanoid": "^3.2.0",
+    "next": "^12.0.10",
+    "next-auth": "^4.2.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "socket.io": "^4.4.0",
-    "socket.io-client": "^4.4.0",
-    "uuid": "^8.3.2"
+    "react-dom": "^17.0.2"
   }
 }

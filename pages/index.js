@@ -7,8 +7,10 @@ import SignArea from "../components/system/signarea";
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from 'react';
 import NavBarHeader from "../components/layout/header";
+import ThemeLink from "../components/theme/themelink";
+//import NotiftyTest from "../components/notify/notiftytest";
 
-function Page() {
+export default function Page() {
 
   const { data: session, status } = useSession();
   //console.log(session);
@@ -28,8 +30,9 @@ function Page() {
     </>)
   }
   return (<>
-    <div>Welcome to simple forum / posts management.</div>
+    <div>Welcome to simple forum / posts management. <ThemeLink /></div>
     <SignArea></SignArea>
+    
   </>)
 }
-export default Page
+// <NotiftyTest />
