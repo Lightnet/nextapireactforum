@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 //import { log } from "../lib/log";
 import "../styles/global.css";
 import Loading from "../components/system/loading";
-import { NottifyProvider } from "../components/notify/notifyprovider";
+import { NotifyProvider } from "../components/notify/notifyprovider";
 import NotifyManager from "../components/notify/notifymanager";
 import { ThemeProvider } from "../components/theme/themeprovider";
 
@@ -65,13 +65,13 @@ export default function App({Component, pageProps}){
       // Re-fetch session every 5 minutes
       refetchInterval={5 * 60}
       >
-      <NottifyProvider>
+      <NotifyProvider>
         <ThemeProvider>
             {isRenderLoading()}
             <Component {...pageProps} />
+            <NotifyManager />
           </ThemeProvider>
-        <NotifyManager />
-      </NottifyProvider>
+      </NotifyProvider>
     </SessionProvider>
   );
 }

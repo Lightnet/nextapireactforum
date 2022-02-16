@@ -11,7 +11,6 @@
 // https://newbedev.com/warning-use-the-defaultvalue-or-value-props-on-select-instead-of-setting-selected-on-option
 
 import { useState, useEffect } from 'react';
-import { NotificationsManager, Color } from '../notify';
 
 import BoardSection from "./board/boardsection";
 import PostSection from "./post/postsection";
@@ -38,8 +37,11 @@ import useFetch from '../hook/usefetch';
 import { isEmpty } from '../../lib/helper';
 
 import { useForum } from './forumprovider';
+import { Color, useNotifty } from '../notify/notifyprovider';
 
 export default function component(){
+
+  const {dispatchNotify} = useNotifty();
 
   const {
     forumID, setForumID,
@@ -77,8 +79,6 @@ export default function component(){
 
   const [messageModal, setMessageModal] = useState("None Message!"); // edit, delete, move?
 
-  const [notify,setNotify] = useState(); //notify call when detect change in state
-
   //once init forum
   useEffect(()=>{
     //console.log("init setup");
@@ -109,58 +109,6 @@ export default function component(){
     }
   },[forumID]);
 
-  //useEffect(()=>{
-    //console.log("boardID USEEFFECT", boardID)
-  //},[boardID]);
-
-  function notitfyInfo(children, autoClose) {
-    //console.log("info");
-    return setNotify({
-      color: Color.info,
-      children,
-      autoClose,
-    });
-  }
-
-  function notitfySuccess(children, autoClose) {
-    return setNotify({
-      color: Color.success,
-      children,
-      autoClose,
-    });
-  }
-  
-  function notitfyWarning(children, autoClose) {
-    return setNotify({
-      color: Color.warning,
-      children,
-      autoClose,
-    });
-  }
-  
-  function notitfyError(children, autoClose) {
-    return setNotify({
-      color: Color.error,
-      children,
-      autoClose,
-    });
-  }
-
-  function createInfo(msg){
-    notitfyInfo(<label>{msg}</label>,true);
-  }
-
-  function createSuccess(msg){
-    notitfySuccess(<label>{msg}</label>,true);
-  }
-  function createError(msg){
-    notitfyError(<label>{msg}</label>,true);
-  }
-
-  function createWarn(msg){
-    notitfyWarning(<label>{msg}</label>,true);
-  }
-
   function onChangeForum(e){
     console.log("onChangeForum>>>>>>>>>>>>");
     console.log(e.target.value);
@@ -170,6 +118,22 @@ export default function component(){
     setPosts([]) //clear posts
     setComments([]) //clear comments
     setIsBoard(true);
+  }
+
+  function createSuccess(message){
+    dispatchNotify({
+      type: 'add'
+      , color: Color.success
+      , children: message
+    })
+  }
+
+  function createInfo(message){
+    dispatchNotify({
+      type: 'add'
+      , color: Color.info
+      , children: message
+    })
   }
 
   async function getForums(){
@@ -734,8 +698,5 @@ export default function component(){
       </Modal>}
     </div>
 
-    <NotificationsManager
-      setNotify={notify}
-    />
   </>)
 }
