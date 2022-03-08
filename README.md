@@ -1,5 +1,9 @@
 # Name: Next API React Forum
 
+# Status:
+- Being rework as not workable.
+- Need some module or middleware on server side to handle requests.
+
 # Created By: Lightnet
 
 # Packages:
